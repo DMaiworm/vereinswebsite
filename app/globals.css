@@ -1,26 +1,42 @@
 @import "tailwindcss";
 
+/* ─── Club-Branding CSS-Variablen (werden per layout.tsx gesetzt) ─────────── */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --club-primary:   #003399;
+  --club-secondary: #FFD700;
 }
 
+/* ─── Tailwind v4: Custom Farben aus Club-Variablen ─────────────────────── */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-primary:   var(--club-primary);
+  --color-secondary: var(--club-secondary);
+  --color-background: #0a0a0f;
+  --color-surface: #13131a;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+/* ─── Base ───────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-background);
+  color: #f0f0f5;
+  font-family: system-ui, -apple-system, sans-serif;
+  overflow-x: hidden;
+}
+
+/* ─── Hero ───────────────────────────────────────────────────────────────── */
+.hero-gradient {
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 40%, color-mix(in srgb, var(--club-primary) 40%, transparent), transparent 70%),
+    radial-gradient(ellipse 60% 80% at 80% 70%, color-mix(in srgb, var(--club-secondary) 20%, transparent), transparent 70%),
+    #0a0a0f;
+}
+
+/* ─── Marquee ────────────────────────────────────────────────────────────── */
+.marquee-track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
 }

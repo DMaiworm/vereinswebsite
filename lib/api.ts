@@ -1,0 +1,139 @@
+/**
+ * API-Wrapper für alle öffentlichen Supabase Edge Functions.
+ * Konfiguration via .env.local:
+ *   NEXT_PUBLIC_CLUB_SLUG  = Vereins-Slug (z.B. "sg-huenstetten")
+ *   NEXT_PUBLIC_API_BASE   = https://xxx.supabase.co/functions/v1
+ */
+
+const API_BASE  = process.env.NEXT_PUBLIC_API_BASE!;
+const CLUB_SLUG = process.env.NEXT_PUBLIC_CLUB_SLUG!;
+
+// ─── Types ──────────────────────────────────────────────────────────────────
+
+export interface Department {
+  id: string;
+  name: string;
+  icon: string | null;
+  beschreibung: string | null;
+}
+
+export interface ClubConfig {
+  club_id: string;
+  slug: string;
+  name: string;
+  short_name: string | null;
+  primary_color: string;
+  secondary_color: string;
+  logo_url: string | null;
+  operator_id: string | null;
+  departments: Department[];
+}
+
+export interface Sponsor {
+  id: string;
+  firmenname: string;
+  logo_web_url: string | null;
+  logo_druck_url: string | null;
+  website_url: string | null;
+  club_id: string | null;
+}
+
+export interface TrainingSlot {
+  wochentag: string;
+  wochentag_nr: number;
+  start_time: string;
+  end_time: string;
+  resource: string;
+}
+
+export interface Trainer {
+  id: string;
+  vorname: string;
+  nachname: string;
+  email: string | null;
+  telefon: string | null;
+  bio: string | null;
+  foto_url: string | null;
+  is_primary: boolean;
+}
+
+export interface Spielergebnis {
+  datum: string;
+  gegner: string;
+  tore_heimisch: number | null;
+  tore_gegner: number | null;
+  ist_heimspiel: boolean;
+  wettbewerb: string | null;
+}
+
+export interface Spielplan {
+  datum: string;
+  uhrzeit: string | null;
+  gegner: string;
+  ist_heimspiel: boolean;
+  wettbewerb: string | null;
+  ort: string | null;
+}
+
+export interface TeamProfile {
+  id: string;
+  name: string;
+  short_name: string | null;
+  color: string;
+  liga: string | null;
+  foto_url: string | null;
+  trainer: Trainer[];
+  training_slots: TrainingSlot[];
+  ergebnisse: Spielergebnis[];
+  spielplan: Spielplan[];
+}
+
+export interface AbteilungProfile {
+  id: string;
+  name: string;
+  icon: string | null;
+  beschreibung: string | null;
+  leitung: Trainer | null;
+  mannschaften: Array<{
+    id: string;
+    name: string;
+    short_name: string | null;
+    color: string;
+    liga: string | null;
+    foto_url: string | null;
+    trainer: Trainer[];
+    training_slots: TrainingSlot[];
+  }>;
+}
+
+// ─── Fetch-Helpers ──────────────────────────────────────────────────────────
+
+async function get<T>(endpoint: string, params: Record<string, string>): Promise<T> {
+  const url = new URL(`${API_BASE}/${endpoint}`);
+  Object.entries(params).forEach(([k, v]) => url.searchParams.set(k, v));
+  const res = await fetch(url.toString(), { next: { revalidate: 300 } }); // ISR: 5min
+  if (!res.ok) throw new Error(`${endpoint} failed: ${res.status}`);
+  return res.json() as Promise<T>;
+}
+
+// ─── Public API ─────────────────────────────────────────────────────────────
+
+export async function fetchClubConfig(): Promise<ClubConfig> {
+  return get<ClubConfig>('public-config', { slug: CLUB_SLUG });
+}
+
+export async function fetchSponsors(operatorId: string): Promise<Sponsor[]> {
+  return get<Sponsor[]>('public-sponsors', { operator_id: operatorId });
+}
+
+export async function fetchAbteilung(departmentId: string): Promise<AbteilungProfile> {
+  return get<AbteilungProfile>('public-abteilung', { department_id: departmentId });
+}
+
+export async function fetchTeam(teamId: string): Promise<TeamProfile> {
+  return get<TeamProfile>('public-team', { team_id: teamId });
+}
+
+export async function fetchTrainers(operatorId: string): Promise<Trainer[]> {
+  return get<Trainer[]>('public-trainers', { operator_id: operatorId });
+}
