@@ -5,10 +5,10 @@ import SponsorBand from '@/components/shared/layout/SponsorBand'
 import TeamsInAbteilung from '@/components/gesundheitssport/TeamsInAbteilung'
 
 const GESUNDHEITSSPORT_NAV = [
-  { label: 'Achtsamkeit', href: '/achtsamkeit' },
-  { label: 'Pilates',     href: '/pilates' },
-  { label: 'Rücken-Fit',  href: '/rueckenfit' },
-  { label: 'Qi-Gong',     href: '/qi-gong' },
+  { label: 'Achtsamkeit', href: './achtsamkeit' },
+  { label: 'Pilates',     href: './pilates' },
+  { label: 'Rücken-Fit',  href: './rueckenfit' },
+  { label: 'Qi-Gong',     href: './qi-gong' },
 ]
 
 export default async function GesundheitssportPage() {

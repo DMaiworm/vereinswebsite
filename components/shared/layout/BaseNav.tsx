@@ -23,7 +23,7 @@ export default function BaseNav({
   departmentLabel,
   navItems,
   ctaLabel = 'Probetraining',
-  homeHref = '/',
+  homeHref = './',
 }: BaseNavProps) {
   const [mobileOpen, setMobileOpen] = useState(false)
 

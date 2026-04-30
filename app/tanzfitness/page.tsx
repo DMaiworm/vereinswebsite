@@ -7,7 +7,7 @@ const TANZFITNESS_NAV = [
   { label: 'Tanzfitness',    href: '#',              active: true },
   { label: 'Trainingszeiten', href: '#trainingszeiten' },
   { label: 'Ansprechpartner', href: '#ansprechpartner' },
-  { label: 'Fitness',         href: '/fitness' },
+  { label: 'Fitness',         href: './fitness' },
 ]
 
 export default async function TanzfitnessPage() {
