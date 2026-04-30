@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import Link from 'next/link';
 import { gsap } from 'gsap';
 import Image from 'next/image';
 import type { Sponsor } from '@/lib/api';
@@ -50,13 +51,19 @@ export default function SponsorenStrip({ sponsors }: SponsorenStripProps) {
       ref={sectionRef}
       className="border-t border-white/5 py-16"
     >
-      <div className="mb-8 text-center">
+      <div className="mb-8 flex items-center justify-center gap-4">
         <p
           className="text-xs font-bold uppercase tracking-[0.3em]"
           style={{ color: 'var(--club-secondary)' }}
         >
           Unsere Sponsoren
         </p>
+        <Link
+          href="/sponsoren"
+          className="text-xs font-bold uppercase tracking-[0.2em] text-white/30 hover:text-white/70 transition-colors"
+        >
+          Partner werden →
+        </Link>
       </div>
 
       <div className="overflow-hidden">

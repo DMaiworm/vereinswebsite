@@ -130,7 +130,8 @@ export default function Hero({ name, shortName, logoUrl }: HeroProps) {
       {/* Scroll-Indikator */}
       <div
         ref={scrollRef}
-        className="absolute bottom-10 flex flex-col items-center gap-2 text-white/30"
+        className="absolute bottom-10 flex flex-col items-center gap-2 text-white/30 cursor-pointer hover:text-white/60 transition-colors duration-300"
+        onClick={() => document.getElementById('abteilungen')?.scrollIntoView({ behavior: 'smooth' })}
       >
         <span className="text-xs tracking-widest uppercase">Entdecken</span>
         <svg width="16" height="24" viewBox="0 0 16 24" fill="none" className="opacity-60">

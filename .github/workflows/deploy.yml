@@ -1,0 +1,60 @@
+name: Build & Deploy → Strato
+
+on:
+  # Bei jedem Push auf main (z.B. Design-Updates)
+  push:
+    branches: [main]
+
+  # Jeden Sonntag um 03:00 Uhr (frische Daten aus KlubHaus)
+  schedule:
+    - cron: "0 3 * * 0"
+
+  # Manuell auslösbar im GitHub UI (Actions → "Run workflow")
+  workflow_dispatch:
+
+  # Webhook-Trigger aus KlubHaus/Supabase bei Datenänderung
+  # Auslösen mit: POST /repos/ORG/REPO/dispatches  { "event_type": "klubhaus-data-changed" }
+  repository_dispatch:
+    types: [klubhaus-data-changed]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build static site
+        run: npm run build
+        env:
+          NEXT_PUBLIC_CLUB_SLUG: ${{ secrets.NEXT_PUBLIC_CLUB_SLUG }}
+          NEXT_PUBLIC_API_BASE:  ${{ secrets.NEXT_PUBLIC_API_BASE }}
+
+      - name: Install lftp
+        run: sudo apt-get install -y lftp
+
+      - name: Deploy via SFTP → Strato
+        env:
+          SFTP_HOST:        ${{ secrets.SFTP_HOST }}
+          SFTP_USER:        ${{ secrets.SFTP_USER }}
+          SFTP_PASSWORD:    ${{ secrets.SFTP_PASSWORD }}
+          SFTP_REMOTE_PATH: ${{ secrets.SFTP_REMOTE_PATH }}
+        run: |
+          lftp -c "
+            set sftp:auto-confirm yes;
+            set net:max-retries 3;
+            set net:reconnect-interval-base 5;
+            open -u \"$SFTP_USER\",\"$SFTP_PASSWORD\" sftp://$SFTP_HOST;
+            mirror --reverse --delete --verbose --no-perms ./out/ $SFTP_REMOTE_PATH;
+          "

@@ -25,6 +25,7 @@ export interface ClubConfig {
   primary_color: string;
   secondary_color: string;
   logo_url: string | null;
+  logo_web_pfad: string | null;
   operator_id: string | null;
   departments: Department[];
 }
@@ -36,6 +37,7 @@ export interface Sponsor {
   logo_druck_url: string | null;
   website_url: string | null;
   club_id: string | null;
+  kategorie: 'gold' | 'silber' | 'bronze' | 'partner' | 'keine' | null;
 }
 
 export interface TrainingSlot {
@@ -88,6 +90,13 @@ export interface TeamProfile {
   spielplan: Spielplan[];
 }
 
+export interface GalerieItem {
+  titel: string | null;
+  foto_url: string | null;
+  testimonial_text: string | null;
+  testimonial_autor: string | null;
+}
+
 export interface AbteilungProfile {
   id: string;
   name: string;
@@ -101,7 +110,12 @@ export interface AbteilungProfile {
     color: string;
     liga: string | null;
     foto_url: string | null;
+    motto: string | null;
+    beschreibung: string | null;
+    alter_von: number | null;
+    alter_bis: number | null;
     trainer: Trainer[];
+    galerie: GalerieItem[];
     training_slots: TrainingSlot[];
   }>;
 }
@@ -111,7 +125,9 @@ export interface AbteilungProfile {
 async function get<T>(endpoint: string, params: Record<string, string>): Promise<T> {
   const url = new URL(`${API_BASE}/${endpoint}`);
   Object.entries(params).forEach(([k, v]) => url.searchParams.set(k, v));
-  const res = await fetch(url.toString(), { next: { revalidate: 300 } }); // ISR: 5min
+  const res = await fetch(url.toString(), {
+    cache: process.env.NODE_ENV === "development" ? "no-store" : "force-cache",
+  });
   if (!res.ok) throw new Error(`${endpoint} failed: ${res.status}`);
   return res.json() as Promise<T>;
 }

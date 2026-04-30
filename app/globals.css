@@ -12,6 +12,26 @@
   --color-secondary: var(--club-secondary);
   --color-background: #0a0a0f;
   --color-surface: #13131a;
+
+  /* ─── SG Hünstetten Editorial Tokens ─── */
+  --color-navy:      #052856;
+  --color-navy-mid:  #223e6d;
+  --color-navy-light:#2b4676;
+  --color-gold:      #fde000;
+  --color-gold-dim:  #e1c700;
+  --color-ink:       #0d1117;
+  --color-ink-soft:  #1b1c1c;
+  --color-mist:      #f5f4f2;
+  --color-mist-mid:  #eae8e7;
+  --color-wire:      #c4c6d0;
+  --color-wire-dark: #747780;
+  --color-chalk:     #ffffff;
+  --color-navy-pale: #90aae0;
+
+  --letter-spacing-tightest: -0.05em;
+  --letter-spacing-display:  -0.03em;
+  --letter-spacing-label:     0.12em;
+  --letter-spacing-wide:      0.18em;
 }
 
 /* ─── Base ───────────────────────────────────────────────────────────────── */
@@ -34,9 +54,170 @@ body {
     #0a0a0f;
 }
 
+/* ─── Editorial Typography ───────────────────────────────────────────────── */
+.font-display { font-family: var(--font-lexend, 'Lexend', sans-serif); }
+.font-body    { font-family: var(--font-jakarta, 'Plus Jakarta Sans', sans-serif); }
+
+.display-giant {
+  font-family: var(--font-lexend, 'Lexend', sans-serif);
+  font-weight: 900;
+  letter-spacing: -0.05em;
+  line-height: 0.88;
+  text-transform: uppercase;
+}
+.label-cap {
+  font-family: var(--font-jakarta, 'Plus Jakarta Sans', sans-serif);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.sec-num {
+  font-family: var(--font-lexend, 'Lexend', sans-serif);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  opacity: 0.35;
+}
+
+/* ─── Material Symbols ────────────────────────────────────────────────────── */
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  font-family: 'Material Symbols Outlined';
+  vertical-align: middle;
+}
+.fill-icon { font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+
+/* ─── Outline text ────────────────────────────────────────────────────────── */
+.text-outline-navy  { -webkit-text-stroke: 1.5px #052856; color: transparent; }
+.text-outline-chalk { -webkit-text-stroke: 1px rgba(255,255,255,0.25); color: transparent; }
+
+/* ─── Rules ───────────────────────────────────────────────────────────────── */
+.rule      { height: 1px; background: currentColor; opacity: 0.12; }
+.rule-gold { height: 1px; background: #fde000; opacity: 1; }
+
+/* ─── Image fallback ──────────────────────────────────────────────────────── */
+img.broken {
+  background: repeating-linear-gradient(
+    45deg, #1a3260 0, #1a3260 2px, #223e6d 2px, #223e6d 14px
+  );
+}
+
+/* ─── Noise overlay ───────────────────────────────────────────────────────── */
+.noise { position: relative; }
+.noise::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  opacity: 0.4;
+  mix-blend-mode: overlay;
+  z-index: 1;
+}
+
+/* ─── Image zoom ──────────────────────────────────────────────────────────── */
+.img-zoom { overflow: hidden; }
+.img-zoom img { transition: transform 0.8s cubic-bezier(0.16,1,0.3,1); }
+.img-zoom:hover img { transform: scale(1.05); }
+
+/* ─── Entrance animations ─────────────────────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.anim-up   { animation: fadeUp 0.9s cubic-bezier(0.16,1,0.3,1) both; }
+.anim-up-2 { animation: fadeUp 0.9s 0.12s cubic-bezier(0.16,1,0.3,1) both; }
+.anim-up-3 { animation: fadeUp 0.9s 0.24s cubic-bezier(0.16,1,0.3,1) both; }
+.anim-up-4 { animation: fadeUp 0.9s 0.38s cubic-bezier(0.16,1,0.3,1) both; }
+
 /* ─── Marquee ────────────────────────────────────────────────────────────── */
 .marquee-track {
   display: flex;
   width: max-content;
   will-change: transform;
 }
+
+/* ─── Kinetic Gradient (Tischtennis / light-theme pages) ─────────────────── */
+.kinetic-gradient {
+  background: radial-gradient(circle at top right, #223e6d 0%, #052856 100%);
+}
+
+/* ─── MD3 non-conflicting tokens ─────────────────────────────────────────── */
+@theme inline {
+  --color-surface-bright:              #fbf9f8;
+  --color-surface-variant:             #e4e2e1;
+  --color-surface-container:           #f0eded;
+  --color-surface-container-low:       #f6f3f2;
+  --color-surface-container-high:      #eae8e7;
+  --color-surface-container-highest:   #e4e2e1;
+  --color-surface-container-lowest:    #ffffff;
+  --color-surface-dim:                 #dcd9d9;
+  --color-surface-tint:                #445e8f;
+  --color-primary-container:           #223e6d;
+  --color-primary-fixed:               #d7e2ff;
+  --color-primary-fixed-dim:           #acc7fe;
+  --color-on-primary:                  #ffffff;
+  --color-on-primary-container:        #90aae0;
+  --color-on-primary-fixed:            #001a40;
+  --color-on-primary-fixed-variant:    #2b4676;
+  --color-inverse-primary:             #acc7fe;
+  --color-secondary-container:         #fde000;
+  --color-secondary-fixed:             #ffe324;
+  --color-secondary-fixed-dim:         #e1c700;
+  --color-on-secondary:                #ffffff;
+  --color-on-secondary-container:      #706300;
+  --color-on-secondary-fixed:          #211c00;
+  --color-on-secondary-fixed-variant:  #514700;
+  --color-tertiary:                    #182b39;
+  --color-tertiary-container:          #2e4150;
+  --color-tertiary-fixed:              #d1e5f8;
+  --color-tertiary-fixed-dim:          #b5c9dc;
+  --color-on-tertiary:                 #ffffff;
+  --color-on-tertiary-container:       #99adbf;
+  --color-on-tertiary-fixed:           #091d2b;
+  --color-on-tertiary-fixed-variant:   #364958;
+  --color-on-surface:                  #1b1c1c;
+  --color-on-surface-variant:          #44474f;
+  --color-on-background:               #1b1c1c;
+  --color-inverse-surface:             #303030;
+  --color-inverse-on-surface:          #f3f0f0;
+  --color-outline:                     #747780;
+  --color-outline-variant:             #c4c6d0;
+  --color-error:                       #ba1a1a;
+  --color-error-container:             #ffdad6;
+  --color-on-error:                    #ffffff;
+  --color-on-error-container:          #93000a;
+}
+
+/* ─── MD3 light-theme scoped overrides (Fussball / Tischtennis) ──────────── */
+[data-theme="md3-light"] {
+  --color-surface:    #fbf9f8;
+  --color-background: #fbf9f8;
+  --color-primary:    #052856;
+  --color-secondary:  #6c5e00;
+  --radius-lg:        1rem;
+  --radius-xl:        1.5rem;
+}
+
+/* ─── font-headline alias (Lexend, same as font-display) ─────────────────── */
+.font-headline { font-family: var(--font-lexend, 'Lexend', sans-serif); }
+
+/* ─── BaseNav unlayered overrides ────────────────────────────────────────────
+   CDN Tailwind v3 preflight is unlayered and overrides @layer utilities.
+   These rules are also unlayered with higher class specificity (0,1,0) and
+   therefore always win — on both CDN pages and standard project pages.        */
+.bg-navy               { background-color: #052856 }
+.bg-navy\/95           { background-color: rgba(5,40,86,0.95) }
+.bg-navy-mid           { background-color: #0a3568 }
+.bg-gold               { background-color: #fde000 }
+.text-gold             { color: #fde000 }
+.text-chalk            { color: #f5f0e8 }
+.text-chalk\/60        { color: rgba(245,240,232,0.6) }
+.text-chalk\/40        { color: rgba(245,240,232,0.4) }
+.text-navy             { color: #052856 }
+.border-gold           { border-color: #fde000 }
+a.text-gold            { color: #fde000 }
+a.text-chalk           { color: #f5f0e8 }
+a.text-chalk\/60       { color: rgba(245,240,232,0.6) }
