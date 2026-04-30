@@ -18,7 +18,7 @@ export default function TeamsInAbteilung() {
               <div className="inline-block bg-primary/10 text-primary px-4 py-1 rounded-full text-xs font-black uppercase tracking-widest mb-6">Mental Health</div>
               <h3 className="font-headline text-3xl font-bold text-primary mb-6">Achtsamkeit &amp; Entspannung</h3>
               <p className="text-on-surface-variant text-lg leading-relaxed mb-8">Finden Sie Ihre innere Mitte. Dieser Kurs kombiniert bewusste Atemtechniken mit sanften Bewegungsabläufen, um Stress abzubauen und die mentale Klarheit zu fördern. Perfekt für den Ausgleich im hektischen Alltag.</p>
-              <a href="/achtsamkeit" className="flex items-center gap-2 text-primary font-black font-headline uppercase tracking-widest hover:text-secondary transition-colors group">
+              <a href="../achtsamkeit" className="flex items-center gap-2 text-primary font-black font-headline uppercase tracking-widest hover:text-secondary transition-colors group">
                 Mehr erfahren
                 <span className="material-symbols-outlined text-sm group-hover:translate-x-2 transition-transform">arrow_forward_ios</span>
               </a>
@@ -35,7 +35,7 @@ export default function TeamsInAbteilung() {
               <div className="inline-block bg-primary/10 text-primary px-4 py-1 rounded-full text-xs font-black uppercase tracking-widest mb-6">Core Strength</div>
               <h3 className="font-headline text-3xl font-bold text-primary mb-6">Pilates &amp; BodyART</h3>
               <p className="text-on-surface-variant text-lg leading-relaxed mb-8">Kräftigung von innen nach außen. Wir konzentrieren uns auf die tiefliegende Muskulatur, die Körperhaltung und den fließenden Übergang zwischen Kraft und Dehnung. Ein dynamisches Workout für einen starken Core.</p>
-              <a href="/pilates" className="flex items-center gap-2 text-primary font-black font-headline uppercase tracking-widest hover:text-secondary transition-colors group">
+              <a href="../pilates" className="flex items-center gap-2 text-primary font-black font-headline uppercase tracking-widest hover:text-secondary transition-colors group">
                 Mehr erfahren
                 <span className="material-symbols-outlined text-sm group-hover:translate-x-2 transition-transform">arrow_forward_ios</span>
               </a>
@@ -52,7 +52,7 @@ export default function TeamsInAbteilung() {
               <div className="inline-block bg-primary/10 text-primary px-4 py-1 rounded-full text-xs font-black uppercase tracking-widest mb-6">Prevention</div>
               <h3 className="font-headline text-3xl font-bold text-primary mb-6">Rücken-Fit</h3>
               <p className="text-on-surface-variant text-lg leading-relaxed mb-8">Ihre Wirbelsäule im Fokus. Durch gezielte Mobilisation und Kräftigung der Rückenmuskulatur beugen wir Schmerzen vor und verbessern Ihre Haltung nachhaltig. Ideal für Vielsitzer und Aktive.</p>
-              <a href="/rueckenfit" className="flex items-center gap-2 text-primary font-black font-headline uppercase tracking-widest hover:text-secondary transition-colors group">
+              <a href="../rueckenfit" className="flex items-center gap-2 text-primary font-black font-headline uppercase tracking-widest hover:text-secondary transition-colors group">
                 Mehr erfahren
                 <span className="material-symbols-outlined text-sm group-hover:translate-x-2 transition-transform">arrow_forward_ios</span>
               </a>
@@ -69,7 +69,7 @@ export default function TeamsInAbteilung() {
               <div className="inline-block bg-primary/10 text-primary px-4 py-1 rounded-full text-xs font-black uppercase tracking-widest mb-6">Tradition</div>
               <h3 className="font-headline text-3xl font-bold text-primary mb-6">Qi-Gong</h3>
               <p className="text-on-surface-variant text-lg leading-relaxed mb-8">Die Kunst der Lebensenergie. Lernen Sie die traditionellen chinesischen Bewegungsformen kennen, die den Energiefluss im Körper harmonisieren und Ihre Selbstheilungskräfte aktivieren.</p>
-              <a href="/qi-gong" className="flex items-center gap-2 text-primary font-black font-headline uppercase tracking-widest hover:text-secondary transition-colors group">
+              <a href="../qi-gong" className="flex items-center gap-2 text-primary font-black font-headline uppercase tracking-widest hover:text-secondary transition-colors group">
                 Mehr erfahren
                 <span className="material-symbols-outlined text-sm group-hover:translate-x-2 transition-transform">arrow_forward_ios</span>
               </a>

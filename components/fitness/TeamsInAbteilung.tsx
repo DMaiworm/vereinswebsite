@@ -37,7 +37,7 @@ export default function TeamsInAbteilung() {
               <h3 className="font-headline text-3xl font-bold text-primary mb-6">ManFit</h3>
               <p className="text-on-surface-variant text-lg leading-relaxed mb-4">Reine Männergruppe für erwachsene und ältere Männer. Nach dem Aufwärmen folgt Funktionsgymnastik mit dem eigenen Körpergewicht oder Handgeräten wie Hanteln, Brasils, Therabändern und Pezzibällen. Abschluss mit intensivem Dehnprogramm und Entspannung.</p>
               <p className="text-on-surface-variant text-sm mb-6"><span className="font-semibold text-primary">Di 18:30 – 19:30 Uhr</span> · Übungsleiter: Michael Larisch</p>
-              <a href="/manfit"className="flex items-center gap-2 text-primary font-black font-headline uppercase tracking-widest hover:text-secondary transition-colors group">
+              <a href="../manfit"className="flex items-center gap-2 text-primary font-black font-headline uppercase tracking-widest hover:text-secondary transition-colors group">
                 Mehr erfahren
                 <span className="material-symbols-outlined text-sm group-hover:translate-x-2 transition-transform">arrow_forward_ios</span>
               </a>
