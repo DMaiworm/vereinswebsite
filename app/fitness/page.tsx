@@ -5,13 +5,13 @@ import SponsorBand from '@/components/shared/layout/SponsorBand'
 import TeamsInAbteilung from '@/components/fitness/TeamsInAbteilung'
 
 const FITNESS_NAV = [
-  { label: 'LadyFit',        href: './ladyfit' },
-  { label: 'ManFit',         href: './manfit' },
-  { label: 'Step-Aerobic',   href: './step-aerobic' },
-  { label: 'Tanzfitness',    href: './tanzfitness' },
-  { label: 'Workout',        href: './workout' },
-  { label: 'Fit-durchs-Jahr', href: './fitdurchsjahr' },
-  { label: 'SkiGym',         href: './skigym' },
+  { label: 'LadyFit',        href: '../ladyfit' },
+  { label: 'ManFit',         href: '../manfit' },
+  { label: 'Step-Aerobic',   href: '../step-aerobic' },
+  { label: 'Tanzfitness',    href: '../tanzfitness' },
+  { label: 'Workout',        href: '../workout' },
+  { label: 'Fit-durchs-Jahr', href: '../fitdurchsjahr' },
+  { label: 'SkiGym',         href: '../skigym' },
 ]
 
 export default async function FitnessPage() {

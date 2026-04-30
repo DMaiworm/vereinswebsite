@@ -7,7 +7,7 @@ const STEP_AEROBIC_NAV = [
   { label: 'Step-Aerobic',   href: '#',              active: true },
   { label: 'Trainingszeiten', href: '#trainingszeiten' },
   { label: 'Ansprechpartner', href: '#ansprechpartner' },
-  { label: 'Fitness',         href: './fitness' },
+  { label: 'Fitness',         href: '../fitness' },
 ]
 
 export default async function StepAerobicPage() {

@@ -50,12 +50,12 @@ export default function SiteFooter({ logoUrl, departmentLabel, variant = 'dark' 
               <h4 className={`font-display font-black uppercase tracking-widest text-xs ${heading} mb-3`}>Verein</h4>
               <ul className={`space-y-4 ${body} text-sm font-semibold`}>
                 {[
-                    { label: 'Badminton',        href: './badminton' },
-                    { label: 'Fitness',          href: './fitness' },
-                    { label: 'Fußball',          href: './fussball' },
-                    { label: 'Gesundheitssport', href: './gesundheitssport' },
-                    { label: 'Leichtathletik',   href: './leichtathletik' },
-                    { label: 'Tischtennis',      href: './tischtennis' },
+                    { label: 'Badminton',        href: '../badminton' },
+                    { label: 'Fitness',          href: '../fitness' },
+                    { label: 'Fußball',          href: '../fussball' },
+                    { label: 'Gesundheitssport', href: '../gesundheitssport' },
+                    { label: 'Leichtathletik',   href: '../leichtathletik' },
+                    { label: 'Tischtennis',      href: '../tischtennis' },
                   ].map(({ label, href }) => (
                   <li key={label}><a className={`${link} transition-colors`} href={href}>{label}</a></li>
                 ))}

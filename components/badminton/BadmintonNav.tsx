@@ -23,7 +23,7 @@ export default function BadmintonNav({ logoUrl, clubName }: BadmintonNavProps) {
       clubName={clubName}
       departmentLabel="Badminton"
       navItems={NAV_ITEMS}
-      homeHref="./badminton"
+      homeHref="../badminton"
     />
   )
 }

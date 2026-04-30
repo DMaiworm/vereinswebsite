@@ -7,7 +7,7 @@ const QI_GONG_NAV = [
   { label: 'Qi-Gong',        href: '#',              active: true },
   { label: 'Trainingszeiten', href: '#trainingszeiten' },
   { label: 'Ansprechpartner', href: '#ansprechpartner' },
-  { label: 'Gesundheitssport', href: './gesundheitssport' },
+  { label: 'Gesundheitssport', href: '../gesundheitssport' },
 ]
 
 export default async function QiGongPage() {
