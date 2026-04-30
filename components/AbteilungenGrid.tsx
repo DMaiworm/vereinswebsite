@@ -109,36 +109,39 @@ export default function AbteilungenGrid({ departments }: AbteilungenGridProps) {
             const slug = DEPT_SLUGS[dept.name];
             const label = DEPT_LABELS[dept.name] ?? dept.name;
             const desc = DEPT_DESC[dept.name] ?? dept.beschreibung;
-            const Wrapper = slug ? Link : 'div';
-            const wrapperProps = slug ? { href: `/${slug}` } : {};
-            return (
-            <Wrapper
-              key={dept.id}
-              {...(wrapperProps as Record<string, string>)}
-              className="dept-card group relative cursor-pointer overflow-hidden rounded-2xl border border-white/5 bg-white/[0.03] p-8 transition-all duration-300 hover:-translate-y-1 hover:border-white/10 hover:bg-white/[0.06]"
-            >
-              {/* Hover-Glow */}
-              <div
-                className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-                style={{
-                  background: 'radial-gradient(circle at 50% 0%, color-mix(in srgb, var(--club-primary) 15%, transparent), transparent 70%)',
-                }}
-              />
-
-              <div className="relative z-10">
-                {dept.icon && (
-                  <span className="mb-4 block text-4xl">{dept.icon}</span>
-                )}
-                <h3 className="mb-2 text-xl font-bold text-white">{label}</h3>
-                {desc && (
-                  <p className="text-sm leading-relaxed text-white/50">{desc}</p>
-                )}
+            const cardClass = "dept-card group relative cursor-pointer overflow-hidden rounded-2xl border border-white/5 bg-white/[0.03] p-8 transition-all duration-300 hover:-translate-y-1 hover:border-white/10 hover:bg-white/[0.06]";
+            const inner = (
+              <>
+                {/* Hover-Glow */}
                 <div
-                  className="mt-6 h-px w-12 transition-all duration-300 group-hover:w-20"
-                  style={{ background: 'var(--club-secondary)' }}
+                  className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                  style={{
+                    background: 'radial-gradient(circle at 50% 0%, color-mix(in srgb, var(--club-primary) 15%, transparent), transparent 70%)',
+                  }}
                 />
+                <div className="relative z-10">
+                  {dept.icon && (
+                    <span className="mb-4 block text-4xl">{dept.icon}</span>
+                  )}
+                  <h3 className="mb-2 text-xl font-bold text-white">{label}</h3>
+                  {desc && (
+                    <p className="text-sm leading-relaxed text-white/50">{desc}</p>
+                  )}
+                  <div
+                    className="mt-6 h-px w-12 transition-all duration-300 group-hover:w-20"
+                    style={{ background: 'var(--club-secondary)' }}
+                  />
+                </div>
+              </>
+            );
+            return slug ? (
+              <Link key={dept.id} href={`/${slug}`} className={cardClass}>
+                {inner}
+              </Link>
+            ) : (
+              <div key={dept.id} className={cardClass}>
+                {inner}
               </div>
-            </Wrapper>
             );
           })}
         </div>
