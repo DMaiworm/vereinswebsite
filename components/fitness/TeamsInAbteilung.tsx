@@ -19,7 +19,7 @@ export default function TeamsInAbteilung() {
               <h3 className="font-headline text-3xl font-bold text-primary mb-6">LadyFit</h3>
               <p className="text-on-surface-variant text-lg leading-relaxed mb-4">Funktionsgymnastik für Frauen jeden Alters – mit Elementen aus Yoga, Wirbelsäulen- und Beckenbodengymnastik. Schwerpunkt ist die Stärkung der Rumpfmuskulatur, Verbesserung der Beweglichkeit und Korrektur von Fehlhaltungen. Schonend für Gelenke, Sehnen und Bänder.</p>
               <p className="text-on-surface-variant text-sm mb-6"><span className="font-semibold text-primary">Di 10:00 – 11:00 Uhr</span> · Übungsleiterin: Marianne Schmicking</p>
-              <a href="/ladyfit"className="flex items-center gap-2 text-primary font-black font-headline uppercase tracking-widest hover:text-secondary transition-colors group">
+              <a href="../ladyfit"className="flex items-center gap-2 text-primary font-black font-headline uppercase tracking-widest hover:text-secondary transition-colors group">
                 Mehr erfahren
                 <span className="material-symbols-outlined text-sm group-hover:translate-x-2 transition-transform">arrow_forward_ios</span>
               </a>
@@ -55,7 +55,7 @@ export default function TeamsInAbteilung() {
               <h3 className="font-headline text-3xl font-bold text-primary mb-6">Step-Aerobic</h3>
               <p className="text-on-surface-variant text-lg leading-relaxed mb-4">Gelenkschonendes Herz-Kreislauf-Training auf einer höhenverstellbaren Plattform. Trainiert Bein- und Gesäßmuskulatur, stärkt den Rumpf und steigert Koordination sowie Kondition. Ziel: drei Choreographien lernen, die am Ende zusammengefügt werden. Mittleres Niveau – Anfänger willkommen!</p>
               <p className="text-on-surface-variant text-sm mb-6"><span className="font-semibold text-primary">Mi 20:00 – 21:00 Uhr</span> · Übungsleiterin: Bettina Wredenhagen</p>
-              <a href="/step-aerobic"className="flex items-center gap-2 text-primary font-black font-headline uppercase tracking-widest hover:text-secondary transition-colors group">
+              <a href="../step-aerobic"className="flex items-center gap-2 text-primary font-black font-headline uppercase tracking-widest hover:text-secondary transition-colors group">
                 Mehr erfahren
                 <span className="material-symbols-outlined text-sm group-hover:translate-x-2 transition-transform">arrow_forward_ios</span>
               </a>
@@ -73,7 +73,7 @@ export default function TeamsInAbteilung() {
               <h3 className="font-headline text-3xl font-bold text-primary mb-6">Tanzfitness</h3>
               <p className="text-on-surface-variant text-lg leading-relaxed mb-4">Die Verbindung aus Tanzästhetik und Fitness-Ausdauer. 60 Minuten Bewegung mit lateinamerikanischen, Pop- und Hip-Hop-Sounds trainiert den ganzen Körper. Für alle Altersklassen – von dynamisch bis gemäßigt. Einfach zur Probestunde vorbeikommen!</p>
               <p className="text-on-surface-variant text-sm mb-6"><span className="font-semibold text-primary">Mo 18:30 – 20:00 Uhr</span> · Übungsleiterin: Celina Schneider</p>
-              <a href="/tanzfitness"className="flex items-center gap-2 text-primary font-black font-headline uppercase tracking-widest hover:text-secondary transition-colors group">
+              <a href="../tanzfitness"className="flex items-center gap-2 text-primary font-black font-headline uppercase tracking-widest hover:text-secondary transition-colors group">
                 Mehr erfahren
                 <span className="material-symbols-outlined text-sm group-hover:translate-x-2 transition-transform">arrow_forward_ios</span>
               </a>
@@ -91,7 +91,7 @@ export default function TeamsInAbteilung() {
               <h3 className="font-headline text-3xl font-bold text-primary mb-6">Workout</h3>
               <p className="text-on-surface-variant text-lg leading-relaxed mb-4">Ausdauer und Kraft gemeinsam zur Musik trainieren – für alle Alters- und Fitnessstufen. Alle Übungen mit dem eigenen Körpergewicht, keine Vorkenntnisse nötig. Hauptsache Spaß! Einfach zum Probetraining vorbeikommen.</p>
               <p className="text-on-surface-variant text-sm mb-6"><span className="font-semibold text-primary">Di 19:00 – 20:00 Uhr</span> · Übungsleiterin: Irina Djurganina</p>
-              <a href="/workout" className="flex items-center gap-2 text-primary font-black font-headline uppercase tracking-widest hover:text-secondary transition-colors group">
+              <a href="../workout" className="flex items-center gap-2 text-primary font-black font-headline uppercase tracking-widest hover:text-secondary transition-colors group">
                 Mehr erfahren
                 <span className="material-symbols-outlined text-sm group-hover:translate-x-2 transition-transform">arrow_forward_ios</span>
               </a>
@@ -109,7 +109,7 @@ export default function TeamsInAbteilung() {
               <h3 className="font-headline text-3xl font-bold text-primary mb-6">Fit das ganze Jahr</h3>
               <p className="text-on-surface-variant text-lg leading-relaxed mb-4">Variantenreiches Ganzkörpertraining für motivierte Sportler beiderlei Geschlechts: Kraft, Beweglichkeit, Koordination, HIIT und Zirkeltraining. Mit eigenem Körpergewicht und diversen Geräten. Die positive Gruppenkonstellation treibt zu höheren sportlichen Zielen.</p>
               <p className="text-on-surface-variant text-sm mb-6"><span className="font-semibold text-primary">Mo 19:00 – 20:00 Uhr · Apr – Okt</span> · Übungsleiter: Werner Harasta</p>
-              <a href="/fitdurchsjahr" className="flex items-center gap-2 text-primary font-black font-headline uppercase tracking-widest hover:text-secondary transition-colors group">
+              <a href="../fitdurchsjahr" className="flex items-center gap-2 text-primary font-black font-headline uppercase tracking-widest hover:text-secondary transition-colors group">
                 Mehr erfahren
                 <span className="material-symbols-outlined text-sm group-hover:translate-x-2 transition-transform">arrow_forward_ios</span>
               </a>
@@ -127,7 +127,7 @@ export default function TeamsInAbteilung() {
               <h3 className="font-headline text-3xl font-bold text-primary mb-6">Fit in die Skisaison</h3>
               <p className="text-on-surface-variant text-lg leading-relaxed mb-4">Fit starten, weniger Muskelkater, weniger Verletzungen. Skisportmotorisch orientiert, aber für alle geeignet, die sich fit halten wollen. Kraft, Schnellkraft, Koordination und Rumpfstabilität stehen im Fokus – mit HIIT, Zirkeltraining und motivierenden Gruppenspielen.</p>
               <p className="text-on-surface-variant text-sm mb-6"><span className="font-semibold text-primary">Mo 19:00 – 20:00 Uhr · Nov – Mär</span> · Übungsleiter: Werner Harasta</p>
-              <a href="/skigym" className="flex items-center gap-2 text-primary font-black font-headline uppercase tracking-widest hover:text-secondary transition-colors group">
+              <a href="../skigym" className="flex items-center gap-2 text-primary font-black font-headline uppercase tracking-widest hover:text-secondary transition-colors group">
                 Mehr erfahren
                 <span className="material-symbols-outlined text-sm group-hover:translate-x-2 transition-transform">arrow_forward_ios</span>
               </a>
