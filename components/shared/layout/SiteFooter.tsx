@@ -36,7 +36,7 @@ export default function SiteFooter({ logoUrl, departmentLabel, variant = 'dark' 
               <span className="font-display text-3xl leading-none">
                 <span className={`font-black ${logo1} uppercase`}>SG</span>
                 <span className={`font-semibold ${logo2} uppercase ml-0.5`}>HÜNSTETTEN</span>
-                <span className={`font-light text-sm ${logoEv}`}>e.V.</span>
+                <span className={`font-light text-sm ${logoEv}`}>E.V.</span>
               </span>
             </div>
             <p className={`${body} max-w-sm leading-relaxed text-sm`}>
@@ -65,12 +65,12 @@ export default function SiteFooter({ logoUrl, departmentLabel, variant = 'dark' 
               <h4 className={`font-display font-black uppercase tracking-widest text-xs ${heading} mb-3`}>Rechtliches</h4>
               <ul className={`space-y-4 ${body} text-sm font-semibold`}>
                 {[
-                  { label: 'Kontakt',      href: '#kontakt' },
-                  { label: 'Impressum',    href: '#' },
-                  { label: 'Datenschutz',  href: '#' },
+                  { label: 'Kontakt',        href: '#kontakt' },
+                  { label: 'Impressum',      href: '#' },
+                  { label: 'Datenschutz',    href: '#' },
                   { label: 'Mitgliedschaft', href: '#' },
-                  { label: 'Vorstand',     href: '#' },
-                  { label: 'Satzung',      href: '#' },
+                  { label: 'Vorstand',       href: '#' },
+                  { label: 'Satzung',        href: '#' },
                 ].map(({ label, href }) => (
                   <li key={label}><a className={`${link} transition-colors`} href={href}>{label}</a></li>
                 ))}

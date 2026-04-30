@@ -29,7 +29,6 @@ const DEPT_DESC: Record<string, string> = {
   'Badminton':      'Ob Anfänger oder Vereinsspieler – bei uns findest du den passenden Rahmen für schnelle Ballwechsel, gute Stimmung und gemeinsamen Sport.',
   'Tischtennis':    'Schnell, präzise und für alle Altersklassen geeignet. Unser Tischtennissport begeistert Jung und Alt gleichermaßen.',
   'Leichtathletik': 'Laufen, Springen, Werfen – Leichtathletik ist der Ursprung des Sports. Trainiere mit uns Technik, Kraft und Ausdauer.',
-  'Leichtathetik':  'Laufen, Springen, Werfen – Leichtathletik ist der Ursprung des Sports. Trainiere mit uns Technik, Kraft und Ausdauer.',
   'Fußball':        'Fußball verbindet – in unserem Verein spielen Kinder, Jugendliche und Erwachsene gemeinsam für den Sport und die Gemeinschaft.',
   'Fussball':       'Fußball verbindet – in unserem Verein spielen Kinder, Jugendliche und Erwachsene gemeinsam für den Sport und die Gemeinschaft.',
   'Fussball - Senioren': 'Fußball verbindet – in unserem Verein spielen Kinder, Jugendliche und Erwachsene gemeinsam für den Sport und die Gemeinschaft.',
