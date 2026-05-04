@@ -3,3 +3,6 @@
 | ID | Titel | Status | Bereich |
 |----|-------|--------|---------|
 | [S-001](S-001-design-theme-konsolidierung.md) | Design-Theme-Konsolidierung: designBlau.ts & designHell.ts | done | lib/, Layouts |
+| [S-002](S-002-hell-design-komponenten-baukasten.md) | Hell-Design Komponenten-Baukasten (StatsBar, TeamRow, Hero, CTA, InfoBox) | done | components/shared/sections/ |
+| [S-003](S-003-ballsport-komponenten-audit.md) | Ballsport Komponenten-Audit: Tischtennis & Fußball | draft | app/tischtennis/, app/fussball/ |
+| [S-004](S-004-kurs-unterseiten-baukasten.md) | Kurs-Unterseiten Komponenten-Baukasten (KursHero, InfoGrid, Trainer, CTA, Bento, Konzept) | ready | components/shared/sections/, 11× app/ |

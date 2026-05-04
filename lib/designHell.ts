@@ -167,3 +167,14 @@ export const DESIGN_HELL_TW_CONFIG = {
 export function cdnScript(): string {
   return `tailwind={config:${JSON.stringify(DESIGN_HELL_TW_CONFIG)}};document.write('<scr'+'ipt src="https://cdn.tailwindcss.com?plugins=forms,container-queries"><\\/scr'+'ipt>');`
 }
+
+export const IMAGE_FALLBACK_SCRIPT = `
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('img').forEach(function(img) {
+      img.addEventListener('error', function() {
+        this.style.background = 'repeating-linear-gradient(45deg,#1a3260 0,#1a3260 2px,#223e6d 2px,#223e6d 14px)';
+        this.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+      });
+    });
+  });
+`

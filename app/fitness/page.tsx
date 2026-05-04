@@ -3,6 +3,10 @@ import BaseNav from '@/components/shared/layout/BaseNav'
 import SiteFooter from '@/components/shared/layout/SiteFooter'
 import SponsorBand from '@/components/shared/layout/SponsorBand'
 import TeamsInAbteilung from '@/components/fitness/TeamsInAbteilung'
+import AbteilungHero from '@/components/shared/sections/AbteilungHero'
+import StatsBar, { type StatsBarItem } from '@/components/shared/sections/StatsBar'
+import KursInfoBox from '@/components/shared/sections/KursInfoBox'
+import AbteilungCta from '@/components/shared/sections/AbteilungCta'
 
 const FITNESS_NAV = [
   { label: 'LadyFit',        href: '../ladyfit' },
@@ -12,6 +16,13 @@ const FITNESS_NAV = [
   { label: 'Workout',        href: '../workout' },
   { label: 'Fit-durchs-Jahr', href: '../fitdurchsjahr' },
   { label: 'SkiGym',         href: '../skigym' },
+]
+
+const FITNESS_STATS: StatsBarItem[] = [
+  { value: '15+', label: 'Kurse Pro Woche', accent: 'primary' },
+  { value: '300+', label: 'Aktive Mitglieder', accent: 'secondary' },
+  { value: '80 J.', label: 'Vereinstradition', accent: 'primary' },
+  { value: '6', label: 'Lizenzierte Trainer', accent: 'secondary' },
 ]
 
 export default async function FitnessPage() {
@@ -34,50 +45,17 @@ export default async function FitnessPage() {
 
       <main className="pt-20">
 
-        {/* Hero Section */}
-        <section className="relative h-[716px] min-h-[500px] flex items-center overflow-hidden">
-          <div className="absolute inset-0 z-0">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img alt="Gruppe beim gemeinsamen Fitness-Training" className="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAIBtPcaXq0RBTq-Gsff6FK7Z26LITHpOKNlLZyrVF9gaUtOYO5HB1-6aWdlvHb3HrE732uVzFZOnpH9h_ZE_ObRKF4LKzQfVTjgXf2HA7BNkDGAMJrtUiEzeXfGI6YVqBzrctLy_SVjO27qwr1sjM40KsCtudbAlLgqpwN_HGD31Z27J281R10YcsZCkLjq-ErfzmaLkp42QVRp8GzbGzr1CXYZAOt205XqUNaaI9g3yPCXsoKSHadr_rv5tDnQ7Nd7dpdl3yT8bI" />
-            {/* from-primary-container/60 → rgba fix per CLAUDE.md */}
-            <div className="absolute inset-0 bg-gradient-to-r from-[rgba(5,40,86,0.6)] to-transparent"></div>
-          </div>
-          <div className="relative z-10 max-w-[1200px] mx-auto px-6 w-full">
-            <div className="max-w-2xl text-white">
-              <span className="inline-block px-4 py-1 bg-secondary-container text-on-secondary-container rounded-full text-label-lg mb-6 uppercase tracking-widest">Kraft &amp; Ausdauer</span>
-              <h1 className="text-display-lg font-display-lg mb-4 text-white">Gemeinsam stärker werden.</h1>
-              <p className="text-body-lg mb-8 opacity-90">Von Tanzfitness bis Workout, von LadyFit bis Ski-Training – bei uns findest du das passende Angebot. Für jedes Alter, jedes Level, jeden Montag.</p>
-              <div className="flex flex-wrap gap-4">
-                <button className="bg-[#FDE000] text-[#222222] font-label-lg px-8 py-4 rounded-lg hover:brightness-110 transition-all font-bold">Kursplan entdecken</button>
-                <button className="border border-white/40 backdrop-blur-sm text-white font-label-lg px-8 py-4 rounded-lg hover:bg-white/10 transition-all font-bold">Zur Probestunde</button>
-              </div>
-            </div>
-          </div>
-        </section>
+        <AbteilungHero
+          imageSrc="https://lh3.googleusercontent.com/aida-public/AB6AXuAIBtPcaXq0RBTq-Gsff6FK7Z26LITHpOKNlLZyrVF9gaUtOYO5HB1-6aWdlvHb3HrE732uVzFZOnpH9h_ZE_ObRKF4LKzQfVTjgXf2HA7BNkDGAMJrtUiEzeXfGI6YVqBzrctLy_SVjO27qwr1sjM40KsCtudbAlLgqpwN_HGD31Z27J281R10YcsZCkLjq-ErfzmaLkp42QVRp8GzbGzr1CXYZAOt205XqUNaaI9g3yPCXsoKSHadr_rv5tDnQ7Nd7dpdl3yT8bI"
+          imageAlt="Gruppe beim gemeinsamen Fitness-Training"
+          badge="Kraft &amp; Ausdauer"
+          title="Gemeinsam stärker werden."
+          subtitle="Von Tanzfitness bis Workout, von LadyFit bis Ski-Training – bei uns findest du das passende Angebot. Für jedes Alter, jedes Level, jeden Montag."
+          primaryCta={{ label: 'Kursplan entdecken' }}
+          secondaryCta={{ label: 'Zur Probestunde' }}
+        />
 
-        {/* Stats Section */}
-        <section className="bg-surface py-12">
-          <div className="max-w-7xl mx-auto px-6">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-              <div className="text-center p-6 bg-surface-container-low rounded-2xl border-b-4 border-primary">
-                <div className="font-headline font-black text-4xl text-primary mb-1">15+</div>
-                <div className="text-sm font-bold text-on-surface-variant uppercase tracking-tighter">Kurse Pro Woche</div>
-              </div>
-              <div className="text-center p-6 bg-surface-container-low rounded-2xl border-b-4 border-secondary">
-                <div className="font-headline font-black text-4xl text-primary mb-1">300+</div>
-                <div className="text-sm font-bold text-on-surface-variant uppercase tracking-tighter">Aktive Mitglieder</div>
-              </div>
-              <div className="text-center p-6 bg-surface-container-low rounded-2xl border-b-4 border-primary">
-                <div className="font-headline font-black text-4xl text-primary mb-1">80 J.</div>
-                <div className="text-sm font-bold text-on-surface-variant uppercase tracking-tighter">Vereinstradition</div>
-              </div>
-              <div className="text-center p-6 bg-surface-container-low rounded-2xl border-b-4 border-secondary">
-                <div className="font-headline font-black text-4xl text-primary mb-1">6</div>
-                <div className="text-sm font-bold text-on-surface-variant uppercase tracking-tighter">Lizenzierte Trainer</div>
-              </div>
-            </div>
-          </div>
-        </section>
+        <StatsBar items={FITNESS_STATS} />
 
         {/* Was ist Gesundheitssport */}
         <section className="py-24 bg-surface max-w-7xl mx-auto px-6">
@@ -256,18 +234,11 @@ export default async function FitnessPage() {
                 </tbody>
               </table>
             </div>
-            <div className="mt-12 p-8 bg-surface-container-low rounded-3xl flex flex-col md:flex-row items-center gap-8 border border-outline-variant/10">
-              <div className="p-4 bg-surface-container-lowest rounded-2xl">
-                <span className="material-symbols-outlined text-4xl text-primary">info</span>
-              </div>
-              <div className="flex-1 text-center md:text-left">
-                <h4 className="font-headline font-bold text-primary text-xl mb-1">Du bist unsicher, welcher Kurs passt?</h4>
-                <p className="text-on-surface-variant text-sm">Komm einfach zu einem kostenlosen Probetraining vorbei oder lass dich von unseren Trainern beraten.</p>
-              </div>
-              <button className="bg-secondary-container text-on-secondary-container px-8 py-3 rounded-xl font-headline font-extrabold text-sm hover:scale-105 transition-transform shadow-md">
-                Beratungsgespräch buchen
-              </button>
-            </div>
+            <KursInfoBox
+              title="Du bist unsicher, welcher Kurs passt?"
+              description="Komm einfach zu einem kostenlosen Probetraining vorbei oder lass dich von unseren Trainern beraten."
+              ctaLabel="Beratungsgespräch buchen"
+            />
           </div>
         </section>
 
@@ -309,21 +280,12 @@ export default async function FitnessPage() {
           </div>
         </section>
 
-        {/* Bereit für Ihren ersten Kurs? */}
-        <section className="max-w-[1200px] mx-auto px-6 py-10">
-          <div className="bg-primary-container rounded-2xl p-lg text-center text-white relative overflow-hidden">
-            <div className="relative z-10 py-6">
-              <h2 className="font-headline text-3xl font-bold mb-6">Bereit für Ihren ersten Kurs?</h2>
-              <p className="font-body text-lg mb-8 max-w-xl mx-auto opacity-90">Starten Sie noch heute Ihre Reise zu mehr Gesundheit und Wohlbefinden bei der SG Hünstetten.</p>
-              <div className="flex flex-col sm:flex-row justify-center gap-4">
-                <button className="bg-secondary-container text-[#222222] px-10 py-4 rounded font-bold text-base transition-transform active:scale-95">Jetzt Kurs buchen</button>
-                <button className="bg-white/10 backdrop-blur-sm border border-white/20 text-white px-10 py-4 rounded font-bold text-base transition-transform active:scale-95 hover:bg-white/20">Probetraining vereinbaren</button>
-              </div>
-            </div>
-            <div className="absolute -top-20 -right-20 w-64 h-64 bg-white/5 rounded-full blur-3xl"></div>
-            <div className="absolute -bottom-20 -left-20 w-64 h-64 bg-white/5 rounded-full blur-3xl"></div>
-          </div>
-        </section>
+        <AbteilungCta
+          title="Bereit für Ihren ersten Kurs?"
+          subtitle="Starten Sie noch heute Ihre Reise zu mehr Gesundheit und Wohlbefinden bei der SG Hünstetten."
+          primaryLabel="Jetzt Kurs buchen"
+          secondaryLabel="Probetraining vereinbaren"
+        />
 
       </main>
 
