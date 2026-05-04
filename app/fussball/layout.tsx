@@ -1,4 +1,4 @@
-import { CDN_CSS, cdnScript } from '@/lib/brandCss'
+import { CDN_CSS, cdnScript } from '@/lib/designBlau'
 
 export const metadata = {
   title: 'Fußball Abteilung | SG Hünstetten',
