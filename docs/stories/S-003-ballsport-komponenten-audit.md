@@ -1,6 +1,6 @@
 # S-003 – Ballsport Komponenten-Audit: Tischtennis & Fußball
 
-**Status:** in-progress  
+**Status:** done  
 **Erstellt:** 2026-05-04  
 **Bereich:** app/tischtennis/, app/fussball/, components/shared/
 
