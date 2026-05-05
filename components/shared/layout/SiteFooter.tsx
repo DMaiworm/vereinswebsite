@@ -54,6 +54,7 @@ export default function SiteFooter({ logoUrl, departmentLabel, variant = 'dark' 
                     { label: 'Fitness',          href: '../fitness' },
                     { label: 'Fußball',          href: '../fussball' },
                     { label: 'Gesundheitssport', href: '../gesundheitssport' },
+                    { label: 'Kinderturnen',     href: '../kinderturnen' },
                     { label: 'Leichtathletik',   href: '../leichtathletik' },
                     { label: 'Tischtennis',      href: '../tischtennis' },
                   ].map(({ label, href }) => (
@@ -66,10 +67,10 @@ export default function SiteFooter({ logoUrl, departmentLabel, variant = 'dark' 
               <ul className={`space-y-4 ${body} text-sm font-semibold`}>
                 {[
                   { label: 'Kontakt',        href: '#kontakt' },
-                  { label: 'Impressum',      href: '#' },
+                  { label: 'Impressum',      href: '/impressum' },
                   { label: 'Datenschutz',    href: '#' },
                   { label: 'Mitgliedschaft', href: '#' },
-                  { label: 'Vorstand',       href: '#' },
+                  { label: 'Vorstand',       href: '/vorstand' },
                   { label: 'Satzung',        href: '#' },
                 ].map(({ label, href }) => (
                   <li key={label}><a className={`${link} transition-colors`} href={href}>{label}</a></li>

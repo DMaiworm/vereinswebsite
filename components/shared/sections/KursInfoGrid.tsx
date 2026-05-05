@@ -3,11 +3,15 @@ type KursInfoGridProps = {
   ort: string
   mitzubringen: string
   mitzubringenIcon?: string
+  groupLabel?: string
 }
 
-export default function KursInfoGrid({ kurszeit, ort, mitzubringen, mitzubringenIcon = 'shopping_bag' }: KursInfoGridProps) {
+export default function KursInfoGrid({ kurszeit, ort, mitzubringen, mitzubringenIcon = 'shopping_bag', groupLabel }: KursInfoGridProps) {
   return (
     <section className="relative z-20 -mt-12 px-6">
+      {groupLabel && (
+        <h3 className="text-2xl font-black text-primary text-center mb-4">{groupLabel}</h3>
+      )}
       <div className="max-w-[1200px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="bg-white p-8 border border-surface-container-high rounded-xl shadow-sm flex items-start gap-4 transition-all hover:shadow-md">
           <span className="material-symbols-outlined text-primary-container text-3xl">schedule</span>
