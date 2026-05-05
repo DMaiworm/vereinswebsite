@@ -65,11 +65,11 @@ export default function SiteFooter({ logoUrl, departmentLabel, variant = 'dark' 
               <ul className={`space-y-4 ${body} text-sm font-semibold`}>
                 {[
                   { label: 'Kontakt',        href: '#kontakt' },
-                  { label: 'Impressum',      href: '/impressum' },
+                  { label: 'Impressum',      href: '../impressum' },
                   { label: 'Datenschutz',    href: '#' },
                   { label: 'Mitgliedschaft', href: '#' },
-                  { label: 'Vorstand',       href: '/vorstand' },
-                  { label: 'Sponsoren',      href: '/sponsoren' },
+                  { label: 'Vorstand',       href: '../vorstand' },
+                  { label: 'Sponsoren',      href: '../sponsoren' },
                 ].map(({ label, href }) => (
                   <li key={label}><a className={`${link} transition-colors`} href={href}>{label}</a></li>
                 ))}
