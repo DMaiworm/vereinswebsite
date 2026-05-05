@@ -12,7 +12,6 @@ export default function SiteFooter({ logoUrl, departmentLabel, variant = 'dark' 
   const heading    = dark ? 'text-gold'             : 'text-navy'
   const logo1      = dark ? 'text-gold'             : 'text-navy'
   const logo2      = dark ? 'text-chalk'            : 'text-navy'
-  const logoEv     = dark ? 'text-gold'             : 'text-[#052856]'
   const body       = dark ? 'text-chalk/60'         : 'text-on-surface-variant'
   const link       = dark ? 'text-chalk/60 hover:text-chalk' : 'text-on-surface hover:text-navy'
   const meta       = dark ? 'text-chalk/40'         : 'text-on-surface-variant'
@@ -31,12 +30,11 @@ export default function SiteFooter({ logoUrl, departmentLabel, variant = 'dark' 
             <div className="flex items-center gap-4">
               {logoUrl && (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img src={logoUrl} alt="SG Hünstetten Logo" className="h-24 w-auto object-contain" />
+                <img src={logoUrl} alt="SG Hünstetten Logo" className="h-[4.8rem] w-auto object-contain" />
               )}
-              <span className="font-display text-3xl leading-none">
+              <span className="font-display text-[29px] leading-none">
                 <span className={`font-black ${logo1} uppercase`}>SG</span>
                 <span className={`font-semibold ${logo2} uppercase ml-0.5`}>HÜNSTETTEN</span>
-                <span className={`font-light text-sm ${logoEv}`}>E.V.</span>
               </span>
             </div>
             <p className={`${body} max-w-sm leading-relaxed text-sm`}>
@@ -71,7 +69,7 @@ export default function SiteFooter({ logoUrl, departmentLabel, variant = 'dark' 
                   { label: 'Datenschutz',    href: '#' },
                   { label: 'Mitgliedschaft', href: '#' },
                   { label: 'Vorstand',       href: '/vorstand' },
-                  { label: 'Satzung',        href: '#' },
+                  { label: 'Sponsoren',      href: '/sponsoren' },
                 ].map(({ label, href }) => (
                   <li key={label}><a className={`${link} transition-colors`} href={href}>{label}</a></li>
                 ))}
