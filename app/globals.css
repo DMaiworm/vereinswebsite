@@ -230,6 +230,12 @@ a.text-chalk\/60       { color: rgba(245,240,232,0.6) }
 /* bg-primary: CDN hat dies immer auf SG-Navy #052856 gesetzt, unabhängig von --club-primary.
    Ohne diesen Override fällt es auf den API-Fallback #003399 (helles Royal-Blue) zurück. */
 .bg-primary         { background-color: #052856 }
+/* yellow-400: Tailwind v4 verwendet OKLCH (wärmer/orangener als v3 #facc15).
+   Impressum-Seite erwartet SG-Gold #fde000 — unlayered Override stellt v3-Verhalten wieder her. */
+.bg-yellow-400                { background-color: #fde000 }
+.text-yellow-400              { color: #fde000 }
+.border-yellow-400            { border-color: #fde000 }
+.hover\:border-yellow-400:hover { border-color: #fde000 }
 .bg-primary-container { background-color: #223e6d }
 .text-primary       { color: #052856 }
 .border-primary     { border-color: #052856 }
