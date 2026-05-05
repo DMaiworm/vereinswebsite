@@ -7,68 +7,81 @@
 
 ---
 
-### Pflicht-Setup für jede neue Abteilungsseite mit CDN Tailwind
+### Setup für neue Abteilungsseiten (Tailwind v4 — kein CDN mehr)
 
-Jede Seite, die einen Claude Design Entwurf mit Material Design 3 / Tailwind CDN verwendet, braucht **drei Dinge** im Layout (`app/<abteilung>/layout.tsx`), sonst sind Farben, Buttons und Typographie kaputt:
+Seit S-007 laufen alle Seiten auf **Project Tailwind v4**. Das Root-Layout und `globals.css` stellen alles bereit — neue Layouts brauchen kein CDN-Boilerplate.
 
-#### 1. CSS-Variablen für alle MD3-Farben definieren
-Tailwind v4 (Projekt-Build) scannt alle `.tsx`-Dateien und generiert für unbekannte Farbnamen `background-color: var(--color-xyz)`. Wenn `--color-xyz` nicht definiert ist → transparent. **Fix:**
-
+**Neues Minimal-Layout (`app/<abteilung>/layout.tsx`):**
 ```tsx
-const cssVars = `
-  :root {
-    --color-primary: #052856;
-    --color-secondary-container: #fde000;
-    /* ... alle MD3-Farben aus dem Design ... */
-  }
-  /* Unlayered overrides: Klassen-Spezifität (0,1,0) schlägt CDN-Preflight button-Reset (0,0,1) */
-  .bg-primary             { background-color: #052856 }
-  .bg-secondary-container { background-color: #fde000 }
-  .text-secondary-container { color: #fde000 }
-  /* ... alle bg-* und text-* Farben die auf der Seite verwendet werden ... */
-`
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Abteilung | SG Hünstetten',
+}
+
+export default function AbteilungLayout({ children }: { children: React.ReactNode }) {
+  return <>{children}</>
+}
 ```
 
-Warum unlayered Overrides nötig sind: CDN Tailwind v3 injiziert seinen Preflight (`button { background-color: transparent }`) als **unlayered CSS**. Tailwind v4's Utilities liegen in `@layer utilities`. In der CSS-Cascade gewinnt **unlayered immer über layered**, unabhängig von Spezifität. Also gewinnt das CDN-Preflight über das v4-Utility. Die Fix-Regeln hier sind ebenfalls unlayered und haben Klassen-Spezifität (0,1,0) > Element-Spezifität (0,0,1) des CDN-Preflights.
+**Was das Root-Layout global bereitstellt:**
+- Fonts: Lexend (`--font-lexend`), Plus Jakarta Sans (`--font-jakarta`) via `next/font/google`
+- Icons: Material Symbols Outlined via Google Fonts
+- Image-Fallback-Script (`.broken` CSS-Klasse bei Ladefehler)
 
-#### 2. CDN-Preflight deaktivieren
+**Was `globals.css` global bereitstellt:**
+- Alle MD3-Farbtoken via `@theme inline` → Tailwind v4 generiert `bg-primary`, `text-on-surface`, `border-outline` etc. automatisch
+- Unlayered Overrides für BaseNav/SiteFooter: `bg-navy`, `text-gold`, `text-chalk`
+- Typography-Utilities: `.font-display`, `.font-body`, `.font-headline`, `.font-lexend`
+- `.vanguard-gradient`, `.kinetic-gradient`, `.no-scrollbar`, `.py-xl`, `.p-lg`
+- `.text-display-lg` bis `.text-label-sm`
+
+**Page-spezifisches CSS** (z.B. `@keyframes`, Pseudo-Element-Regeln) bleibt als `<style dangerouslySetInnerHTML>` im jeweiligen Layout:
 ```tsx
-const twConfig = JSON.stringify({
-  corePlugins: { preflight: false },   // ← Pflicht
-  darkMode: 'class',
-  theme: { extend: { colors: { ... } } }
-})
+const CSS = `@keyframes marquee { ... }`
+
+export default function Layout({ children }) {
+  return (
+    <>
+      <style dangerouslySetInnerHTML={{ __html: CSS }} />
+      {children}
+    </>
+  )
+}
 ```
 
-#### 3. CDN synchron laden (document.write Pattern)
-`Script strategy="beforeInteractive"` funktioniert nur im Root-Layout. In Child-Layouts **muss** document.write verwendet werden:
+---
 
-```tsx
-<script dangerouslySetInnerHTML={{
-  __html: `tailwind={config:${twConfig}};document.write('<scr'+'ipt src="https://cdn.tailwindcss.com?plugins=forms,container-queries"><\\/scr'+'ipt>');`
-}} />
-```
+### ~~CDN Tailwind v3 Pattern~~ (veraltet seit S-007)
+
+> **Nicht mehr verwenden.** `lib/brandCss.ts`, `lib/designBlau.ts`, `lib/designHell.ts` wurden in S-007 gelöscht.
+>
+> Das CDN-Pattern war nötig, weil CDN Tailwind v3 seinen Preflight als unlayered CSS injiziert und damit Tailwind v4 `@layer utilities` überschreibt. Seit alle Seiten auf v4 laufen, gibt es keinen CDN-Preflight-Konflikt mehr.
 
 ---
 
 ### Weitere Fallstricke
 
 #### Gradient mit Opacity auf custom colors
-`from-primary/90` funktioniert in Tailwind CDN v3 **nicht** mit hex-definierten Farben (kein RGB-Channel-Format). **Immer** rgba verwenden:
+`from-primary/90` funktioniert **nicht** wenn `--color-primary` über `var()` aufgelöst wird und der Compiler keinen RGB-Kanal extrahieren kann. **Immer** rgba verwenden wenn unsicher:
 ```
-✗ from-primary/90
+✗ from-primary/90   (riskant bei dynamisch aufgelösten Farben)
 ✓ from-[rgba(5,40,86,0.92)]
 ```
 
-#### Material Symbols Icons
-Werden im Root-Layout (`app/layout.tsx`) geladen – einmalig, gilt für alle Seiten:
-```tsx
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=block" />
+#### Arbitrary Values mit Dezimalpunkten
+`h-[4.8rem]` — Tailwind v4's Content-Scanner erkennt Dezimalpunkte in Arbitrary Values nicht zuverlässig → Klasse wird nicht generiert. **Immer** Standard-Scale-Werte oder ganzzahlige px-Werte verwenden:
 ```
-Fehlt dieser Link → Icons zeigen als Klartext ("arrow_forward", "shopping_cart").
+✗ h-[4.8rem]
+✓ h-20  (5rem, nächster Standardwert)
+✓ h-[76px]
+```
+
+#### Material Symbols Icons
+Werden im Root-Layout (`app/layout.tsx`) geladen – einmalig, gilt für alle Seiten. Nicht nochmals in Kind-Layouts laden.
 
 #### Google Fonts (Lexend, Plus Jakarta Sans)
-Müssen via `next/font/google` im Root-Layout geladen und als CSS-Variable exportiert werden (`--font-lexend`, `--font-jakarta`). Fehlt das → Typographie fällt auf System-Fonts zurück.
+Werden im Root-Layout via `next/font/google` als `--font-lexend` / `--font-jakarta` CSS-Variablen bereitgestellt. Nicht nochmals in Kind-Layouts deklarieren.
 
 #### `<img>` statt `<Image>`
 Claude Design verwendet `<img>`. Für 1:1-Ports `<img>` behalten, ESLint-Warning mit `{/* eslint-disable-next-line @next/next/no-img-element */}` suppressen.
@@ -79,8 +92,6 @@ Nie hardcoded `lh3.googleusercontent.com`-URLs für das Vereinslogo verwenden. S
 const config = await fetchClubConfig()
 const logoSrc = config.logo_web_pfad ?? config.logo_url ?? '/fallback-logo.png'
 ```
-
----
 
 ---
 
@@ -105,9 +116,8 @@ npx playwright screenshot --browser chromium "http://localhost:3000/pfad/" /tmp/
 
 ### Checkliste vor dem ersten Browser-Check
 
-- [ ] `layout.tsx` mit `cssVars` (`:root` Variablen + unlayered `bg-*`/`text-*` Overrides)
-- [ ] `corePlugins: { preflight: false }` im twConfig
-- [ ] `document.write` Pattern für CDN-Script
+- [ ] Kein CDN-Script und keine `CDN_CSS`-Importe im Layout
 - [ ] Keine `from-primary/90` Syntax → `from-[rgba(...)]`
+- [ ] Keine Arbitrary Values mit Dezimalpunkten (z.B. `h-[4.8rem]`) → Standard-Scale
 - [ ] Logo via `fetchClubConfig()`, nicht hardcoded
 - [ ] Seite ist `async`, falls API-Calls nötig
