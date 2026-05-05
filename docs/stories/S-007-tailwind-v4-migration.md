@@ -32,34 +32,34 @@ Heute ist das obsolet:
 ## Akzeptanzkriterien
 
 ### globals.css-Ergänzungen
-- [ ] **AC-1** `.vanguard-gradient` hinzugefügt (von VEREINS_EXTRA_CSS aus designBlau)
-- [ ] **AC-2** `.no-scrollbar` hinzugefügt (bisher nur in sponsoren/layout.tsx)
-- [ ] **AC-3** `.py-xl` und `.p-lg` hinzugefügt (bisher in gesundheitssport/fitness/kinderturnen)
-- [ ] **AC-4** Typography-Utilities ergänzt: `.text-display-lg`, `.text-headline-lg`, `.text-headline-md`, `.text-body-lg`, `.text-body-md`, `.text-label-lg`, `.text-label-sm`, `.font-lexend` (bisher nur in CDN_CSS/designHell vorhanden)
+- [x] **AC-1** `.vanguard-gradient` hinzugefügt (von VEREINS_EXTRA_CSS aus designBlau)
+- [x] **AC-2** `.no-scrollbar` hinzugefügt (bisher nur in sponsoren/layout.tsx)
+- [x] **AC-3** `.py-xl` und `.p-lg` hinzugefügt (bisher in gesundheitssport/fitness/kinderturnen)
+- [x] **AC-4** Typography-Utilities ergänzt: `.text-display-lg`, `.text-headline-lg`, `.text-headline-md`, `.text-body-lg`, `.text-body-md`, `.text-label-lg`, `.text-label-sm`, `.font-lexend` (bisher nur in CDN_CSS/designHell vorhanden)
 
 ### Root Layout
-- [ ] **AC-5** `app/layout.tsx` enthält IMAGE_FALLBACK_SCRIPT als globales `<script dangerouslySetInnerHTML>` (einmalig, global statt in 15× Layouts wiederholt)
+- [x] **AC-5** `app/layout.tsx` enthält IMAGE_FALLBACK_SCRIPT als globales `<script dangerouslySetInnerHTML>` (einmalig, global statt in 15× Layouts wiederholt)
 
 ### Layout-Migration (22 Layouts werden zu reinen Pass-through)
-- [ ] **AC-6** Die folgenden 22 Layouts haben kein CDN-Boilerplate mehr; Inhalt: nur `export const metadata` + `export default function Layout({ children }) { return <>{children}</> }`:
+- [x] **AC-6** Die folgenden 22 Layouts haben kein CDN-Boilerplate mehr; Inhalt: nur `export const metadata` + `export default function Layout({ children }) { return <>{children}</> }`:
   - achtsamkeit, fitdurchsjahr, fruehuebtsich-1, fruehuebtsich-2, grundschulturnen, kids-in-bewegung, ladyfit, manfit, pilates, qi-gong, rueckenfit, skigym, step-aerobic, tanzfitness, tischtennis, workout *(Gruppe A)*
   - gesundheitssport, fitness, kinderturnen *(Gruppe B — .kinetic-gradient/.py-xl/.p-lg jetzt in globals.css)*
   - impressum, vorstand, mitgliedschaft *(Gruppe C — .vanguard-gradient jetzt in globals.css)*
   - sponsoren *(Gruppe D — .no-scrollbar jetzt in globals.css)*
 
 ### Layout-Migration (3 Layouts behalten minimale `<style>`-Blöcke)
-- [ ] **AC-7** `app/fussball/layout.tsx`: nur `@keyframes marquee` bleibt als `<style>` (genuinely seiten-spezifisch)
-- [ ] **AC-8** `app/geschichte/layout.tsx`: nur `.timeline-line::before` + Media-Query bleibt als `<style>`
+- [x] **AC-7** `app/fussball/layout.tsx`: nur `@keyframes marquee` bleibt als `<style>` (genuinely seiten-spezifisch)
+- [x] **AC-8** `app/geschichte/layout.tsx`: nur `.timeline-line::before` + Media-Query bleibt als `<style>`
 
 ### Cleanup
-- [ ] **AC-9** `lib/brandCss.ts` gelöscht
-- [ ] **AC-10** `lib/designBlau.ts` gelöscht
-- [ ] **AC-11** `lib/designHell.ts` gelöscht
+- [x] **AC-9** `lib/brandCss.ts` gelöscht
+- [x] **AC-10** `lib/designBlau.ts` gelöscht
+- [x] **AC-11** `lib/designHell.ts` gelöscht
 
 ### Qualität
-- [ ] **AC-12** `npm run build` fehlerfrei (TypeScript-Fehler nach Löschen der lib/-Dateien behandelt)
-- [ ] **AC-13** Playwright-Screenshots für ≥3 repräsentative Seiten: gesundheitssport, sponsoren, fussball (kein Layout-Bruch, keine fehlenden Farben, Icons korrekt)
-- [ ] **AC-14** `CLAUDE.md` aktualisiert: CDN-Pattern als veraltet markiert, neuer Hinweis "Neue Seiten brauchen kein CDN — globals.css + root layout reichen"
+- [x] **AC-12** `npm run build` fehlerfrei (TypeScript-Fehler nach Löschen der lib/-Dateien behandelt)
+- [x] **AC-13** Playwright-Screenshots für ≥3 repräsentative Seiten: gesundheitssport, sponsoren, fussball (kein Layout-Bruch, keine fehlenden Farben, Icons korrekt)
+- [x] **AC-14** `CLAUDE.md` aktualisiert: CDN-Pattern als veraltet markiert, neuer Hinweis "Neue Seiten brauchen kein CDN — globals.css + root layout reichen"
 
 ## Technische Notizen
 
