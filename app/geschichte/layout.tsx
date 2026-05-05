@@ -5,6 +5,7 @@ export const metadata: Metadata = {
 }
 
 const CSS = `
+  body{background:#fbf9f8}
   .timeline-line::before {
     content: '';
     position: absolute;

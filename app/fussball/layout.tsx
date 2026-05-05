@@ -5,6 +5,7 @@ export const metadata: Metadata = {
 }
 
 const CSS = `
+  body{background:#fbf9f8}
   @keyframes marquee {
     0%   { transform: translateX(0); }
     100% { transform: translateX(-50%); }

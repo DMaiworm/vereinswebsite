@@ -4,5 +4,10 @@ export const metadata: Metadata = {
 }
 
 export default function GesundheitssportLayout({ children }: { children: React.ReactNode }) {
-  return <>{children}</>
+  return (
+    <>
+      <style dangerouslySetInnerHTML={{ __html: `body{background:#fbf9f8}` }} />
+      {children}
+    </>
+  )
 }

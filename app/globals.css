@@ -222,6 +222,12 @@ a.text-gold            { color: #fde000 }
 a.text-chalk           { color: #f5f0e8 }
 a.text-chalk\/60       { color: rgba(245,240,232,0.6) }
 
+/* ─── MD3 light surface — alle Abteilungsseiten erwarten warm-weiß ──────────
+   body { background: var(--color-background) } bleibt dunkel (CSS-Variable direkt).
+   Die .bg-* Klassen dagegen müssen für die hellen Seiten warm-weiß sein.       */
+.bg-background { background-color: #fbf9f8 }
+.bg-surface    { background-color: #fbf9f8 }
+
 /* ─── Vanguard / Vereinsseiten ────────────────────────────────────────────── */
 .vanguard-gradient { background: linear-gradient(135deg, #052856 0%, #0a408a 100%); }
 
@@ -234,6 +240,7 @@ a.text-chalk\/60       { color: rgba(245,240,232,0.6) }
 .p-lg  { padding: 3rem }
 
 /* ─── Typography utilities (von CDN_CSS / designHell migriert) ───────────── */
+/* Font-SIZE-Aliases */
 .text-display-lg  { font-size: 3rem; line-height: 1.2; font-weight: 700; letter-spacing: -0.02em; }
 .text-headline-lg { font-size: 2rem; line-height: 1.3; font-weight: 600; letter-spacing: -0.01em; }
 .text-headline-md { font-size: 1.5rem; line-height: 1.4; font-weight: 600; }
@@ -241,4 +248,13 @@ a.text-chalk\/60       { color: rgba(245,240,232,0.6) }
 .text-body-md     { font-size: 1rem; line-height: 1.5; font-weight: 400; }
 .text-label-lg    { font-size: 0.875rem; line-height: 1.5; font-weight: 600; letter-spacing: 0.05em; }
 .text-label-sm    { font-size: 0.75rem; line-height: 1.5; font-weight: 500; }
+/* Font-FAMILY-Aliases (CDN hatte diese als fontFamily-Config-Einträge) */
 .font-lexend      { font-family: var(--font-lexend, 'Lexend', sans-serif); }
+.font-label       { font-family: var(--font-jakarta, 'Plus Jakarta Sans', sans-serif); }
+.font-body-md     { font-family: var(--font-lexend, 'Lexend', sans-serif); }
+.font-body-lg     { font-family: var(--font-lexend, 'Lexend', sans-serif); }
+.font-label-lg    { font-family: var(--font-lexend, 'Lexend', sans-serif); }
+.font-label-sm    { font-family: var(--font-lexend, 'Lexend', sans-serif); }
+.font-headline-lg { font-family: var(--font-lexend, 'Lexend', sans-serif); }
+.font-headline-md { font-family: var(--font-lexend, 'Lexend', sans-serif); }
+.font-display-lg  { font-family: var(--font-lexend, 'Lexend', sans-serif); }

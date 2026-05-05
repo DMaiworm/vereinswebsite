@@ -1,7 +1,7 @@
 # S-007 – Tailwind-v4-Migration: CDN-Boilerplate aus allen Layouts entfernen
 
 ## Status
-`review`
+`done`
 
 ## Ziel
 25 Layouts laden aktuell CDN Tailwind v3 per `document.write` — obwohl das Root-Layout und `globals.css` bereits alles bereitstellen, was sie brauchen. Das erzeugt zwei parallele CSS-Systeme, schwergewichtige Layout-Dateien, und fühlt sich wie ein Workaround an. Ziel: alle Seiten laufen auf Project-Tailwind v4. Die drei `lib/design*.ts`-Dateien werden danach gelöscht.
