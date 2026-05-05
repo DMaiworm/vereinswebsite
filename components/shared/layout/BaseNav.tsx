@@ -63,7 +63,7 @@ export default function BaseNav({
         </div>
 
         <div className="flex items-center gap-3">
-          <button className="label-cap text-navy bg-gold px-5 py-2 rounded-sm hover:bg-gold-dim active:scale-95 transition-all">
+          <button className="hidden md:block label-cap text-navy bg-gold px-5 py-2 rounded-sm hover:bg-gold-dim active:scale-95 transition-all">
             {ctaLabel}
           </button>
           <button
@@ -87,6 +87,9 @@ export default function BaseNav({
               {item.label}
             </a>
           ))}
+          <button className="label-cap text-navy bg-gold px-5 py-2 rounded-sm hover:bg-gold-dim active:scale-95 transition-all mt-2">
+            {ctaLabel}
+          </button>
         </div>
       )}
     </nav>
