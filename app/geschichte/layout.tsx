@@ -2,15 +2,26 @@ import { CDN_CSS, cdnScript, VEREINS_EXTRA_CSS } from '@/lib/designBlau'
 import { IMAGE_FALLBACK_SCRIPT } from '@/lib/designHell'
 
 export const metadata = {
-  title: 'Sponsoring & Partner | SG Hünstetten',
+  title: 'Chronik | SG Hünstetten',
 }
 
 const EXTRA_CSS = `
-  .no-scrollbar::-webkit-scrollbar { display: none; }
-  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  .timeline-line::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(to bottom, #052856, #FDE000, #052856);
+    opacity: 0.2;
+  }
+  @media (max-width: 768px) {
+    .timeline-line::before { left: 20px; transform: none; }
+  }
 `
 
-export default function SponsorenLayout({ children }: { children: React.ReactNode }) {
+export default function GeschichteLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <style dangerouslySetInnerHTML={{ __html: CDN_CSS + VEREINS_EXTRA_CSS + EXTRA_CSS }} />

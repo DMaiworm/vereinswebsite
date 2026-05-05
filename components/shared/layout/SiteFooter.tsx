@@ -66,8 +66,8 @@ export default function SiteFooter({ logoUrl, departmentLabel, variant = 'dark' 
                 {[
                   { label: 'Kontakt',        href: '#kontakt' },
                   { label: 'Impressum',      href: '../impressum' },
-                  { label: 'Datenschutz',    href: '#' },
-                  { label: 'Mitgliedschaft', href: '#' },
+                  { label: 'Geschichte',     href: '../geschichte' },
+                  { label: 'Mitgliedschaft', href: '../mitgliedschaft' },
                   { label: 'Vorstand',       href: '../vorstand' },
                   { label: 'Sponsoren',      href: '../sponsoren' },
                 ].map(({ label, href }) => (

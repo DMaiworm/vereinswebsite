@@ -2,10 +2,10 @@ import { CDN_CSS, cdnScript, VEREINS_EXTRA_CSS } from '@/lib/designBlau'
 import { IMAGE_FALLBACK_SCRIPT } from '@/lib/designHell'
 
 export const metadata = {
-  title: 'Vorstand | SG Hünstetten',
+  title: 'Mitgliedschaft | SG Hünstetten',
 }
 
-export default function VorstandLayout({ children }: { children: React.ReactNode }) {
+export default function MitgliedschaftLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <style dangerouslySetInnerHTML={{ __html: CDN_CSS + VEREINS_EXTRA_CSS }} />
