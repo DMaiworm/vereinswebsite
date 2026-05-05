@@ -1,6 +1,6 @@
 export default function SponsorenEbenen() {
   return (
-    <section id="pakete" className="py-12 bg-surface relative overflow-hidden">
+    <section id="pakete" className="py-16 bg-surface relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-8">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-8">
           <div>

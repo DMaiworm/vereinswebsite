@@ -1,16 +1,8 @@
-import { CDN_CSS, cdnScript, IMAGE_FALLBACK_SCRIPT } from '@/lib/designHell'
-
-export const metadata = {
+import type { Metadata } from 'next'
+export const metadata: Metadata = {
   title: 'Achtsamkeit & Entspannung | SG Hünstetten',
 }
 
 export default function AchtsamkeitLayout({ children }: { children: React.ReactNode }) {
-  return (
-    <>
-      <style dangerouslySetInnerHTML={{ __html: CDN_CSS }} />
-      <script dangerouslySetInnerHTML={{ __html: cdnScript() }} />
-      <script dangerouslySetInnerHTML={{ __html: IMAGE_FALLBACK_SCRIPT }} />
-      {children}
-    </>
-  )
+  return <>{children}</>
 }

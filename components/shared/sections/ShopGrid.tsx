@@ -33,7 +33,7 @@ export default function ShopGrid(props: ShopGridProps) {
   if (props.variant === 'md3') {
     const { products, title = 'SG Hünstetten Fan-Shop', subtitle = 'Zeig Flagge für deinen Verein.' } = props
     return (
-      <section className="py-12" style={{ backgroundColor: '#dedad8' }}>
+      <section className="py-16" style={{ backgroundColor: '#dedad8' }}>
         <div className="max-w-[1440px] mx-auto px-8">
           <div className="flex flex-col md:flex-row justify-between items-center mb-8">
             <div>
@@ -85,7 +85,7 @@ export default function ShopGrid(props: ShopGridProps) {
   } = props as ClassicProps
 
   return (
-    <section className={`py-20 ${background}`}>
+    <section className={`py-16 ${background}`}>
       <div className="max-w-screen-xl mx-auto px-6 md:px-10">
         <div className="flex items-end justify-between mb-12 gap-6 flex-wrap">
           <div>

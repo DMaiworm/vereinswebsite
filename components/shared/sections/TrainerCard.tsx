@@ -9,7 +9,7 @@ type TrainerCardProps = {
 
 export default function TrainerCard({ role, name, bio, skills, imageSrc, imageAlt }: TrainerCardProps) {
   return (
-    <section className="py-10 max-w-[1200px] mx-auto px-6">
+    <section className="py-16 max-w-[1200px] mx-auto px-6">
       <div className="flex flex-col md:flex-row gap-10 items-center bg-white p-6 rounded-2xl border border-surface-container-high">
         <div className="w-48 h-48 rounded-full overflow-hidden flex-shrink-0 border-4 border-secondary-container">
           {/* eslint-disable-next-line @next/next/no-img-element */}

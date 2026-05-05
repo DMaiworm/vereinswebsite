@@ -68,7 +68,7 @@ const TEAMS = [
 
 export default function TeamsInAbteilung() {
   return (
-    <section className="bg-surface-container-low py-12">
+    <section className="bg-surface-container-low py-16">
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-8">
           <h2 className="font-headline text-4xl font-black text-primary mb-4">Unsere Übungsgruppen</h2>

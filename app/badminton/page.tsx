@@ -232,7 +232,7 @@ function ErwachseneSection({
         </span>
       </div>
 
-      <div className="max-w-screen-xl mx-auto px-6 md:px-10 py-20 relative" style={{ zIndex: 2 }}>
+      <div className="max-w-screen-xl mx-auto px-6 md:px-10 py-16 relative" style={{ zIndex: 2 }}>
         <div className="flex items-end justify-between mb-16 gap-6 flex-wrap">
           <div>
             <p className="sec-num text-chalk/40 mb-3">02 — Erwachsenen-Abteilung</p>
@@ -287,7 +287,7 @@ function JugendSection({
   const ageLabel = alterVon && alterBis ? `${alterVon}–${alterBis} Jahre` : alterVon ? `Ab ${alterVon} Jahren` : null
 
   return (
-    <section className="py-20 bg-mist">
+    <section className="py-16 bg-mist">
       <div className="max-w-screen-xl mx-auto px-6 md:px-10">
 
         <div className="mb-16">
@@ -336,7 +336,7 @@ function JugendSection({
 
 function EngagementSection() {
   return (
-    <section className="py-20 bg-chalk">
+    <section className="py-16 bg-chalk">
       <div className="max-w-screen-xl mx-auto px-6 md:px-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
           <div>

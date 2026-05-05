@@ -30,7 +30,7 @@ export default function SiteFooter({ logoUrl, departmentLabel, variant = 'dark' 
             <div className="flex items-center gap-4">
               {logoUrl && (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img src={logoUrl} alt="SG Hünstetten Logo" className="h-[4.8rem] w-auto object-contain" />
+                <img src={logoUrl} alt="SG Hünstetten Logo" className="h-20 w-auto object-contain" />
               )}
               <span className="font-display text-[29px] leading-none">
                 <span className={`font-black ${logo1} uppercase`}>SG</span>

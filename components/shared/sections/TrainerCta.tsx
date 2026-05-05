@@ -18,7 +18,7 @@ export default function TrainerCta({
   secondaryLabel = 'Anforderungsprofil',
 }: TrainerCtaProps) {
   return (
-    <section className="py-10 relative px-8">
+    <section className="py-16 relative px-8">
       <div className="max-w-[1200px] mx-auto relative rounded-[3rem] overflow-hidden min-h-[600px] flex items-center shadow-2xl">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img alt={imageAlt} className="absolute inset-0 w-full h-full object-cover" src={imageSrc} />

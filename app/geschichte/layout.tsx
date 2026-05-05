@@ -1,11 +1,10 @@
-import { CDN_CSS, cdnScript, VEREINS_EXTRA_CSS } from '@/lib/designBlau'
-import { IMAGE_FALLBACK_SCRIPT } from '@/lib/designHell'
+import type { Metadata } from 'next'
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'Chronik | SG Hünstetten',
 }
 
-const EXTRA_CSS = `
+const CSS = `
   .timeline-line::before {
     content: '';
     position: absolute;
@@ -24,9 +23,7 @@ const EXTRA_CSS = `
 export default function GeschichteLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <style dangerouslySetInnerHTML={{ __html: CDN_CSS + VEREINS_EXTRA_CSS + EXTRA_CSS }} />
-      <script dangerouslySetInnerHTML={{ __html: cdnScript() }} />
-      <script dangerouslySetInnerHTML={{ __html: IMAGE_FALLBACK_SCRIPT }} />
+      <style dangerouslySetInnerHTML={{ __html: CSS }} />
       {children}
     </>
   )

@@ -89,7 +89,7 @@ export default async function TischtennisPage() {
         />
 
         {/* Trainer Section */}
-        <section className="bg-surface-container-low py-20">
+        <section className="bg-surface-container-low py-16">
           <div className="max-w-5xl mx-auto px-8">
             <div className="flex flex-col md:flex-row items-center md:items-start gap-12 bg-white p-8 md:p-12 rounded-[2rem] shadow-sm hover:shadow-xl transition-all duration-500">
               <div className="w-48 h-48 md:w-64 md:h-64 flex-shrink-0 relative">
@@ -132,7 +132,7 @@ export default async function TischtennisPage() {
         </section>
 
         {/* Senioren I Section */}
-        <section className="py-32 bg-primary text-white relative">
+        <section className="py-16 bg-primary text-white relative">
           <div className="absolute top-0 right-0 w-1/3 h-full bg-primary-container opacity-30 transform skew-x-12" />
           <div className="max-w-[1440px] mx-auto px-8 relative z-10">
             <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">

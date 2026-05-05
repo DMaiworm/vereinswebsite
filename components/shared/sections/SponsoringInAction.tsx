@@ -1,6 +1,6 @@
 export default function SponsoringInAction() {
   return (
-    <section className="py-12 bg-surface overflow-hidden">
+    <section className="py-16 bg-surface overflow-hidden">
       <div className="container mx-auto px-8 mb-6">
         <h2 className="text-primary font-headline font-black uppercase text-5xl tracking-tight">Sponsoring in Action</h2>
       </div>

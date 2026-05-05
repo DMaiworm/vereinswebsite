@@ -16,7 +16,7 @@ export default function AlteHerrenBanner({
   ctaLabel = 'Mitkicken',
 }: AlteHerrenBannerProps) {
   return (
-    <section id="alte-herren" className="relative py-24 md:py-32 overflow-hidden">
+    <section id="alte-herren" className="relative py-16 overflow-hidden">
       <div className="absolute inset-0">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img className="w-full h-full object-cover" alt={imageAlt} src={imageSrc} />

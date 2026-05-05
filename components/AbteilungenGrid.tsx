@@ -90,7 +90,7 @@ export default function AbteilungenGrid({ departments }: AbteilungenGridProps) {
   const cards = hasFitness ? departments : [...departments, FITNESS_CARD];
 
   return (
-    <section id="abteilungen" ref={sectionRef} className="px-6 py-24 sm:py-32">
+    <section id="abteilungen" ref={sectionRef} className="px-6 py-16">
       <div className="mx-auto max-w-6xl">
 
         <div className="dept-headline mb-12 text-center">

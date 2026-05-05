@@ -243,7 +243,7 @@ function Hero({ lauftreffSlot, earlyBirdsSlot }: { lauftreffSlot?: string; early
 
 function KilaSection({ teams }: { teams: AbteilungProfile['mannschaften'] }) {
   return (
-    <section className="py-20 bg-chalk" id="kila">
+    <section className="py-16 bg-chalk" id="kila">
       <div className="max-w-screen-xl mx-auto px-6 md:px-10">
 
         <div className="mb-14">
@@ -338,7 +338,7 @@ function KilaSection({ teams }: { teams: AbteilungProfile['mannschaften'] }) {
 
 function TrainerSection({ trainers }: { trainers: Trainer[] }) {
   return (
-    <section className="py-20 bg-chalk">
+    <section className="py-16 bg-chalk">
       <div className="max-w-screen-xl mx-auto px-6 md:px-10">
         <div className="mb-14">
           <p className="sec-num mb-3">03 — Trainer &amp; Experten</p>
@@ -367,7 +367,7 @@ function LauftreffsSection({
   earlyBirdsBadge?: string
 }) {
   return (
-    <section className="py-20 bg-navy noise relative overflow-hidden" id="lauftreff">
+    <section className="py-16 bg-navy noise relative overflow-hidden" id="lauftreff">
       <div className="max-w-screen-xl mx-auto px-6 md:px-10 relative z-10">
 
         <div className="mb-14">

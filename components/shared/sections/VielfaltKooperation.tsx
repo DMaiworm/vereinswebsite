@@ -1,6 +1,6 @@
 export default function VielfaltKooperation() {
   return (
-    <section className="py-12 bg-surface-container-low">
+    <section className="py-16 bg-surface-container-low">
       <div className="max-w-7xl mx-auto px-8">
         <div className="text-center mb-10">
           <span className="text-primary font-black uppercase tracking-[0.3em] text-sm">Möglichkeiten</span>

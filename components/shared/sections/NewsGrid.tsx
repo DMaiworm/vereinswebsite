@@ -86,7 +86,7 @@ export default function NewsGrid(props: NewsGridProps) {
     }
 
     return (
-      <section className="py-8 bg-surface">
+      <section className="py-16 bg-surface">
         <div className="max-w-screen-2xl mx-auto px-8">
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-5xl font-headline tracking-tighter uppercase">
@@ -152,7 +152,7 @@ export default function NewsGrid(props: NewsGridProps) {
   const resolvedSectionNum = sectionNum ?? (isDark ? '02 — Aktuelles' : '01 — Aktuelles')
 
   return (
-    <section className={`py-20 ${isDark ? 'bg-navy noise relative overflow-hidden' : 'bg-chalk'}`}>
+    <section className={`py-16 ${isDark ? 'bg-navy noise relative overflow-hidden' : 'bg-chalk'}`}>
       {isDark && (
         <div className="absolute top-0 left-0 pointer-events-none overflow-hidden w-full" style={{ zIndex: 0 }}>
           <span
