@@ -1,6 +1,6 @@
 # S-004 – Kurs-Unterseiten Komponenten-Baukasten
 
-**Status:** review  
+**Status:** done  
 **Erstellt:** 2026-05-04  
 **Bereich:** components/shared/sections/, app/ladyfit/, app/manfit/, app/step-aerobic/, app/tanzfitness/, app/workout/, app/fitdurchsjahr/, app/skigym/, app/achtsamkeit/, app/pilates/, app/rueckenfit/, app/qi-gong/
 

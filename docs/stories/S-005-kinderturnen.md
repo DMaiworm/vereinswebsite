@@ -1,6 +1,6 @@
 # S-005 – Kinderturnen: Abteilungsseite & 4 Kurs-Unterseiten
 
-**Status:** review  
+**Status:** done  
 **Erstellt:** 2026-05-05  
 **Bereich:** app/kinderturnen/, app/fruehuebtsich-1/, app/fruehuebtsich-2/, app/kids-in-bewegung/, app/grundschulturnen/, components/kinderturnen/, components/shared/sections/KursInfoGrid.tsx
 

@@ -1,7 +1,7 @@
 # S-006 – Vereinsseiten Design-Konsistenz
 
 ## Meta
-- **Status:** review
+- **Status:** done
 - **Bereich:** app/impressum, app/vorstand, app/mitgliedschaft, app/geschichte, app/sponsoren, lib/designBlau.ts
 - **Typ:** Technische Konsolidierung (kein visueller Umbau)
 

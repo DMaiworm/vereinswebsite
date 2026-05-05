@@ -1,6 +1,6 @@
 # S-008 – CSS-Vereinfachung: CDN-Cleanup, Font-Aliases & Route Group für Hell-Thema
 
-**Status:** review  
+**Status:** done  
 **Bereich:** `app/globals.css`, `app/(dept)/`, 24× `app/*/layout.tsx`, `app/badminton/layout.tsx`, `app/leichtathletik/layout.tsx`
 
 ---
