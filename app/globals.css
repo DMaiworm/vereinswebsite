@@ -227,6 +227,12 @@ a.text-chalk\/60       { color: rgba(245,240,232,0.6) }
    Die .bg-* Klassen dagegen müssen für die hellen Seiten warm-weiß sein.       */
 .bg-background { background-color: #fbf9f8 }
 .bg-surface    { background-color: #fbf9f8 }
+/* bg-primary: CDN hat dies immer auf SG-Navy #052856 gesetzt, unabhängig von --club-primary.
+   Ohne diesen Override fällt es auf den API-Fallback #003399 (helles Royal-Blue) zurück. */
+.bg-primary         { background-color: #052856 }
+.bg-primary-container { background-color: #223e6d }
+.text-primary       { color: #052856 }
+.border-primary     { border-color: #052856 }
 
 /* ─── Vanguard / Vereinsseiten ────────────────────────────────────────────── */
 .vanguard-gradient { background: linear-gradient(135deg, #052856 0%, #0a408a 100%); }
