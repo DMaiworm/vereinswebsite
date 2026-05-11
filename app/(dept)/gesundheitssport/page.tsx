@@ -1,8 +1,11 @@
-import { fetchClubConfig, fetchSponsors } from '@/lib/api'
+import { fetchClubConfig, fetchSponsors, fetchAbteilung } from '@/lib/api'
 import BaseNav from '@/components/shared/layout/BaseNav'
 import SiteFooter from '@/components/shared/layout/SiteFooter'
 import SponsorBand from '@/components/shared/layout/SponsorBand'
 import TeamsInAbteilung from '@/components/gesundheitssport/TeamsInAbteilung'
+import type { AbteilungProfile } from '@/lib/api'
+
+const GESUNDHEITSSPORT_ID = '86f116c6-a406-4453-a63c-aca715a8c78e'
 import AbteilungHero from '@/components/shared/sections/AbteilungHero'
 import StatsBar, { type StatsBarItem } from '@/components/shared/sections/StatsBar'
 import KursInfoBox from '@/components/shared/sections/KursInfoBox'
@@ -25,11 +28,15 @@ const GESUNDHEITSSPORT_STATS: StatsBarItem[] = [
 export default async function GesundheitssportPage() {
   let logoUrl: string | null = null
   let sponsors: Awaited<ReturnType<typeof fetchSponsors>> = []
+  let abteilung: AbteilungProfile | null = null
   try {
     const config = await fetchClubConfig()
     logoUrl = config.logo_web_pfad ?? config.logo_url ?? null
     if (config.operator_id) sponsors = await fetchSponsors(config.operator_id).catch(() => [])
   } catch { /* render without logo */ }
+  try {
+    abteilung = await fetchAbteilung(GESUNDHEITSSPORT_ID)
+  } catch { /* render without DB texts */ }
 
   return (
     <>
@@ -47,7 +54,7 @@ export default async function GesundheitssportPage() {
           imageAlt="Atmospheric wellness hall"
           badge="SG Hünstetten"
           title="Gesundheitssport: Balance für Körper &amp; Geist"
-          subtitle="Erleben Sie ein ganzheitliches Wohlbefinden. Bei uns verbinden wir moderne Sportwissenschaft mit achtsamer Bewegung, um Ihre Lebensqualität nachhaltig zu steigern."
+          subtitle={abteilung?.beschreibung ?? 'Erleben Sie ein ganzheitliches Wohlbefinden. Bei uns verbinden wir moderne Sportwissenschaft mit achtsamer Bewegung, um Ihre Lebensqualität nachhaltig zu steigern.'}
           primaryCta={{ label: 'Jetzt Kurs buchen' }}
           secondaryCta={{ label: 'Unsere Philosophie' }}
         />
@@ -81,7 +88,7 @@ export default async function GesundheitssportPage() {
           </div>
         </section>
 
-        <TeamsInAbteilung />
+        <TeamsInAbteilung mannschaften={abteilung?.mannschaften} />
 
         {/* Aktueller Kursplan */}
         <section className="py-16 bg-surface">

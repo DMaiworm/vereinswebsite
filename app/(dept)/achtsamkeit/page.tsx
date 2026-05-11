@@ -1,7 +1,10 @@
 import BaseNav from '@/components/shared/layout/BaseNav'
 import SiteFooter from '@/components/shared/layout/SiteFooter'
 import SponsorBand from '@/components/shared/layout/SponsorBand'
-import { fetchClubConfig, fetchSponsors } from '@/lib/api'
+import { fetchClubConfig, fetchSponsors, fetchAbteilung } from '@/lib/api'
+
+const GESUNDHEITSSPORT_ID = '86f116c6-a406-4453-a63c-aca715a8c78e'
+const TEAM_SHORT_NAME     = 'Achtsamkeit'
 import KursHero from '@/components/shared/sections/KursHero'
 import KursInfoGrid from '@/components/shared/sections/KursInfoGrid'
 import ContentSplit from '@/components/shared/sections/ContentSplit'
@@ -20,10 +23,15 @@ const ACHTSAMKEIT_NAV = [
 export default async function AchtsamkeitPage() {
   let logoUrl: string | null = null
   let sponsors: Awaited<ReturnType<typeof fetchSponsors>> = []
+  let team: Awaited<ReturnType<typeof fetchAbteilung>>['mannschaften'][number] | undefined
   try {
     const config = await fetchClubConfig()
     logoUrl = config.logo_web_pfad ?? config.logo_url ?? null
     if (config.operator_id) sponsors = await fetchSponsors(config.operator_id).catch(() => [])
+  } catch { /* fallback */ }
+  try {
+    const abteilung = await fetchAbteilung(GESUNDHEITSSPORT_ID)
+    team = abteilung.mannschaften.find(m => m.short_name === TEAM_SHORT_NAME)
   } catch { /* fallback */ }
 
   return (
@@ -33,9 +41,9 @@ export default async function AchtsamkeitPage() {
         <KursHero
           imageSrc="https://lh3.googleusercontent.com/aida-public/AB6AXuCDYJzMmOfe4LWHo1KVI47hn1N5gnaL3avUyCIWdClbnTu7qHeuqo0CqS14M1yw4_u9qp9SIPxwmNaCPl1BAxExYbVVdzZu-po69HH5fMvxVqBWDdB15-tY74NulE9KkmCpjdrMvNfSYcDpY6obIAl4ePCdoTYJhQDY4qS1J5_OpqIoK2oCrdWUNT7gBakng1zNZCbtXQv6MLdvzsDUD_suUOoe5wKX1mr-OCCVcZ06mKJgMMsAjSncH7V_THp9ydoxt_potnwYOUU"
           imageAlt="Person in ruhiger Meditation in einem hellen, stimmungsvollen Raum mit sanftem Morgenlicht"
-          badge="EXKLUSIVES PROGRAMM"
-          title="Achtsamkeit & Entspannung"
-          subtitle="Im Einklang mit dir und deinem Atem. Entdecke die Kraft der inneren Stille und finde deine Balance im Alltag."
+          badge={team?.motto ?? 'EXKLUSIVES PROGRAMM'}
+          title={team?.name ?? 'Achtsamkeit & Entspannung'}
+          subtitle={team?.beschreibung ?? 'Im Einklang mit dir und deinem Atem. Entdecke die Kraft der inneren Stille und finde deine Balance im Alltag.'}
           primaryCta={{ label: 'Jetzt Anmelden' }}
           secondaryCta={{ label: 'Kursplan ansehen' }}
         />

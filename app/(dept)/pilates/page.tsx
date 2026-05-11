@@ -1,7 +1,10 @@
 import BaseNav from '@/components/shared/layout/BaseNav'
 import SiteFooter from '@/components/shared/layout/SiteFooter'
 import SponsorBand from '@/components/shared/layout/SponsorBand'
-import { fetchClubConfig, fetchSponsors } from '@/lib/api'
+import { fetchClubConfig, fetchSponsors, fetchAbteilung } from '@/lib/api'
+
+const GESUNDHEITSSPORT_ID = '86f116c6-a406-4453-a63c-aca715a8c78e'
+const TEAM_SHORT_NAME     = 'Pilates'
 import KursHero from '@/components/shared/sections/KursHero'
 import KursInfoGrid from '@/components/shared/sections/KursInfoGrid'
 import ContentSplit from '@/components/shared/sections/ContentSplit'
@@ -22,10 +25,15 @@ const PILATES_NAV = [
 export default async function PilatesPage() {
   let logoUrl: string | null = null
   let sponsors: Awaited<ReturnType<typeof fetchSponsors>> = []
+  let team: Awaited<ReturnType<typeof fetchAbteilung>>['mannschaften'][number] | undefined
   try {
     const config = await fetchClubConfig()
     logoUrl = config.logo_web_pfad ?? config.logo_url ?? null
     if (config.operator_id) sponsors = await fetchSponsors(config.operator_id).catch(() => [])
+  } catch { /* fallback */ }
+  try {
+    const abteilung = await fetchAbteilung(GESUNDHEITSSPORT_ID)
+    team = abteilung.mannschaften.find(m => m.short_name === TEAM_SHORT_NAME)
   } catch { /* fallback */ }
 
   return (
@@ -35,9 +43,9 @@ export default async function PilatesPage() {
         <KursHero
           imageSrc="https://upload.wikimedia.org/wikipedia/commons/9/91/Pilates_01.jpg"
           imageAlt="Woman practicing mindful pilates movements in a bright airy studio with floor-to-ceiling windows and soft morning light"
-          badge="MIND & BODY"
-          title="Pilates & BodyART"
-          subtitle="Kraft, Flexibilität und innere Balance. Erleben Sie die Verbindung von funktionalem Training und bewusster Achtsamkeit."
+          badge={team?.motto ?? 'MIND & BODY'}
+          title={team?.name ?? 'Pilates & BodyART'}
+          subtitle={team?.beschreibung ?? 'Kraft, Flexibilität und innere Balance. Erleben Sie die Verbindung von funktionalem Training und bewusster Achtsamkeit.'}
           primaryCta={{ label: 'Jetzt Buchen' }}
           secondaryCta={{ label: 'Kursplan ansehen' }}
         />

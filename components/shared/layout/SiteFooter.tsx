@@ -64,7 +64,7 @@ export default function SiteFooter({ logoUrl, departmentLabel, variant = 'dark' 
               <h4 className={`font-display font-black uppercase tracking-widest text-xs ${heading} mb-3`}>Rechtliches</h4>
               <ul className={`space-y-4 ${body} text-sm font-semibold`}>
                 {[
-                  { label: 'Kontakt',        href: '#kontakt' },
+                  { label: 'Shop',           href: '../shop' },
                   { label: 'Impressum',      href: '../impressum' },
                   { label: 'Geschichte',     href: '../geschichte' },
                   { label: 'Mitgliedschaft', href: '../mitgliedschaft' },

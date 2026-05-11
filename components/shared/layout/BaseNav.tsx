@@ -13,7 +13,7 @@ interface BaseNavProps {
   clubName?: string | null
   departmentLabel?: string
   navItems: NavItem[]
-  ctaLabel?: string
+  ctaLabel?: string | null
   homeHref?: string
 }
 
@@ -63,9 +63,11 @@ export default function BaseNav({
         </div>
 
         <div className="flex items-center gap-3">
-          <button className="hidden md:block label-cap text-navy bg-gold px-5 py-2 rounded-sm hover:bg-gold-dim active:scale-95 transition-all">
-            {ctaLabel}
-          </button>
+          {ctaLabel && (
+            <button className="hidden md:block label-cap text-navy bg-gold px-5 py-2 rounded-sm hover:bg-gold-dim active:scale-95 transition-all">
+              {ctaLabel}
+            </button>
+          )}
           <button
             className="md:hidden text-chalk/70 p-1"
             onClick={() => setMobileOpen(v => !v)}
@@ -87,9 +89,11 @@ export default function BaseNav({
               {item.label}
             </a>
           ))}
-          <button className="label-cap text-navy bg-gold px-5 py-2 rounded-sm hover:bg-gold-dim active:scale-95 transition-all mt-2">
-            {ctaLabel}
-          </button>
+          {ctaLabel && (
+            <button className="label-cap text-navy bg-gold px-5 py-2 rounded-sm hover:bg-gold-dim active:scale-95 transition-all mt-2">
+              {ctaLabel}
+            </button>
+          )}
         </div>
       )}
     </nav>

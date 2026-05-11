@@ -1,7 +1,10 @@
 import BaseNav from '@/components/shared/layout/BaseNav'
 import SiteFooter from '@/components/shared/layout/SiteFooter'
 import SponsorBand from '@/components/shared/layout/SponsorBand'
-import { fetchClubConfig, fetchSponsors } from '@/lib/api'
+import { fetchClubConfig, fetchSponsors, fetchAbteilung } from '@/lib/api'
+
+const GESUNDHEITSSPORT_ID = '86f116c6-a406-4453-a63c-aca715a8c78e'
+const TEAM_SHORT_NAME     = 'Qi-Gong'
 import KursHero from '@/components/shared/sections/KursHero'
 import KursInfoGrid from '@/components/shared/sections/KursInfoGrid'
 import ContentSplit from '@/components/shared/sections/ContentSplit'
@@ -20,10 +23,15 @@ const QI_GONG_NAV = [
 export default async function QiGongPage() {
   let logoUrl: string | null = null
   let sponsors: Awaited<ReturnType<typeof fetchSponsors>> = []
+  let team: Awaited<ReturnType<typeof fetchAbteilung>>['mannschaften'][number] | undefined
   try {
     const config = await fetchClubConfig()
     logoUrl = config.logo_web_pfad ?? config.logo_url ?? null
     if (config.operator_id) sponsors = await fetchSponsors(config.operator_id).catch(() => [])
+  } catch { /* fallback */ }
+  try {
+    const abteilung = await fetchAbteilung(GESUNDHEITSSPORT_ID)
+    team = abteilung.mannschaften.find(m => m.short_name === TEAM_SHORT_NAME)
   } catch { /* fallback */ }
 
   return (
@@ -33,9 +41,9 @@ export default async function QiGongPage() {
         <KursHero
           imageSrc="https://lh3.googleusercontent.com/aida-public/AB6AXuBYjUo112Wi-WgPDDK7PADQgcZV3q89r7aad0btl-KJkrzoKZZ5iabaffXVsMRKUc3bRt5mMz1aVEzQQWm0litBpcHQ03eFDUaXtqAPnPOgjYWUgjKshEnW-aKnSY1nYFahGx9YwJQ_UnzmWqtPgsRR6zGfNZyLHA8deTVHOL_iDtz18uv60DUukH_-nIprBpL7RY6xOcrRfoD9qtucerAcwfNEEL2Jhgo0krkVz0ndcUTxqDDnIoMGrPRofTvtJfsp6Mx7gYttDXE"
           imageAlt="Serene practitioner performing slow Qi-Gong movements in a sunlit, minimalist studio with warm morning light"
-          badge="Qi-Gong & Tai Chi"
-          title="Qi-Gong - Die Lebensenergie trainieren"
-          subtitle="Erlerne in entspannter Atmosphäre gesundheitsfördernde Elemente aus dem Qigong und Tai Chi."
+          badge={team?.motto ?? 'Qi-Gong & Tai Chi'}
+          title={team?.name ?? 'Qi-Gong - Die Lebensenergie trainieren'}
+          subtitle={team?.beschreibung ?? 'Erlerne in entspannter Atmosphäre gesundheitsfördernde Elemente aus dem Qigong und Tai Chi.'}
           primaryCta={{ label: 'Jetzt Buchen' }}
           secondaryCta={{ label: 'Mehr Details' }}
         />

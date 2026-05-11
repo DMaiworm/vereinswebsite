@@ -1,4 +1,7 @@
-import { fetchClubConfig, fetchSponsors } from '@/lib/api'
+import { fetchClubConfig, fetchSponsors, fetchAbteilung } from '@/lib/api'
+import type { AbteilungProfile } from '@/lib/api'
+
+const FITNESS_ID = '29464fed-255d-4d5a-90d2-85546f97db9d'
 import BaseNav from '@/components/shared/layout/BaseNav'
 import SiteFooter from '@/components/shared/layout/SiteFooter'
 import SponsorBand from '@/components/shared/layout/SponsorBand'
@@ -28,11 +31,15 @@ const FITNESS_STATS: StatsBarItem[] = [
 export default async function FitnessPage() {
   let logoUrl: string | null = null
   let sponsors: Awaited<ReturnType<typeof fetchSponsors>> = []
+  let abteilung: AbteilungProfile | null = null
   try {
     const config = await fetchClubConfig()
     logoUrl = config.logo_web_pfad ?? config.logo_url ?? null
     if (config.operator_id) sponsors = await fetchSponsors(config.operator_id).catch(() => [])
   } catch { /* render without logo */ }
+  try {
+    abteilung = await fetchAbteilung(FITNESS_ID)
+  } catch { /* fallback */ }
 
   return (
     <>
@@ -50,7 +57,7 @@ export default async function FitnessPage() {
           imageAlt="Gruppe beim gemeinsamen Fitness-Training"
           badge="Kraft &amp; Ausdauer"
           title="Gemeinsam stärker werden."
-          subtitle="Von Tanzfitness bis Workout, von LadyFit bis Ski-Training – bei uns findest du das passende Angebot. Für jedes Alter, jedes Level, jeden Montag."
+          subtitle={abteilung?.beschreibung ?? 'Von Tanzfitness bis Workout, von LadyFit bis Ski-Training – bei uns findest du das passende Angebot. Für jedes Alter, jedes Level, jeden Montag.'}
           primaryCta={{ label: 'Kursplan entdecken' }}
           secondaryCta={{ label: 'Zur Probestunde' }}
         />
@@ -84,7 +91,7 @@ export default async function FitnessPage() {
           </div>
         </section>
 
-        <TeamsInAbteilung />
+        <TeamsInAbteilung mannschaften={abteilung?.mannschaften} />
 
         {/* Aktueller Kursplan */}
         <section className="py-16 bg-surface">

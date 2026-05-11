@@ -1,7 +1,10 @@
 import BaseNav from '@/components/shared/layout/BaseNav'
 import SiteFooter from '@/components/shared/layout/SiteFooter'
 import SponsorBand from '@/components/shared/layout/SponsorBand'
-import { fetchClubConfig, fetchSponsors } from '@/lib/api'
+import { fetchClubConfig, fetchSponsors, fetchAbteilung } from '@/lib/api'
+
+const GESUNDHEITSSPORT_ID = '86f116c6-a406-4453-a63c-aca715a8c78e'
+const TEAM_SHORT_NAME     = 'Rücken'
 import KursHero from '@/components/shared/sections/KursHero'
 import KursInfoGrid from '@/components/shared/sections/KursInfoGrid'
 import ContentSplit from '@/components/shared/sections/ContentSplit'
@@ -20,10 +23,15 @@ const RUECKENFIT_NAV = [
 export default async function RueckenfitPage() {
   let logoUrl: string | null = null
   let sponsors: Awaited<ReturnType<typeof fetchSponsors>> = []
+  let team: Awaited<ReturnType<typeof fetchAbteilung>>['mannschaften'][number] | undefined
   try {
     const config = await fetchClubConfig()
     logoUrl = config.logo_web_pfad ?? config.logo_url ?? null
     if (config.operator_id) sponsors = await fetchSponsors(config.operator_id).catch(() => [])
+  } catch { /* fallback */ }
+  try {
+    const abteilung = await fetchAbteilung(GESUNDHEITSSPORT_ID)
+    team = abteilung.mannschaften.find(m => m.short_name === TEAM_SHORT_NAME)
   } catch { /* fallback */ }
 
   return (
@@ -33,9 +41,9 @@ export default async function RueckenfitPage() {
         <KursHero
           imageSrc="https://lh3.googleusercontent.com/aida-public/AB6AXuAxLauj7FyXKC3HaAG8ceccFJ27k9kVQtDgjQna6J7rHxyaQiPTstSigPgrN-JiWo3h24wvJelfsAMYFxDdD91a-CCNHVcYTmzk7nNkBleLmivbD5nUXTdznOk9gr9J0VyA_cJfCgTFzVDQbfY_DctXqBBKDzcPzntaSWSJ4Jy7h_gADXL4YwWNLlhWvQu4fqGqcZ3eezPoDMpNvW8gHy1tCZUPknGbUM9dmfafpwcpy6XrGYuwieec3rjLdHKoayaENpvc3c6TREQ"
           imageAlt="Controlled back exercises being performed on a mat in a bright, modern fitness studio"
-          badge="Vanguard Wellness Division"
-          title="Rücken? Fit!"
-          subtitle="Mobil und beweglich – ein Leben lang. Ganz getreu nach dem Motto: Rücken – Ich doch nicht!"
+          badge={team?.motto ?? 'Vanguard Wellness Division'}
+          title={team?.name ?? 'Rücken? Fit!'}
+          subtitle={team?.beschreibung ?? 'Mobil und beweglich – ein Leben lang. Ganz getreu nach dem Motto: Rücken – Ich doch nicht!'}
           primaryCta={{ label: 'Kursplatz Sichern' }}
           secondaryCta={{ label: 'Kursplan ansehen' }}
         />
