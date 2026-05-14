@@ -1,6 +1,6 @@
 export default function ZahlenTraditionSection() {
   return (
-    <section className="bg-white py-24 px-6">
+    <section className="bg-white py-16 px-6">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
 
         {/* Left */}

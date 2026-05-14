@@ -35,7 +35,7 @@ const PRODUCTS = [
 
 export default function FanshopSection() {
   return (
-    <section className="py-24 bg-[#f6f3f2]">
+    <section className="py-16 bg-[#f6f3f2]">
       <div className="max-w-screen-xl mx-auto px-6 md:px-10">
 
         {/* Header */}

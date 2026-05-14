@@ -75,7 +75,7 @@ export default function KursangebotSection() {
   const active = KATEGORIEN.find((k) => k.key === activeKey) ?? KATEGORIEN[0];
 
   return (
-    <section id="kursangebot" className="py-20 bg-chalk">
+    <section id="kursangebot" className="py-16 bg-chalk">
       <div className="max-w-screen-xl mx-auto px-6 md:px-10">
 
         {/* Header */}
