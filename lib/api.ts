@@ -176,8 +176,8 @@ export interface Fundsache {
   status: string
   erfasst_am: string | null
   foto_pfad: string | null
-  fundsachen_kategorien: { name: string } | null
-  facilities: { name: string } | null
+  kategorie_id: string | null
+  fundort_anlage_id: string | null
 }
 
 export interface FundsacheKategorie {
