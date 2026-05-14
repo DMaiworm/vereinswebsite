@@ -54,7 +54,7 @@ export default function AbteilungenGrid({ departments }: AbteilungenGridProps) {
         {cards.map((dept) => {
           const slug = DEPT_SLUGS[dept.name];
           const label = DEPT_LABELS[dept.name] ?? dept.name;
-          const heroPfad = (dept as any).hero_foto_pfad as string | null | undefined;
+          const heroPfad = dept.hero_foto_pfad;
 
           const cardContent = (
             <div

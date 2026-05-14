@@ -41,14 +41,14 @@ export default async function HomePage() {
           logoUrl={config.logo_url}
           primaryColor={config.primary_color}
           secondaryColor={config.secondary_color}
-          tagline="80 Jahre Tradition, Leidenschaft und Gemeinschaft im Herzen der Region."
-          ctaLabel="JETZT DURCHSTARTEN"
+          tagline={config.homepage_tagline ?? '80 Jahre Tradition, Leidenschaft und Gemeinschaft im Herzen der Region.'}
+          ctaLabel={config.homepage_cta_label ?? 'JETZT DURCHSTARTEN'}
           ctaHref="#kursangebot"
         />
 
         {/* 2 – Aktuelles */}
         <div id="aktuelles">
-          <AktuellesSection />
+          <AktuellesSection instagramUsername={config.instagram_username} />
         </div>
 
         {/* 3 – Kursangebot mit Tabs */}
@@ -61,7 +61,13 @@ export default async function HomePage() {
         <KursDerWocheSection />
 
         {/* 6 – Zahlen & Tradition */}
-        <ZahlenTraditionSection />
+        <ZahlenTraditionSection
+          aboutText={config.homepage_about_text}
+          aboutText2={config.homepage_about_text_2}
+          statsMitglieder={config.stats_mitglieder}
+          statsKurseProWoche={config.stats_kurse_pro_woche}
+          statsLizenziertTrainer={config.stats_lizenzierte_trainer}
+        />
 
         {/* 7 – Fan-Shop */}
         <FanshopSection />

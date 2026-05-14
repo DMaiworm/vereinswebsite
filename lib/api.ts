@@ -28,6 +28,17 @@ export interface ClubConfig {
   logo_url: string | null;
   logo_web_pfad: string | null;
   operator_id: string | null;
+  gruendungsjahr?: number | null;
+  instagram_username?: string | null;
+  facebook_url?: string | null;
+  homepage_tagline?: string | null;
+  homepage_hero_bild_url?: string | null;
+  homepage_cta_label?: string | null;
+  homepage_about_text?: string | null;
+  homepage_about_text_2?: string | null;
+  stats_mitglieder?: string | null;
+  stats_kurse_pro_woche?: string | null;
+  stats_lizenzierte_trainer?: string | null;
   departments: Department[];
 }
 

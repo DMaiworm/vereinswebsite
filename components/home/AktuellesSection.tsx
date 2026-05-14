@@ -4,7 +4,14 @@ const NEWS_BIG_SRC = 'https://lh3.googleusercontent.com/aida-public/AB6AXuBEW12x
 const NEWS_SECOND_SRC = 'https://lh3.googleusercontent.com/aida-public/AB6AXuCHvVAleUYJuzPYEJLha9Mltwo3iwaT9oBgo3mEwObzsZoanwYaw01L-KbX3TIRuOVq2XwRtuklNU8uwJXsv5RNoKW9dPZN0F7C04pxnTGPE8SYCZkwBKG_R9oBuK_TI2umowvmVNXm9VU1QcN_B8DjxP2IVZcXRnOFd8UYxNtkHViFHXMn3b8yWMuuz1MHb317fpziGXFfGHZhunvvp2LLDw4QyMYSa-XRDsesuYe2QhSPbEC9kt8BZvZKddVlJ5vXPV8cojxLm8c';
 const NEWS_THIRD_SRC = 'https://lh3.googleusercontent.com/aida-public/AB6AXuDroGgypJqh_NjO26ER5fmmp56PlgowMJOWIjKMLS20CbTtiIvvdTTjCQPD5xtD_MUoRMSSf8h_9ZIVaVI4wVror7hxPPuNUX1KyTCgYEI6VChhP0klIMolspXmr74ZahILL0CrTKN2bkdDa3bdcpplic8sH8H6rwfww_DPytZQYFpXx8rqu61lgYgIYuF60sZBkCOYaGZ8It84tCZIESow35BN00zmMJoVridedgX9DiyPF3sSA2NA2HzayUsxJql5EvP360LmCog';
 
-export default function AktuellesSection() {
+interface AktuellesSectionProps {
+  instagramUsername?: string | null;
+}
+
+export default function AktuellesSection({ instagramUsername }: AktuellesSectionProps) {
+  const igHandle = instagramUsername ? `@${instagramUsername}` : '@SGHünstetten';
+  const igHref = instagramUsername ? `https://instagram.com/${instagramUsername}` : '#';
+
   return (
     <section className="py-16 px-6 bg-chalk">
       <div className="max-w-7xl mx-auto">
@@ -62,10 +69,10 @@ export default function AktuellesSection() {
             <div className="bg-[#052856] p-8 text-white flex flex-col justify-between h-[300px] border border-white/10 rounded-lg">
               <div>
                 <div className="w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 via-pink-500 to-orange-400 mb-4" />
-                <p className="font-bold text-lg mb-1">@SGHünstetten</p>
+                <p className="font-bold text-lg mb-1">{igHandle}</p>
                 <p className="text-sm text-white/60">Fotos • Highlights • Stories</p>
               </div>
-              <a href="#" className="text-[#fde000] font-bold text-sm hover:underline">
+              <a href={igHref} className="text-[#fde000] font-bold text-sm hover:underline">
                 Folgen →
               </a>
             </div>
