@@ -158,7 +158,8 @@ export async function fetchTrainers(operatorId: string): Promise<Trainer[]> {
 // ─── Supabase REST (public tables) ──────────────────────────────────────────
 
 const SUPABASE_URL  = API_BASE.replace('/functions/v1', '')
-const SUPABASE_ANON = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+const SUPABASE_ANON = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  ?? 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpxamhlZXdoZ3JtY3d6anVyamxnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA5MjQwNTIsImV4cCI6MjA4NjUwMDA1Mn0.9nIbptqMo6ot1FWrhaywFT8NJfgIL6oJInKP0R8AnZ0'
 
 async function restGet<T>(table: string, query: string): Promise<T> {
   const res = await fetch(`${SUPABASE_URL}/rest/v1/${table}?${query}`, {
