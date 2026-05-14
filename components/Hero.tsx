@@ -1,8 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
-import { gsap } from 'gsap';
-import Image from 'next/image';
+import { useState, useEffect } from 'react';
 
 interface HeroProps {
   name: string;
@@ -15,143 +13,79 @@ interface HeroProps {
   ctaHref?: string;
 }
 
-export default function Hero({ name, shortName, logoUrl, tagline, ctaLabel, ctaHref }: HeroProps) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const logoRef      = useRef<HTMLDivElement>(null);
-  const headlineRef  = useRef<HTMLHeadingElement>(null);
-  const subRef       = useRef<HTMLParagraphElement>(null);
-  const scrollRef    = useRef<HTMLDivElement>(null);
+const ROTATING_WORDS = ['SPORT', 'GEMEINSCHAFT', 'HÜNSTETTEN'];
+
+export default function Hero({ tagline, ctaLabel, ctaHref }: HeroProps) {
+  const [wordIndex, setWordIndex] = useState(0);
+  const [visible, setVisible] = useState(true);
 
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
-
-      // Logo
-      tl.fromTo(logoRef.current,
-        { scale: 0.6, opacity: 0 },
-        { scale: 1, opacity: 1, duration: 1.2 }
-      );
-
-      // Vereinsname
-      tl.fromTo(headlineRef.current,
-        { y: 50, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.9 },
-        '-=0.6'
-      );
-
-      // Subtitle
-      tl.fromTo(subRef.current,
-        { y: 30, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.7 },
-        '-=0.4'
-      );
-
-      // Scroll-Indikator
-      tl.fromTo(scrollRef.current,
-        { opacity: 0 },
-        { opacity: 1, duration: 0.5 },
-        '+=0.3'
-      );
-
-      // Scroll-Indicator pulsieren
-      gsap.to(scrollRef.current, {
-        y: 10, repeat: -1, yoyo: true, duration: 1.2, ease: 'sine.inOut',
-      });
-
-    }, containerRef);
-
-    return () => ctx.revert();
+    const interval = setInterval(() => {
+      setVisible(false);
+      setTimeout(() => {
+        setWordIndex((i) => (i + 1) % ROTATING_WORDS.length);
+        setVisible(true);
+      }, 600);
+    }, 8000);
+    return () => clearInterval(interval);
   }, []);
 
-  const abbr = shortName || name.split(' ').map(w => w[0]).join('').slice(0, 3).toUpperCase();
-
   return (
-    <section
-      ref={containerRef}
-      className="hero-gradient relative flex min-h-svh flex-col items-center justify-center overflow-hidden px-6 text-center"
-    >
-      {/* Subtile Lichtpunkte */}
-      <div
-        className="pointer-events-none absolute inset-0 opacity-30"
-        style={{
-          backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(255,255,255,0.08) 1px, transparent 0)',
-          backgroundSize: '48px 48px',
-        }}
-      />
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#223e6d]">
+      <style>{`
+        @keyframes fade-rotate {
+          0%, 10% { opacity: 0; transform: translateY(10px); }
+          15%, 85% { opacity: 1; transform: translateY(0); }
+          90%, 100% { opacity: 0; transform: translateY(-10px); }
+        }
+        .animate-fade-rotate { animation: fade-rotate 8s infinite ease-in-out; }
+      `}</style>
+
+      {/* Gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#052856]/40 to-[#fbf9f8]" />
 
       {/* Content */}
-      <div className="relative z-10 flex flex-col items-center gap-6">
+      <div className="relative z-10 flex flex-col items-center text-center px-6 py-24">
 
-        {/* Logo / Vereins-Avatar */}
-        <div ref={logoRef}>
-          {logoUrl ? (
-            <Image
-              src={logoUrl}
-              alt={`${name} Logo`}
-              width={120}
-              height={120}
-              className="rounded-2xl object-contain drop-shadow-2xl"
-              priority
-            />
-          ) : (
-            <div
-              className="flex h-28 w-28 items-center justify-center rounded-2xl text-3xl font-black tracking-tight shadow-2xl"
-              style={{
-                background: 'linear-gradient(135deg, var(--club-primary), color-mix(in srgb, var(--club-primary) 70%, var(--club-secondary)))',
-                color: 'var(--club-secondary)',
-                boxShadow: '0 0 60px color-mix(in srgb, var(--club-primary) 40%, transparent)',
-              }}
+        {/* Badge */}
+        <span className="inline-block bg-[#fde000] text-[#052856] px-4 py-1 rounded-full text-sm font-bold mb-6 tracking-widest uppercase animate-pulse">
+          Seit 1944
+        </span>
+
+        {/* Headline */}
+        <h1 className="font-display font-black text-6xl md:text-9xl text-[#052856] tracking-tighter leading-none mb-4">
+          <span className="block">WIR SIND</span>
+          <span className="block mt-2">
+            <span
+              className={`text-white bg-[#052856] px-4 py-2 -rotate-1 inline-block whitespace-nowrap transition-all duration-300 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}`}
             >
-              {abbr}
-            </div>
-          )}
-        </div>
-
-        {/* Vereinsname */}
-        <h1
-          ref={headlineRef}
-          className="max-w-2xl text-5xl font-black leading-tight tracking-tight text-white sm:text-7xl"
-          style={{ textShadow: '0 4px 40px rgba(0,0,0,0.6)' }}
-        >
-          {name}
+              {ROTATING_WORDS[wordIndex]}
+            </span>
+          </span>
         </h1>
 
-        {/* Trennlinie in Vereinsfarbe */}
-        <div
-          className="h-1 w-24 rounded-full"
-          style={{ background: 'var(--club-secondary)' }}
-        />
-
-        <p
-          ref={subRef}
-          className="max-w-md text-lg text-white/60"
-        >
-          {tagline ?? 'Offizieller Webauftritt'}
+        {/* Tagline */}
+        <p className="text-xl md:text-2xl font-medium text-[#052856]/60 max-w-2xl mx-auto mt-8 mb-10">
+          {tagline ?? '80 Jahre Tradition, Leidenschaft und Gemeinschaft im Herzen der Region.'}
         </p>
 
-        {ctaLabel && ctaHref && (
+        {/* CTAs */}
+        <div className="flex flex-col sm:flex-row gap-4 items-center">
+          {ctaLabel && ctaHref && (
+            <a
+              href={ctaHref}
+              className="label-cap bg-[#fde000] text-[#052856] px-10 py-5 rounded-xl font-black text-lg hover:scale-105 transition-all shadow-xl"
+            >
+              {ctaLabel}
+            </a>
+          )}
           <a
-            href={ctaHref}
-            className="label-cap inline-flex items-center gap-3 rounded-sm px-8 py-3.5 transition-all active:scale-95"
-            style={{ background: 'var(--club-secondary)', color: 'var(--club-primary)' }}
+            href="#abteilungen"
+            className="label-cap bg-[#052856]/20 border-2 border-[#052856]/20 text-[#052856] px-10 py-5 rounded-xl font-black text-lg hover:bg-[#052856]/30 transition-all"
           >
-            {ctaLabel}
-            <span className="material-symbols-outlined text-base">arrow_forward</span>
+            UNSER VEREIN
           </a>
-        )}
-      </div>
-
-      {/* Scroll-Indikator */}
-      <div
-        ref={scrollRef}
-        className="absolute bottom-10 flex flex-col items-center gap-2 text-white/30 cursor-pointer hover:text-white/60 transition-colors duration-300"
-        onClick={() => document.getElementById('abteilungen')?.scrollIntoView({ behavior: 'smooth' })}
-      >
-        <span className="text-xs tracking-widest uppercase">Entdecken</span>
-        <svg width="16" height="24" viewBox="0 0 16 24" fill="none" className="opacity-60">
-          <rect x="1" y="1" width="14" height="22" rx="7" stroke="currentColor" strokeWidth="1.5"/>
-          <rect x="7" y="5" width="2" height="5" rx="1" fill="currentColor"/>
-        </svg>
+        </div>
       </div>
     </section>
   );

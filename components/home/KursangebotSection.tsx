@@ -80,27 +80,28 @@ export default function KursangebotSection() {
 
         {/* Header */}
         <div className="mb-12">
-          <p className="sec-num text-ink-soft/40 mb-3">03 — Kursangebot</p>
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-            <h2 className="display-giant text-navy" style={{ fontSize: 'clamp(36px, 5vw, 72px)' }}>
-              Für jeden das <span className="text-gold" style={{ WebkitTextStroke: '1px #052856' }}>Richtige</span>
-            </h2>
-            <p className="text-ink-soft/50 text-sm max-w-sm leading-relaxed font-body">
-              Wähle deine Kategorie und entdecke alle Kurse und Sportarten der SG Hünstetten.
-            </p>
-          </div>
+          <span className="text-[10px] text-[#747780] font-bold uppercase tracking-widest block mb-2">
+            03 — Kursangebot
+          </span>
+          <h2 className="text-5xl md:text-6xl font-display font-extrabold italic uppercase leading-none text-[#052856]">
+            Für jeden das{' '}
+            <br />
+            <span style={{ WebkitTextStrokeWidth: '2px', WebkitTextStrokeColor: '#052856', color: '#fde000' }}>
+              RICHTIGE
+            </span>
+          </h2>
         </div>
 
         {/* Tabs */}
-        <div className="flex flex-wrap gap-2 mb-10 border-b border-navy/10 pb-4">
+        <div className="flex flex-wrap gap-4 mb-12 border-b border-[#f0eded] pb-8">
           {KATEGORIEN.map((kat) => (
             <button
               key={kat.key}
               onClick={() => setActiveKey(kat.key)}
-              className={`label-cap px-5 py-2.5 rounded-sm transition-all ${
+              className={`text-[10px] font-bold uppercase tracking-widest px-6 py-2 rounded-lg transition-colors ${
                 kat.key === activeKey
-                  ? 'bg-navy text-chalk'
-                  : 'text-navy/50 hover:text-navy hover:bg-navy/5'
+                  ? 'bg-[#052856] text-white'
+                  : 'hover:bg-[#f0eded]'
               }`}
             >
               {kat.label}
@@ -114,25 +115,17 @@ export default function KursangebotSection() {
             <Link
               key={kurs.name}
               href={kurs.href}
-              className="group relative overflow-hidden rounded-2xl border border-navy/8 bg-white p-7 transition-all duration-300 hover:-translate-y-1 hover:border-navy/20 hover:shadow-lg"
+              className="p-8 border border-[#f0eded] hover:shadow-xl transition-shadow bg-white flex flex-col h-full rounded-lg"
             >
-              {/* Hover glow */}
-              <div
-                className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100 rounded-2xl"
-                style={{ background: 'radial-gradient(circle at 50% 0%, rgba(5,40,86,0.04), transparent 70%)' }}
-              />
-              <div className="relative">
-                <span className="label-cap mb-4 block text-gold">{kurs.motto}</span>
-                <h3 className="mb-3 font-display font-black text-navy text-lg tracking-display">{kurs.name}</h3>
-                <p className="text-sm leading-relaxed text-ink-soft/50 font-body line-clamp-3">{kurs.beschreibung}</p>
-                <div
-                  className="mt-5 h-px w-10 transition-all duration-300 group-hover:w-16"
-                  style={{ background: '#fde000' }}
-                />
-                <span className="mt-4 label-cap flex items-center gap-1.5 text-navy/40 group-hover:text-navy transition-colors">
-                  Mehr erfahren <span className="material-symbols-outlined text-xs group-hover:translate-x-1 transition-transform">arrow_forward</span>
-                </span>
-              </div>
+              <span className="text-[9px] text-[#6c5e00] font-bold uppercase tracking-widest mb-2">
+                {kurs.motto}
+              </span>
+              <h3 className="text-xl font-bold mb-4 text-[#052856]">{kurs.name}</h3>
+              <p className="text-sm text-[#44474f] mb-10 leading-relaxed line-clamp-3">{kurs.beschreibung}</p>
+              <span className="mt-auto text-[10px] font-bold uppercase tracking-widest flex items-center gap-2 text-[#747780] hover:text-[#052856] transition-colors">
+                Mehr erfahren
+                <span className="material-symbols-outlined text-xs">arrow_forward</span>
+              </span>
             </Link>
           ))}
         </div>

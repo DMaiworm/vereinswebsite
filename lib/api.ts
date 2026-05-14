@@ -15,6 +15,7 @@ export interface Department {
   name: string;
   icon: string | null;
   beschreibung: string | null;
+  hero_foto_pfad?: string | null;
 }
 
 export interface ClubConfig {

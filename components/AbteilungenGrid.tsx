@@ -1,9 +1,4 @@
-'use client';
-
-import { useEffect, useRef } from 'react';
 import Link from 'next/link';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import type { Department } from '@/lib/api';
 
 const DEPT_SLUGS: Record<string, string> = {
@@ -24,126 +19,87 @@ const DEPT_LABELS: Record<string, string> = {
   'Yoga': 'Gesundheitssport',
 };
 
-// One-paragraph description overrides (keeps cards uniform)
-const DEPT_DESC: Record<string, string> = {
-  'Badminton':      'Ob Anfänger oder Vereinsspieler – bei uns findest du den passenden Rahmen für schnelle Ballwechsel, gute Stimmung und gemeinsamen Sport.',
-  'Tischtennis':    'Schnell, präzise und für alle Altersklassen geeignet. Unser Tischtennissport begeistert Jung und Alt gleichermaßen.',
-  'Leichtathletik': 'Laufen, Springen, Werfen – Leichtathletik ist der Ursprung des Sports. Trainiere mit uns Technik, Kraft und Ausdauer.',
-  'Fußball':        'Fußball verbindet – in unserem Verein spielen Kinder, Jugendliche und Erwachsene gemeinsam für den Sport und die Gemeinschaft.',
-  'Fussball':       'Fußball verbindet – in unserem Verein spielen Kinder, Jugendliche und Erwachsene gemeinsam für den Sport und die Gemeinschaft.',
-  'Fussball - Senioren': 'Fußball verbindet – in unserem Verein spielen Kinder, Jugendliche und Erwachsene gemeinsam für den Sport und die Gemeinschaft.',
-  'Gesundheitssport': 'Pilates, Qi-Gong, Rücken-Fit und mehr – unsere Gesundheitskurse stärken Körper und Geist, schonend und nachhaltig.',
-  'Yoga':           'Pilates, Qi-Gong, Rücken-Fit und mehr – unsere Gesundheitskurse stärken Körper und Geist, schonend und nachhaltig.',
-  'Fitness':        'LadyFit, ManFit, Tanzfitness, Step-Aerobic und Workout – sieben Kurse für alle, die gemeinsam fit bleiben wollen.',
-};
-
 const FITNESS_CARD: Department = {
   id: 'fitness-static',
   name: 'Fitness',
   icon: '💪',
-  beschreibung: DEPT_DESC['Fitness'],
+  beschreibung: 'LadyFit, ManFit, Tanzfitness, Step-Aerobic und Workout – sieben Kurse für alle, die gemeinsam fit bleiben wollen.',
 };
-
-gsap.registerPlugin(ScrollTrigger);
 
 interface AbteilungenGridProps {
   departments: Department[];
 }
 
 export default function AbteilungenGrid({ departments }: AbteilungenGridProps) {
-  const sectionRef = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.from('.dept-card', {
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top 80%',
-        },
-        y: 50,
-        opacity: 0,
-        stagger: 0.1,
-        duration: 0.8,
-        ease: 'power3.out',
-        immediateRender: false,
-      });
-
-      gsap.from('.dept-headline', {
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top 85%',
-        },
-        y: 30,
-        opacity: 0,
-        duration: 0.7,
-        ease: 'power2.out',
-        immediateRender: false,
-      });
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []);
-
   if (departments.length === 0) return null;
 
   const hasFitness = departments.some((d) => d.name === 'Fitness');
   const cards = hasFitness ? departments : [...departments, FITNESS_CARD];
 
   return (
-    <section id="abteilungen" ref={sectionRef} className="px-6 py-16">
-      <div className="mx-auto max-w-6xl">
+    <section id="abteilungen" className="bg-[#cbd5e1] py-24 px-6 text-[#1b1c1c]">
 
-        <div className="dept-headline mb-12 text-center">
-          <p
-            className="mb-3 text-xs font-bold uppercase tracking-[0.3em]"
-            style={{ color: 'var(--club-secondary)' }}
-          >
-            Unser Verein
-          </p>
-          <h2 className="text-4xl font-black text-white sm:text-5xl">Abteilungen</h2>
-        </div>
+      {/* Header */}
+      <div className="text-center mb-16">
+        <span className="text-[#052856] uppercase tracking-[0.3em] text-xs font-bold block mb-4 text-center">
+          Unser Verein
+        </span>
+        <h2 className="text-4xl md:text-5xl font-display font-extrabold mb-0 text-center text-[#052856]">
+          Abteilungen
+        </h2>
+      </div>
 
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {cards.map((dept) => {
-            const slug = DEPT_SLUGS[dept.name];
-            const label = DEPT_LABELS[dept.name] ?? dept.name;
-            const desc = DEPT_DESC[dept.name] ?? dept.beschreibung;
-            const cardClass = "dept-card group relative cursor-pointer overflow-hidden rounded-2xl border border-white/5 bg-white/[0.03] p-8 transition-all duration-300 hover:-translate-y-1 hover:border-white/10 hover:bg-white/[0.06]";
-            const inner = (
-              <>
-                {/* Hover-Glow */}
-                <div
-                  className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-                  style={{
-                    background: 'radial-gradient(circle at 50% 0%, color-mix(in srgb, var(--club-primary) 15%, transparent), transparent 70%)',
-                  }}
+      {/* Cards */}
+      <div className="flex flex-wrap justify-center gap-6 max-w-[1000px] mx-auto">
+        {cards.map((dept) => {
+          const slug = DEPT_SLUGS[dept.name];
+          const label = DEPT_LABELS[dept.name] ?? dept.name;
+          const heroPfad = (dept as any).hero_foto_pfad as string | null | undefined;
+
+          const cardContent = (
+            <div
+              className="group relative overflow-hidden rounded-lg shadow hover:shadow-lg transition-all duration-300"
+              style={{ width: '300px', height: '150px' }}
+            >
+              {/* Background image or gradient */}
+              {heroPfad ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={heroPfad}
+                  alt={label}
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
-                <div className="relative z-10">
-                  {dept.icon && (
-                    <span className="mb-4 block text-4xl">{dept.icon}</span>
-                  )}
-                  <h3 className="mb-2 text-xl font-bold text-white">{label}</h3>
-                  {desc && (
-                    <p className="text-sm leading-relaxed text-white/50">{desc}</p>
-                  )}
-                  <div
-                    className="mt-6 h-px w-12 transition-all duration-300 group-hover:w-20"
-                    style={{ background: 'var(--club-secondary)' }}
-                  />
-                </div>
-              </>
-            );
-            return slug ? (
-              <Link key={dept.id} href={`/${slug}`} className={cardClass}>
-                {inner}
-              </Link>
-            ) : (
-              <div key={dept.id} className={cardClass}>
-                {inner}
+              ) : (
+                <div className="absolute inset-0 bg-gradient-to-br from-[#052856] to-[#0a3568]" />
+              )}
+
+              {/* Gradient overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-[#052856]/90 via-[#052856]/30 to-transparent" />
+
+              {/* Content */}
+              <div className="absolute inset-0 p-4 flex flex-col justify-end">
+                <h3 className="text-xl font-display font-black text-white italic uppercase tracking-tighter">
+                  {label}
+                </h3>
+                {slug && (
+                  <span className="inline-flex items-center gap-2 text-[#fde000] font-bold text-xs uppercase tracking-widest hover:gap-3 transition-all mt-1">
+                    Entdecken →
+                  </span>
+                )}
               </div>
-            );
-          })}
-        </div>
+            </div>
+          );
+
+          return slug ? (
+            <Link key={dept.id} href={`/${slug}`}>
+              {cardContent}
+            </Link>
+          ) : (
+            <div key={dept.id}>
+              {cardContent}
+            </div>
+          );
+        })}
       </div>
     </section>
   );
