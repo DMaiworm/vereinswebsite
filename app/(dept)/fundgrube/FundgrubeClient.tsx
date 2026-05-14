@@ -56,7 +56,6 @@ export default function FundgrubeClient() {
   const [sortDir,   setSortDir]   = useState<'desc' | 'asc'>('desc')
 
   // ── Verlust-Formular ──
-  const [verlustOpen, setVerlustOpen] = useState(false)
   const [verlustSent, setVerlustSent] = useState(false)
   const [verlustForm, setVerlustForm] = useState({ name: '', email: '', beschreibung: '', kategorie: '', fundort: '' })
 
@@ -99,75 +98,76 @@ export default function FundgrubeClient() {
       {/* ── Verlust melden ── */}
       <section id="verlust" className="py-16 px-6 bg-surface-container-low">
         <div className="max-w-7xl mx-auto">
-          <button
-            onClick={() => { setVerlustOpen(v => !v); setVerlustSent(false) }}
-            className="flex items-center gap-3 font-headline font-black text-xl text-primary hover:text-secondary transition-colors"
-          >
-            <span className="material-symbols-outlined text-2xl">report_problem</span>
-            Verlust melden
-            <span className="material-symbols-outlined text-lg transition-transform" style={{ transform: verlustOpen ? 'rotate(180deg)' : 'none' }}>
-              expand_more
-            </span>
-          </button>
-          <p className="text-on-surface-variant text-sm mt-1 mb-4">
+          <div className="flex items-center gap-3 mb-1">
+            <span className="material-symbols-outlined text-2xl text-primary">report_problem</span>
+            <h2 className="font-headline font-black text-xl text-primary">Verlust melden</h2>
+          </div>
+          <p className="text-on-surface-variant text-sm mb-6">
             Etwas verloren? Beschreib uns deinen Gegenstand – wir schauen ob er bei uns gelandet ist.
           </p>
 
-          {verlustOpen && (
-            verlustSent ? (
-              <div className="bg-green-50 border border-green-200 rounded-2xl p-6 flex items-center gap-4 max-w-2xl">
-                <span className="material-symbols-outlined text-green-600 text-3xl">check_circle</span>
-                <div>
-                  <p className="font-headline font-bold text-green-800">Meldung erhalten!</p>
-                  <p className="text-green-700 text-sm">Wir melden uns bei dir, sobald wir etwas gefunden haben.</p>
+          {verlustSent ? (
+            <div className="bg-green-50 border border-green-200 rounded-2xl p-6 flex items-center gap-4 max-w-2xl">
+              <span className="material-symbols-outlined text-green-600 text-3xl">check_circle</span>
+              <div>
+                <p className="font-headline font-bold text-green-800">Meldung erhalten!</p>
+                <p className="text-green-700 text-sm">Wir melden uns bei dir, sobald wir etwas gefunden haben.</p>
+              </div>
+            </div>
+          ) : (
+            <form onSubmit={handleVerlustSubmit} className="bg-white rounded-2xl border border-outline-variant/20 p-6 shadow-sm">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                {/* Left: contact + filters */}
+                <div className="space-y-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-1">Name</label>
+                      <input required value={verlustForm.name} onChange={e => setVerlustForm(p => ({ ...p, name: e.target.value }))}
+                        className="w-full border border-outline-variant rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-primary"
+                        placeholder="Dein Name" />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-1">E-Mail</label>
+                      <input required type="email" value={verlustForm.email} onChange={e => setVerlustForm(p => ({ ...p, email: e.target.value }))}
+                        className="w-full border border-outline-variant rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-primary"
+                        placeholder="deine@email.de" />
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-1">Typ</label>
+                      <select value={verlustForm.kategorie} onChange={e => setVerlustForm(p => ({ ...p, kategorie: e.target.value }))}
+                        className="w-full border border-outline-variant rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-primary bg-white">
+                        <option value="">— Alle —</option>
+                        {kategorien.map(k => <option key={k.id} value={k.id}>{k.name}</option>)}
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-1">Sportstätte</label>
+                      <select value={verlustForm.fundort} onChange={e => setVerlustForm(p => ({ ...p, fundort: e.target.value }))}
+                        className="w-full border border-outline-variant rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-primary bg-white">
+                        <option value="">— Unbekannt —</option>
+                        {sportstätten.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Right: description + submit */}
+                <div className="flex flex-col gap-4">
+                  <div className="flex-1">
+                    <label className="block text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-1">Beschreibung</label>
+                    <textarea required rows={5} value={verlustForm.beschreibung} onChange={e => setVerlustForm(p => ({ ...p, beschreibung: e.target.value }))}
+                      className="w-full h-full min-h-[120px] border border-outline-variant rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-primary resize-none"
+                      placeholder="Beschreib den Gegenstand so genau wie möglich..." />
+                  </div>
+                  <button type="submit"
+                    className="label-cap px-8 py-3 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors self-start">
+                    Verlust melden
+                  </button>
                 </div>
               </div>
-            ) : (
-              <form onSubmit={handleVerlustSubmit} className="bg-white rounded-2xl border border-outline-variant/20 p-6 max-w-2xl space-y-4 shadow-sm">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-1">Name</label>
-                    <input required value={verlustForm.name} onChange={e => setVerlustForm(p => ({ ...p, name: e.target.value }))}
-                      className="w-full border border-outline-variant rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-primary"
-                      placeholder="Dein Name" />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-1">E-Mail</label>
-                    <input required type="email" value={verlustForm.email} onChange={e => setVerlustForm(p => ({ ...p, email: e.target.value }))}
-                      className="w-full border border-outline-variant rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-primary"
-                      placeholder="deine@email.de" />
-                  </div>
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-1">Typ</label>
-                    <select value={verlustForm.kategorie} onChange={e => setVerlustForm(p => ({ ...p, kategorie: e.target.value }))}
-                      className="w-full border border-outline-variant rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-primary bg-white">
-                      <option value="">— Alle —</option>
-                      {kategorien.map(k => <option key={k.id} value={k.id}>{k.name}</option>)}
-                    </select>
-                  </div>
-                  <div>
-                    <label className="block text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-1">Sportstätte</label>
-                    <select value={verlustForm.fundort} onChange={e => setVerlustForm(p => ({ ...p, fundort: e.target.value }))}
-                      className="w-full border border-outline-variant rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-primary bg-white">
-                      <option value="">— Unbekannt —</option>
-                      {sportstätten.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}
-                    </select>
-                  </div>
-                </div>
-                <div>
-                  <label className="block text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-1">Beschreibung</label>
-                  <textarea required rows={3} value={verlustForm.beschreibung} onChange={e => setVerlustForm(p => ({ ...p, beschreibung: e.target.value }))}
-                    className="w-full border border-outline-variant rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-primary resize-none"
-                    placeholder="Beschreib den Gegenstand so genau wie möglich..." />
-                </div>
-                <button type="submit"
-                  className="label-cap px-8 py-3 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors">
-                  Verlust melden
-                </button>
-              </form>
-            )
+            </form>
           )}
         </div>
       </section>
