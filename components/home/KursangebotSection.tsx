@@ -101,7 +101,7 @@ export default function KursangebotSection() {
               className={`text-[10px] font-bold uppercase tracking-widest px-6 py-2 rounded-lg transition-colors ${
                 kat.key === activeKey
                   ? 'bg-[#052856] text-white'
-                  : 'hover:bg-[#f0eded]'
+                  : 'text-[#052856] hover:bg-[#f0eded]'
               }`}
             >
               {kat.label}

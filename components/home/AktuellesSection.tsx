@@ -6,7 +6,7 @@ const NEWS_THIRD_SRC = 'https://lh3.googleusercontent.com/aida-public/AB6AXuDroG
 
 export default function AktuellesSection() {
   return (
-    <section className="py-16 px-6">
+    <section className="py-16 px-6 bg-chalk">
       <div className="max-w-7xl mx-auto">
 
         {/* Header row */}
