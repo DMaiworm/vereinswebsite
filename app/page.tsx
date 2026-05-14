@@ -26,7 +26,7 @@ export default async function HomePage() {
   return (
     <>
       <BaseNav
-        logoUrl={config.logo_url}
+        logoUrl={config.logo_web_pfad ?? config.logo_url}
         clubName={config.name}
         navItems={HOME_NAV}
         ctaLabel="Mitglied werden"
@@ -38,7 +38,7 @@ export default async function HomePage() {
         <Hero
           name={config.name}
           shortName={config.short_name}
-          logoUrl={config.logo_url}
+          logoUrl={config.logo_web_pfad ?? config.logo_url}
           primaryColor={config.primary_color}
           secondaryColor={config.secondary_color}
           tagline={config.homepage_tagline ?? '80 Jahre Tradition, Leidenschaft und Gemeinschaft im Herzen der Region.'}
