@@ -194,7 +194,7 @@ export interface Facility {
 export async function fetchFundsachen(): Promise<Fundsache[]> {
   return restGet<Fundsache[]>(
     'fundsachen',
-    'select=id,beschreibung,status,erfasst_am,foto_pfad,fundsachen_kategorien(name),facilities(name)&status=eq.aktiv&order=erfasst_am.desc'
+    'select=id,beschreibung,status,erfasst_am,foto_pfad,kategorie_id,fundort_anlage_id&status=eq.aktiv&order=erfasst_am.desc'
   )
 }
 
