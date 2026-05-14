@@ -23,14 +23,11 @@ export default function ZahlenTraditionSection({
   ];
 
   return (
-    <section className="bg-white py-16 px-6">
+    <section className="bg-white py-10 px-6">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
 
         {/* Left */}
         <div>
-          <span className="text-[9px] text-[#747780] font-bold uppercase tracking-widest mb-4 block">
-            05 — Über uns
-          </span>
           <h2 className="text-5xl md:text-6xl font-display font-extrabold uppercase italic mb-10 leading-none text-[#052856]">
             Seit{' '}
             <span style={{ WebkitTextStroke: '2px #052856', color: 'transparent' }}>1944</span>

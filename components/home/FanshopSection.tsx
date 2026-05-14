@@ -35,15 +35,12 @@ const PRODUCTS = [
 
 export default function FanshopSection() {
   return (
-    <section className="py-16 bg-[#f6f3f2]">
+    <section className="py-10 bg-[#f6f3f2]">
       <div className="max-w-screen-xl mx-auto px-6 md:px-10">
 
         {/* Header */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-16 gap-6">
           <div>
-            <span className="text-[10px] text-[#747780] font-bold uppercase tracking-widest block mb-2">
-              06 — Fan-Shop
-            </span>
             <h2 className="text-5xl font-display font-black text-[#052856] tracking-tighter uppercase">
               SG Hünstetten Fan-Shop
             </h2>

@@ -13,7 +13,7 @@ export default function AktuellesSection({ instagramUsername }: AktuellesSection
   const igHref = instagramUsername ? `https://instagram.com/${instagramUsername}` : '#';
 
   return (
-    <section className="py-16 px-6 bg-chalk">
+    <section className="py-10 px-6 bg-chalk">
       <div className="max-w-7xl mx-auto">
 
         {/* Header row */}

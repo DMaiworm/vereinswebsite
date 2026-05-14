@@ -71,13 +71,8 @@ export default function Hero({ tagline, ctaLabel, ctaHref, heroBildUrl, sponsors
       {/* Content */}
       <div className="relative z-10 flex flex-col items-center text-center px-6 py-24">
 
-        {/* Badge */}
-        <span className="inline-block bg-[#fde000] text-[#052856] px-4 py-1 rounded-full text-sm font-bold mb-6 tracking-widest uppercase animate-pulse">
-          Tradition seit 1947
-        </span>
-
         {/* Headline */}
-        <h1 className="font-display font-black text-5xl md:text-8xl text-white tracking-tighter leading-none mb-4">
+        <h1 className="font-display font-black text-4xl md:text-7xl text-white tracking-tighter leading-none mb-4">
           <span className="block">WIR SIND</span>
           <span className="block mt-2">
             <span

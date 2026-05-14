@@ -68,7 +68,7 @@ export default function KursDerWocheSection() {
   const { kurs, imageLeft } = pickKurs()
 
   return (
-    <section className="bg-surface-container-low py-16">
+    <section className="bg-surface-container-low py-10">
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-16">
           <span className="inline-block px-4 py-1 bg-primary/10 text-primary rounded-full text-xs font-black uppercase tracking-widest mb-4">
