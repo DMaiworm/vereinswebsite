@@ -1,3 +1,5 @@
+import Link from 'next/link'
+
 export default function ZahlenTraditionSection() {
   return (
     <section className="bg-white py-16 px-6">
@@ -21,22 +23,38 @@ export default function ZahlenTraditionSection() {
           </p>
         </div>
 
-        {/* Right: stat grid */}
-        <div className="grid grid-cols-2 gap-4">
-          {[
-            { value: '80+', label: 'Jahre Tradition' },
-            { value: '300+', label: 'Aktive Mitglieder' },
-            { value: '15+', label: 'Kurse pro Woche' },
-            { value: '6', label: 'Lizenzierte Trainer' },
-          ].map(({ value, label }) => (
-            <div
-              key={label}
-              className="bg-[#f0eded] p-10 text-center shadow-sm rounded-lg"
+        {/* Right: stat grid + buttons */}
+        <div>
+          <div className="grid grid-cols-2 gap-4 mb-6">
+            {[
+              { value: '80+', label: 'Jahre Tradition' },
+              { value: '300+', label: 'Aktive Mitglieder' },
+              { value: '15+', label: 'Kurse pro Woche' },
+              { value: '6', label: 'Lizenzierte Trainer' },
+            ].map(({ value, label }) => (
+              <div
+                key={label}
+                className="bg-[#f0eded] p-10 text-center shadow-sm rounded-lg"
+              >
+                <p className="text-4xl font-display font-extrabold text-[#052856] mb-2">{value}</p>
+                <p className="text-[9px] uppercase font-bold tracking-widest text-[#747780]">{label}</p>
+              </div>
+            ))}
+          </div>
+          <div className="flex gap-3">
+            <Link
+              href="./geschichte"
+              className="label-cap flex-1 text-center px-6 py-3 bg-[#052856] text-white rounded-sm hover:bg-[#0a3568] transition-colors"
             >
-              <p className="text-4xl font-display font-extrabold text-[#052856] mb-2">{value}</p>
-              <p className="text-[9px] uppercase font-bold tracking-widest text-[#747780]">{label}</p>
-            </div>
-          ))}
+              Unsere Geschichte
+            </Link>
+            <Link
+              href="./vorstand"
+              className="label-cap flex-1 text-center px-6 py-3 border-2 border-[#052856] text-[#052856] rounded-sm hover:bg-[#052856] hover:text-white transition-colors"
+            >
+              Das Team im Hintergrund
+            </Link>
+          </div>
         </div>
 
       </div>

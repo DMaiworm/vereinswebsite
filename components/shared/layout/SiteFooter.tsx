@@ -65,11 +65,11 @@ export default function SiteFooter({ logoUrl, departmentLabel, variant = 'dark',
               <h4 className={`font-display font-black uppercase tracking-widest text-xs ${heading} mb-3`}>Rechtliches</h4>
               <ul className={`space-y-4 ${body} text-sm font-semibold`}>
                 {[
-                  'shop', 'impressum', 'geschichte',
+                  'shop', 'fundgrube', 'impressum', 'geschichte',
                   'mitgliedschaft', 'vorstand', 'sponsoren',
                 ].map((slug) => (
                   <li key={slug}><a className={`${link} transition-colors`} href={`${linkPrefix}${slug}`}>
-                    {{ shop: 'Shop', impressum: 'Impressum', geschichte: 'Geschichte',
+                    {{ shop: 'Shop', fundgrube: 'Fundgrube', impressum: 'Impressum', geschichte: 'Geschichte',
                        mitgliedschaft: 'Mitgliedschaft', vorstand: 'Vorstand', sponsoren: 'Sponsoren' }[slug]}
                   </a></li>
                 ))}

@@ -154,3 +154,56 @@ export async function fetchTeam(teamId: string): Promise<TeamProfile> {
 export async function fetchTrainers(operatorId: string): Promise<Trainer[]> {
   return get<Trainer[]>('public-trainers', { operator_id: operatorId });
 }
+
+// ─── Supabase REST (public tables) ──────────────────────────────────────────
+
+const SUPABASE_URL  = API_BASE.replace('/functions/v1', '')
+const SUPABASE_ANON = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+
+async function restGet<T>(table: string, query: string): Promise<T> {
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/${table}?${query}`, {
+    headers: { apikey: SUPABASE_ANON, Authorization: `Bearer ${SUPABASE_ANON}` },
+    cache: 'no-store',
+  })
+  if (!res.ok) throw new Error(`REST ${table} failed: ${res.status}`)
+  return res.json() as Promise<T>
+}
+
+export interface Fundsache {
+  id: string
+  beschreibung: string
+  status: string
+  erfasst_am: string | null
+  foto_pfad: string | null
+  fundsachen_kategorien: { name: string } | null
+  facilities: { name: string } | null
+}
+
+export interface FundsacheKategorie {
+  id: string
+  name: string
+  sort_order: number | null
+}
+
+export interface Facility {
+  id: string
+  name: string
+}
+
+export async function fetchFundsachen(): Promise<Fundsache[]> {
+  return restGet<Fundsache[]>(
+    'fundsachen',
+    'select=id,beschreibung,status,erfasst_am,foto_pfad,fundsachen_kategorien(name),facilities(name)&status=eq.aktiv&order=erfasst_am.desc'
+  )
+}
+
+export async function fetchFundsachenKategorien(): Promise<FundsacheKategorie[]> {
+  return restGet<FundsacheKategorie[]>(
+    'fundsachen_kategorien',
+    'select=id,name,sort_order&ist_aktiv=eq.true&order=sort_order'
+  )
+}
+
+export async function fetchFacilities(): Promise<Facility[]> {
+  return restGet<Facility[]>('facilities', 'select=id,name&order=name')
+}
