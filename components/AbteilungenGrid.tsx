@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import type { Department } from '@/lib/api';
+import { asset } from '@/lib/assetPath';
 
 const DEPT_SLUGS: Record<string, string> = {
   'Badminton':           'badminton',
@@ -89,7 +90,7 @@ export default function AbteilungenGrid({ departments }: AbteilungenGridProps) {
               {/* JFV Logo top-right */}
               {dept.id === 'jfv-static' && (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img src="/jfv-logo.png" alt="JFV Logo" className="absolute z-10 drop-shadow-lg" style={{ width: '48px', top: '12px', right: '12px' }} />
+                <img src={asset('/jfv-logo.png')} alt="JFV Logo" className="absolute z-10 drop-shadow-lg" style={{ width: '48px', top: '12px', right: '12px' }} />
               )}
 
               {/* Content */}

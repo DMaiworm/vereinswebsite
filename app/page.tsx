@@ -1,4 +1,5 @@
 import { fetchClubConfig, fetchSponsors } from '@/lib/api';
+import { asset } from '@/lib/assetPath';
 import BaseNav from '@/components/shared/layout/BaseNav';
 import Hero from '@/components/Hero';
 import AbteilungenGrid from '@/components/AbteilungenGrid';
@@ -91,7 +92,7 @@ export default async function HomePage() {
               </div>
             </div>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="./jfv-logo.png" alt="JFV Hünstetten Logo" className="hidden md:block shrink-0 drop-shadow-2xl" style={{ width: 'clamp(140px,14vw,220px)', marginBottom: '-8px' }} />
+            <img src={asset('/jfv-logo.png')} alt="JFV Hünstetten Logo" className="hidden md:block shrink-0 drop-shadow-2xl" style={{ width: 'clamp(140px,14vw,220px)', marginBottom: '-8px' }} />
           </div>
         </div>
 

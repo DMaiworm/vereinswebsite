@@ -2,6 +2,7 @@ import BaseNav from '@/components/shared/layout/BaseNav'
 import SiteFooter from '@/components/shared/layout/SiteFooter'
 import SponsorBand from '@/components/shared/layout/SponsorBand'
 import { fetchClubConfig, fetchSponsors } from '@/lib/api'
+import { asset } from '@/lib/assetPath'
 
 const HERO_IMG = 'https://lh3.googleusercontent.com/aida-public/AB6AXuAIQu-mMb6znKt8RaFJN6N2-7uNWTYi6ao7w82x0rS6IBWpCrcPxHMMsTWHOcfae8qkElbCYCp19rDditLj45xsKtcxHeltn7ZonJ4XCkJP2-DRSCboPlukYhf9ORtKpRE_GykkbnulyTOceuDnZREwpD5C8WvEk9CTUho96Jbjlzb7Yia0tMk2THriDKnHU5lXDlZjz9pMNMnc2G4pHBV8SOLozDPXso1KC0v63dgA9xiOMSpKWha3AgDhkFQgqOs23j_iixlPhLQ'
 const BENTO_IMG1 = 'https://lh3.googleusercontent.com/aida-public/AB6AXuDF5eoRYMQBLfOwoyXAOm45795ncQliNga4OPJMEKm3DWDh0CzwZf_eFBKrk_ESTZtngutVV4cR7GYcJXkgm9nwmGV6vZEC5xOv-xqOYqc42lBb5cNH0fqD3Hrm7Jn7yDzv4_EJcSk2V5sFQbxSXEBsR9tTm2d0Ljje6xE9L1xoIj_TsyJOlC0bo7mucXRCEo6wQPfmZq7d8p9fto6zsnlqDo38Rp2E07YyZIKPurvREu3r9ADqtxPlEMEZ40JsHWSRFuFNSAxfFLk'
@@ -69,7 +70,7 @@ export default async function JFVPage() {
                 </div>
               </div>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/jfv-logo.png" alt="JFV Hünstetten Logo" className="hidden md:block shrink-0 drop-shadow-2xl" style={{ width: 'clamp(180px,18vw,280px)' }} />
+              <img src={asset('/jfv-logo.png')} alt="JFV Hünstetten Logo" className="hidden md:block shrink-0 drop-shadow-2xl" style={{ width: 'clamp(180px,18vw,280px)' }} />
             </div>
           </div>
         </section>
@@ -206,7 +207,7 @@ export default async function JFVPage() {
                 HÄUFIG GESTELLTE FRAGEN
               </h2>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/jfv-logo.png" alt="JFV Hünstetten Logo" className="hidden md:block shrink-0 drop-shadow-2xl" style={{ width: 'clamp(100px,10vw,160px)' }} />
+              <img src={asset('/jfv-logo.png')} alt="JFV Hünstetten Logo" className="hidden md:block shrink-0 drop-shadow-2xl" style={{ width: 'clamp(100px,10vw,160px)' }} />
             </div>
             <div className="grid md:grid-cols-2 gap-4 items-start">
               <div className="space-y-4">
