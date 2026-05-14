@@ -84,12 +84,9 @@ export default async function HomePage() {
               </p>
               <div className="flex flex-row gap-4">
                 <a href="./JFV" className="px-6 py-3 rounded-xl font-display font-black italic uppercase text-sm shadow-xl hover:scale-105 transition-transform" style={{ backgroundColor: '#5388AF', color: '#fff' }}>
-                  Probetraining vereinbaren
+                  Mehr Informationen...
                 </a>
-                <a href="./JFV" className="px-6 py-3 rounded-xl font-display font-black italic uppercase text-sm shadow-xl hover:scale-105 transition-transform" style={{ backgroundColor: '#C0392B', color: '#fff' }}>
-                  Unterstützer werden
-                </a>
-              </div>
+                </div>
             </div>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={asset('/jfv-logo.png')} alt="JFV Hünstetten Logo" className="hidden md:block shrink-0 drop-shadow-2xl" style={{ width: 'clamp(140px,14vw,220px)', marginBottom: '-8px' }} />
