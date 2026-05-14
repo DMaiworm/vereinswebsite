@@ -10,9 +10,12 @@ interface HeroProps {
   logoUrl: string | null;
   primaryColor: string;
   secondaryColor: string;
+  tagline?: string;
+  ctaLabel?: string;
+  ctaHref?: string;
 }
 
-export default function Hero({ name, shortName, logoUrl }: HeroProps) {
+export default function Hero({ name, shortName, logoUrl, tagline, ctaLabel, ctaHref }: HeroProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const logoRef      = useRef<HTMLDivElement>(null);
   const headlineRef  = useRef<HTMLHeadingElement>(null);
@@ -123,8 +126,19 @@ export default function Hero({ name, shortName, logoUrl }: HeroProps) {
           ref={subRef}
           className="max-w-md text-lg text-white/60"
         >
-          Offizieller Webauftritt
+          {tagline ?? 'Offizieller Webauftritt'}
         </p>
+
+        {ctaLabel && ctaHref && (
+          <a
+            href={ctaHref}
+            className="label-cap inline-flex items-center gap-3 rounded-sm px-8 py-3.5 transition-all active:scale-95"
+            style={{ background: 'var(--club-secondary)', color: 'var(--club-primary)' }}
+          >
+            {ctaLabel}
+            <span className="material-symbols-outlined text-base">arrow_forward</span>
+          </a>
+        )}
       </div>
 
       {/* Scroll-Indikator */}
