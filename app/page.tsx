@@ -44,6 +44,7 @@ export default async function HomePage() {
           tagline={config.homepage_tagline ?? '80 Jahre Tradition, Leidenschaft und Gemeinschaft im Herzen der Region.'}
           ctaLabel={config.homepage_cta_label ?? 'JETZT DURCHSTARTEN'}
           ctaHref="#kursangebot"
+          heroBildUrl={config.homepage_hero_bild_url}
         />
 
         {/* 2 – Aktuelles */}

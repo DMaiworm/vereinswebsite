@@ -11,11 +11,12 @@ interface HeroProps {
   tagline?: string;
   ctaLabel?: string;
   ctaHref?: string;
+  heroBildUrl?: string | null;
 }
 
 const ROTATING_WORDS = ['SPORT', 'GEMEINSCHAFT', 'HÜNSTETTEN'];
 
-export default function Hero({ tagline, ctaLabel, ctaHref }: HeroProps) {
+export default function Hero({ tagline, ctaLabel, ctaHref, heroBildUrl }: HeroProps) {
   const [wordIndex, setWordIndex] = useState(0);
   const [visible, setVisible] = useState(true);
 
@@ -41,8 +42,18 @@ export default function Hero({ tagline, ctaLabel, ctaHref }: HeroProps) {
         .animate-fade-rotate { animation: fade-rotate 8s infinite ease-in-out; }
       `}</style>
 
+      {/* Hero background image */}
+      {heroBildUrl && (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={heroBildUrl}
+          alt=""
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+      )}
+
       {/* Gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#052856]/40 to-[#fbf9f8]" />
+      <div className="absolute inset-0 bg-gradient-to-b from-[#052856]/60 to-[#052856]/80" />
 
       {/* Content */}
       <div className="relative z-10 flex flex-col items-center text-center px-6 py-24">
@@ -53,11 +64,11 @@ export default function Hero({ tagline, ctaLabel, ctaHref }: HeroProps) {
         </span>
 
         {/* Headline */}
-        <h1 className="font-display font-black text-6xl md:text-9xl text-[#052856] tracking-tighter leading-none mb-4">
+        <h1 className="font-display font-black text-6xl md:text-9xl text-white tracking-tighter leading-none mb-4">
           <span className="block">WIR SIND</span>
           <span className="block mt-2">
             <span
-              className={`text-white bg-[#052856] px-4 py-2 -rotate-1 inline-block whitespace-nowrap transition-all duration-300 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}`}
+              className={`text-[#052856] bg-[#fde000] px-4 py-2 -rotate-1 inline-block whitespace-nowrap transition-all duration-300 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}`}
             >
               {ROTATING_WORDS[wordIndex]}
             </span>
@@ -65,7 +76,7 @@ export default function Hero({ tagline, ctaLabel, ctaHref }: HeroProps) {
         </h1>
 
         {/* Tagline */}
-        <p className="text-xl md:text-2xl font-medium text-[#052856]/60 max-w-2xl mx-auto mt-8 mb-10">
+        <p className="text-xl md:text-2xl font-medium text-white/80 max-w-2xl mx-auto mt-8 mb-10">
           {tagline ?? '80 Jahre Tradition, Leidenschaft und Gemeinschaft im Herzen der Region.'}
         </p>
 
@@ -81,7 +92,7 @@ export default function Hero({ tagline, ctaLabel, ctaHref }: HeroProps) {
           )}
           <a
             href="#abteilungen"
-            className="label-cap bg-[#052856]/20 border-2 border-[#052856]/20 text-[#052856] px-10 py-5 rounded-xl font-black text-lg hover:bg-[#052856]/30 transition-all"
+            className="label-cap bg-white/10 border-2 border-white/30 text-white px-10 py-5 rounded-xl font-black text-lg hover:bg-white/20 transition-all"
           >
             UNSER VEREIN
           </a>
