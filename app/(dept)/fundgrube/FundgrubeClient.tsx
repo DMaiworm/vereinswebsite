@@ -1,7 +1,19 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import type { Fundsache, FundsacheKategorie, Facility } from '@/lib/api'
+
+// Public constants — safe to hardcode (Supabase anon/publishable key)
+const SUPA_URL  = 'https://zqjheewhgrmcwzjurjlg.supabase.co/rest/v1'
+const SUPA_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpxamhlZXdoZ3JtY3d6anVyamxnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA5MjQwNTIsImV4cCI6MjA4NjUwMDA1Mn0.9nIbptqMo6ot1FWrhaywFT8NJfgIL6oJInKP0R8AnZ0'
+
+async function supaFetch<T>(table: string, query: string): Promise<T> {
+  const res = await fetch(`${SUPA_URL}/${table}?${query}`, {
+    headers: { apikey: SUPA_ANON, Authorization: `Bearer ${SUPA_ANON}` },
+  })
+  if (!res.ok) throw new Error(`${table}: ${res.status}`)
+  return res.json()
+}
 
 const KATEGORIE_ICONS: Record<string, string> = {
   'Trikot / Sportbekleidung': 'shirt',
@@ -16,17 +28,32 @@ function formatDatum(iso: string | null) {
   return new Date(iso).toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' })
 }
 
-interface Props {
-  fundsachen:   Fundsache[]
-  kategorien:   FundsacheKategorie[]
-  sportstätten: Facility[]
-}
+export default function FundgrubeClient() {
+  const [fundsachen,   setFundsachen]   = useState<Fundsache[]>([])
+  const [kategorien,   setKategorien]   = useState<FundsacheKategorie[]>([])
+  const [sportstätten, setSportstätten] = useState<Facility[]>([])
+  const [loading,      setLoading]      = useState(true)
 
-export default function FundgrubeClient({ fundsachen, kategorien, sportstätten }: Props) {
+  useEffect(() => {
+    Promise.all([
+      supaFetch<Fundsache[]>('fundsachen',
+        'select=id,beschreibung,status,erfasst_am,foto_pfad,kategorie_id,fundort_anlage_id&status=eq.aktiv&order=erfasst_am.desc'),
+      supaFetch<FundsacheKategorie[]>('fundsachen_kategorien',
+        'select=id,name,sort_order&ist_aktiv=eq.true&order=sort_order'),
+      supaFetch<Facility[]>('facilities', 'select=id,name&order=name'),
+    ])
+      .then(([f, k, s]) => { setFundsachen(f); setKategorien(k); setSportstätten(s) })
+      .catch(console.error)
+      .finally(() => setLoading(false))
+  }, [])
+
+  const katMap = useMemo(() => Object.fromEntries(kategorien.map(k => [k.id, k.name])),  [kategorien])
+  const ortMap = useMemo(() => Object.fromEntries(sportstätten.map(s => [s.id, s.name])), [sportstätten])
+
   // ── Filter state ──
-  const [filterKat, setFilterKat]   = useState('')
-  const [filterOrt, setFilterOrt]   = useState('')
-  const [sortDir,   setSortDir]     = useState<'desc' | 'asc'>('desc')
+  const [filterKat, setFilterKat] = useState('')
+  const [filterOrt, setFilterOrt] = useState('')
+  const [sortDir,   setSortDir]   = useState<'desc' | 'asc'>('desc')
 
   // ── Verlust-Formular ──
   const [verlustOpen, setVerlustOpen] = useState(false)
@@ -34,34 +61,25 @@ export default function FundgrubeClient({ fundsachen, kategorien, sportstätten 
   const [verlustForm, setVerlustForm] = useState({ name: '', email: '', beschreibung: '', kategorie: '', fundort: '' })
 
   // ── "Gehört mir"-Modal ──
-  const [claimItem,  setClaimItem]  = useState<Fundsache | null>(null)
-  const [claimForm,  setClaimForm]  = useState({ name: '', email: '', hinweis: '' })
-  const [claimSent,  setClaimSent]  = useState(false)
+  const [claimItem, setClaimItem] = useState<Fundsache | null>(null)
+  const [claimForm, setClaimForm] = useState({ name: '', email: '', hinweis: '' })
+  const [claimSent, setClaimSent] = useState(false)
 
-  // ── Filtered & sorted items ──
   const items = useMemo(() => {
     let list = fundsachen.filter(f => {
-      if (filterKat && f.fundsachen_kategorien?.name !== filterKat) return false
-      if (filterOrt && f.facilities?.name !== filterOrt) return false
+      if (filterKat && f.kategorie_id !== filterKat) return false
+      if (filterOrt && f.fundort_anlage_id !== filterOrt) return false
       return true
     })
-    list = [...list].sort((a, b) => {
+    return [...list].sort((a, b) => {
       const ta = new Date(a.erfasst_am ?? 0).getTime()
       const tb = new Date(b.erfasst_am ?? 0).getTime()
       return sortDir === 'desc' ? tb - ta : ta - tb
     })
-    return list
   }, [fundsachen, filterKat, filterOrt, sortDir])
 
-  function handleVerlustSubmit(e: React.FormEvent) {
-    e.preventDefault()
-    setVerlustSent(true)
-  }
-
-  function handleClaimSubmit(e: React.FormEvent) {
-    e.preventDefault()
-    setClaimSent(true)
-  }
+  function handleVerlustSubmit(e: React.FormEvent) { e.preventDefault(); setVerlustSent(true) }
+  function handleClaimSubmit(e: React.FormEvent)   { e.preventDefault(); setClaimSent(true) }
 
   return (
     <>
@@ -126,7 +144,7 @@ export default function FundgrubeClient({ fundsachen, kategorien, sportstätten 
                     <select value={verlustForm.kategorie} onChange={e => setVerlustForm(p => ({ ...p, kategorie: e.target.value }))}
                       className="w-full border border-outline-variant rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-primary bg-white">
                       <option value="">— Alle —</option>
-                      {kategorien.map(k => <option key={k.id} value={k.name}>{k.name}</option>)}
+                      {kategorien.map(k => <option key={k.id} value={k.id}>{k.name}</option>)}
                     </select>
                   </div>
                   <div>
@@ -134,7 +152,7 @@ export default function FundgrubeClient({ fundsachen, kategorien, sportstätten 
                     <select value={verlustForm.fundort} onChange={e => setVerlustForm(p => ({ ...p, fundort: e.target.value }))}
                       className="w-full border border-outline-variant rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-primary bg-white">
                       <option value="">— Unbekannt —</option>
-                      {sportstätten.map(s => <option key={s.id} value={s.name}>{s.name}</option>)}
+                      {sportstätten.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}
                     </select>
                   </div>
                 </div>
@@ -162,13 +180,13 @@ export default function FundgrubeClient({ fundsachen, kategorien, sportstätten 
           <select value={filterKat} onChange={e => setFilterKat(e.target.value)}
             className="border border-outline-variant rounded-lg px-3 py-1.5 text-sm bg-white focus:outline-none focus:border-primary">
             <option value="">Alle Typen</option>
-            {kategorien.map(k => <option key={k.id} value={k.name}>{k.name}</option>)}
+            {kategorien.map(k => <option key={k.id} value={k.id}>{k.name}</option>)}
           </select>
 
           <select value={filterOrt} onChange={e => setFilterOrt(e.target.value)}
             className="border border-outline-variant rounded-lg px-3 py-1.5 text-sm bg-white focus:outline-none focus:border-primary">
             <option value="">Alle Sportstätten</option>
-            {sportstätten.map(s => <option key={s.id} value={s.name}>{s.name}</option>)}
+            {sportstätten.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}
           </select>
 
           <select value={sortDir} onChange={e => setSortDir(e.target.value as 'desc' | 'asc')}
@@ -186,7 +204,7 @@ export default function FundgrubeClient({ fundsachen, kategorien, sportstätten 
           )}
 
           <span className="ml-auto text-xs text-on-surface-variant font-medium">
-            {items.length} {items.length === 1 ? 'Gegenstand' : 'Gegenstände'}
+            {loading ? '…' : `${items.length} ${items.length === 1 ? 'Gegenstand' : 'Gegenstände'}`}
           </span>
         </div>
       </section>
@@ -194,7 +212,11 @@ export default function FundgrubeClient({ fundsachen, kategorien, sportstätten 
       {/* ── Item grid ── */}
       <section className="py-16 px-6 bg-background">
         <div className="max-w-7xl mx-auto">
-          {items.length === 0 ? (
+          {loading ? (
+            <div className="flex justify-center py-24">
+              <span className="material-symbols-outlined text-4xl text-on-surface-variant/30 animate-spin">progress_activity</span>
+            </div>
+          ) : items.length === 0 ? (
             <div className="text-center py-24">
               <span className="material-symbols-outlined text-6xl text-on-surface-variant/30 block mb-4">search_off</span>
               <p className="text-on-surface-variant font-headline font-bold text-xl">Nichts gefunden</p>
@@ -203,7 +225,13 @@ export default function FundgrubeClient({ fundsachen, kategorien, sportstätten 
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {items.map(item => (
-                <FundItem key={item.id} item={item} onClaim={() => { setClaimItem(item); setClaimSent(false); setClaimForm({ name: '', email: '', hinweis: '' }) }} />
+                <FundItem
+                  key={item.id}
+                  item={item}
+                  kategorieName={katMap[item.kategorie_id ?? ''] ?? 'Sonstiges'}
+                  fundortName={item.fundort_anlage_id ? (ortMap[item.fundort_anlage_id] ?? null) : null}
+                  onClaim={() => { setClaimItem(item); setClaimSent(false); setClaimForm({ name: '', email: '', hinweis: '' }) }}
+                />
               ))}
             </div>
           )}
@@ -215,8 +243,7 @@ export default function FundgrubeClient({ fundsachen, kategorien, sportstätten 
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={() => setClaimItem(null)} />
           <div className="relative bg-white rounded-3xl shadow-2xl w-full max-w-md p-8">
-            <button onClick={() => setClaimItem(null)}
-              className="absolute top-4 right-4 text-on-surface-variant hover:text-primary">
+            <button onClick={() => setClaimItem(null)} className="absolute top-4 right-4 text-on-surface-variant hover:text-primary">
               <span className="material-symbols-outlined">close</span>
             </button>
             {claimSent ? (
@@ -268,14 +295,16 @@ export default function FundgrubeClient({ fundsachen, kategorien, sportstätten 
   )
 }
 
-function FundItem({ item, onClaim }: { item: Fundsache; onClaim: () => void }) {
-  const kategorie = item.fundsachen_kategorien?.name ?? 'Sonstiges'
-  const fundort   = item.facilities?.name ?? null
-  const icon      = KATEGORIE_ICONS[kategorie] ?? 'help_outline'
+function FundItem({ item, kategorieName, fundortName, onClaim }: {
+  item: Fundsache
+  kategorieName: string
+  fundortName: string | null
+  onClaim: () => void
+}) {
+  const icon = KATEGORIE_ICONS[kategorieName] ?? 'help_outline'
 
   return (
     <div className="bg-white rounded-2xl border border-outline-variant/20 shadow-sm overflow-hidden flex flex-col group hover:shadow-md transition-shadow">
-      {/* Photo or placeholder */}
       <div className="h-48 bg-surface-container-low flex items-center justify-center relative overflow-hidden">
         {item.foto_pfad ? (
           // eslint-disable-next-line @next/next/no-img-element
@@ -287,21 +316,17 @@ function FundItem({ item, onClaim }: { item: Fundsache; onClaim: () => void }) {
             {icon}
           </span>
         )}
-        {/* Kategorie badge */}
         <span className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm text-primary px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest">
-          {kategorie}
+          {kategorieName}
         </span>
       </div>
-
-      {/* Content */}
       <div className="p-5 flex flex-col flex-1">
         <p className="font-headline font-bold text-primary text-base mb-2 leading-snug">{item.beschreibung}</p>
-
         <div className="space-y-1.5 mb-4 flex-1">
-          {fundort && (
+          {fundortName && (
             <p className="text-xs text-on-surface-variant flex items-center gap-1.5">
               <span className="material-symbols-outlined text-sm">location_on</span>
-              {fundort}
+              {fundortName}
             </p>
           )}
           <p className="text-xs text-on-surface-variant flex items-center gap-1.5">
@@ -309,9 +334,8 @@ function FundItem({ item, onClaim }: { item: Fundsache; onClaim: () => void }) {
             Gefunden am {formatDatum(item.erfasst_am)}
           </p>
         </div>
-
         <button onClick={onClaim}
-          className="w-full label-cap py-2.5 bg-primary text-white rounded-xl hover:bg-primary/90 active:scale-95 transition-all text-center flex items-center justify-center gap-2">
+          className="w-full label-cap py-2.5 bg-primary text-white rounded-xl hover:bg-primary/90 active:scale-95 transition-all flex items-center justify-center gap-2">
           <span className="material-symbols-outlined text-sm">hand_gesture</span>
           Gehört mir!
         </button>
