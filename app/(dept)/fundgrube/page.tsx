@@ -35,7 +35,7 @@ export default async function FundgrubePage() {
         departmentLabel="Fundgrube"
         navItems={FUNDGRUBE_NAV}
         ctaLabel={null}
-        homeHref="/"
+        homeHref="../"
       />
       <main className="pt-20">
         <FundgrubeClient
