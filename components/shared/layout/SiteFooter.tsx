@@ -2,9 +2,11 @@ interface SiteFooterProps {
   logoUrl?: string | null
   departmentLabel?: string
   variant?: 'dark' | 'light'
+  /** Präfix für interne Links. Standard '../' für Dept-Seiten, './' für Homepage */
+  linkPrefix?: string
 }
 
-export default function SiteFooter({ logoUrl, departmentLabel, variant = 'dark' }: SiteFooterProps) {
+export default function SiteFooter({ logoUrl, departmentLabel, variant = 'dark', linkPrefix = '../' }: SiteFooterProps) {
   const dark = variant === 'dark'
 
   const bg         = dark ? 'bg-navy'              : 'bg-surface-container-low font-body'
@@ -48,15 +50,14 @@ export default function SiteFooter({ logoUrl, departmentLabel, variant = 'dark' 
               <h4 className={`font-display font-black uppercase tracking-widest text-xs ${heading} mb-3`}>Verein</h4>
               <ul className={`space-y-4 ${body} text-sm font-semibold`}>
                 {[
-                    { label: 'Badminton',        href: '../badminton' },
-                    { label: 'Fitness',          href: '../fitness' },
-                    { label: 'Fußball',          href: '../fussball' },
-                    { label: 'Gesundheitssport', href: '../gesundheitssport' },
-                    { label: 'Kinderturnen',     href: '../kinderturnen' },
-                    { label: 'Leichtathletik',   href: '../leichtathletik' },
-                    { label: 'Tischtennis',      href: '../tischtennis' },
-                  ].map(({ label, href }) => (
-                  <li key={label}><a className={`${link} transition-colors`} href={href}>{label}</a></li>
+                    'badminton', 'fitness', 'fussball',
+                    'gesundheitssport', 'kinderturnen', 'leichtathletik', 'tischtennis',
+                  ].map((slug) => (
+                  <li key={slug}><a className={`${link} transition-colors`} href={`${linkPrefix}${slug}`}>
+                    {{ badminton: 'Badminton', fitness: 'Fitness', fussball: 'Fußball',
+                       gesundheitssport: 'Gesundheitssport', kinderturnen: 'Kinderturnen',
+                       leichtathletik: 'Leichtathletik', tischtennis: 'Tischtennis' }[slug]}
+                  </a></li>
                 ))}
               </ul>
             </div>
@@ -64,14 +65,13 @@ export default function SiteFooter({ logoUrl, departmentLabel, variant = 'dark' 
               <h4 className={`font-display font-black uppercase tracking-widest text-xs ${heading} mb-3`}>Rechtliches</h4>
               <ul className={`space-y-4 ${body} text-sm font-semibold`}>
                 {[
-                  { label: 'Shop',           href: '../shop' },
-                  { label: 'Impressum',      href: '../impressum' },
-                  { label: 'Geschichte',     href: '../geschichte' },
-                  { label: 'Mitgliedschaft', href: '../mitgliedschaft' },
-                  { label: 'Vorstand',       href: '../vorstand' },
-                  { label: 'Sponsoren',      href: '../sponsoren' },
-                ].map(({ label, href }) => (
-                  <li key={label}><a className={`${link} transition-colors`} href={href}>{label}</a></li>
+                  'shop', 'impressum', 'geschichte',
+                  'mitgliedschaft', 'vorstand', 'sponsoren',
+                ].map((slug) => (
+                  <li key={slug}><a className={`${link} transition-colors`} href={`${linkPrefix}${slug}`}>
+                    {{ shop: 'Shop', impressum: 'Impressum', geschichte: 'Geschichte',
+                       mitgliedschaft: 'Mitgliedschaft', vorstand: 'Vorstand', sponsoren: 'Sponsoren' }[slug]}
+                  </a></li>
                 ))}
               </ul>
             </div>

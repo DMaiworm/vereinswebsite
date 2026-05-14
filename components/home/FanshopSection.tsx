@@ -50,7 +50,7 @@ export default function FanshopSection() {
             <p className="text-[#44474f] mt-2 text-lg italic">Zeig Flagge für deinen Verein.</p>
           </div>
           <Link
-            href="/shop"
+            href="./shop"
             className="flex items-center gap-3 px-8 py-4 bg-[#052856] text-white rounded-xl font-display font-bold hover:bg-[#0a3568] transition-all label-cap"
           >
             Alle Artikel

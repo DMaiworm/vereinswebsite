@@ -14,7 +14,7 @@ const HOME_NAV = [
   { label: 'Aktuelles',   href: '#aktuelles' },
   { label: 'Kursangebot', href: '#kursangebot' },
   { label: 'Abteilungen', href: '#abteilungen' },
-  { label: 'Shop',        href: '/shop' },
+  { label: 'Shop',        href: './shop' },
 ];
 
 export default async function HomePage() {
@@ -70,7 +70,7 @@ export default async function HomePage() {
         <SponsorBand sponsors={sponsors} />
       </main>
 
-      <SiteFooter logoUrl={config.logo_web_pfad ?? config.logo_url} />
+      <SiteFooter logoUrl={config.logo_web_pfad ?? config.logo_url} linkPrefix="./" />
     </>
   );
 }
