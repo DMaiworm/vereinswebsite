@@ -45,6 +45,7 @@ export default async function HomePage() {
           ctaLabel={config.homepage_cta_label ?? 'JETZT DURCHSTARTEN'}
           ctaHref="#kursangebot"
           heroBildUrl={config.homepage_hero_bild_url}
+          sponsors={sponsors}
         />
 
         {/* 2 – Aktuelles */}

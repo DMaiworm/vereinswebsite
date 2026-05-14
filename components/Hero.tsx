@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import type { Sponsor } from '@/lib/api';
 
 interface HeroProps {
   name: string;
@@ -12,11 +13,12 @@ interface HeroProps {
   ctaLabel?: string;
   ctaHref?: string;
   heroBildUrl?: string | null;
+  sponsors?: Sponsor[];
 }
 
 const ROTATING_WORDS = ['SPORT', 'GEMEINSCHAFT', 'HÜNSTETTEN'];
 
-export default function Hero({ tagline, ctaLabel, ctaHref, heroBildUrl }: HeroProps) {
+export default function Hero({ tagline, ctaLabel, ctaHref, heroBildUrl, sponsors = [] }: HeroProps) {
   const [wordIndex, setWordIndex] = useState(0);
   const [visible, setVisible] = useState(true);
 
@@ -31,6 +33,8 @@ export default function Hero({ tagline, ctaLabel, ctaHref, heroBildUrl }: HeroPr
     return () => clearInterval(interval);
   }, []);
 
+  const sponsorItems = sponsors.length > 0 ? [...sponsors, ...sponsors] : [];
+
   return (
     <section className="relative min-h-[75vh] flex items-center justify-center overflow-hidden bg-[#223e6d]">
       <style>{`
@@ -39,7 +43,16 @@ export default function Hero({ tagline, ctaLabel, ctaHref, heroBildUrl }: HeroPr
           15%, 85% { opacity: 1; transform: translateY(0); }
           90%, 100% { opacity: 0; transform: translateY(-10px); }
         }
-        .animate-fade-rotate { animation: fade-rotate 8s infinite ease-in-out; }
+        @keyframes hero-marquee {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+        .hero-marquee-track {
+          display: flex;
+          animation: hero-marquee 30s linear infinite;
+          width: max-content;
+        }
+        .hero-marquee-track:hover { animation-play-state: paused; }
       `}</style>
 
       {/* Hero background image */}
@@ -64,7 +77,7 @@ export default function Hero({ tagline, ctaLabel, ctaHref, heroBildUrl }: HeroPr
         </span>
 
         {/* Headline */}
-        <h1 className="font-display font-black text-6xl md:text-9xl text-white tracking-tighter leading-none mb-4">
+        <h1 className="font-display font-black text-5xl md:text-8xl text-white tracking-tighter leading-none mb-4">
           <span className="block">WIR SIND</span>
           <span className="block mt-2">
             <span
@@ -98,6 +111,31 @@ export default function Hero({ tagline, ctaLabel, ctaHref, heroBildUrl }: HeroPr
           </a>
         </div>
       </div>
+
+      {/* Sponsor marquee – transparent, bottom of hero */}
+      {sponsorItems.length > 0 && (
+        <div className="absolute bottom-0 left-0 right-0 z-20 bg-white/10 backdrop-blur-sm border-t border-white/10 overflow-hidden py-3">
+          <div className="hero-marquee-track gap-12 px-8">
+            {sponsorItems.map((s, i) => (
+              <div key={`${s.id}-${i}`} className="shrink-0 flex items-center justify-center">
+                {s.logo_web_url ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={s.logo_web_url}
+                    alt={s.firmenname}
+                    style={{ maxHeight: '28px', maxWidth: '100px', width: 'auto' }}
+                    className="object-contain brightness-0 invert opacity-60"
+                  />
+                ) : (
+                  <span className="text-white/60 text-xs font-bold uppercase tracking-widest whitespace-nowrap">
+                    {s.firmenname}
+                  </span>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </section>
   );
 }
