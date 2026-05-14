@@ -69,38 +69,38 @@ export default function Hero({ tagline, ctaLabel, ctaHref, heroBildUrl, sponsors
       <div className="absolute inset-0 bg-gradient-to-b from-[#052856]/60 to-[#052856]/80" />
 
       {/* Content */}
-      <div className="relative z-10 flex flex-col items-center text-center px-6 py-24">
+      <div className="relative z-10 flex flex-col md:flex-row md:items-end md:justify-between gap-10 px-6 md:px-16 pt-72 pb-16">
 
-        {/* Headline */}
-        <h1 className="font-display font-black text-4xl md:text-7xl text-white tracking-tighter leading-none mb-4">
-          <span className="block">WIR SIND</span>
-          <span className="block mt-2">
-            <span
-              className={`text-[#052856] bg-[#fde000] px-4 py-2 -rotate-1 inline-block whitespace-nowrap transition-all duration-300 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}`}
-            >
-              {ROTATING_WORDS[wordIndex]}
+        {/* Left: Headline + Tagline */}
+        <div className="max-w-2xl">
+          <h1 className="font-display font-black text-4xl md:text-7xl text-white tracking-tighter leading-none mb-4">
+            <span className="block">WIR SIND</span>
+            <span className="block mt-2">
+              <span
+                className={`text-[#052856] bg-[#fde000] px-4 py-2 -rotate-1 inline-block whitespace-nowrap transition-all duration-300 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}`}
+              >
+                {ROTATING_WORDS[wordIndex]}
+              </span>
             </span>
-          </span>
-        </h1>
+          </h1>
+          <p className="text-lg md:text-xl font-medium text-white/70 mt-8">
+            {tagline ?? '80 Jahre Tradition, Leidenschaft und Gemeinschaft im Herzen der Region.'}
+          </p>
+        </div>
 
-        {/* Tagline */}
-        <p className="text-xl md:text-2xl font-medium text-white/80 max-w-2xl mx-auto mt-8 mb-10">
-          {tagline ?? '80 Jahre Tradition, Leidenschaft und Gemeinschaft im Herzen der Region.'}
-        </p>
-
-        {/* CTAs */}
-        <div className="flex flex-col sm:flex-row gap-4 items-center">
+        {/* Right: CTAs */}
+        <div className="flex flex-col gap-4 shrink-0">
           {ctaLabel && ctaHref && (
             <a
               href={ctaHref}
-              className="label-cap bg-[#fde000] text-[#052856] px-10 py-5 rounded-xl font-black text-lg hover:scale-105 transition-all shadow-xl"
+              className="label-cap bg-[#fde000] text-[#052856] px-10 py-5 rounded-xl font-black text-lg hover:scale-105 transition-all shadow-xl text-center"
             >
               {ctaLabel}
             </a>
           )}
           <a
             href="#abteilungen"
-            className="label-cap bg-white/10 border-2 border-white/30 text-white px-10 py-5 rounded-xl font-black text-lg hover:bg-white/20 transition-all"
+            className="label-cap bg-white/10 border-2 border-white/30 text-white px-10 py-5 rounded-xl font-black text-lg hover:bg-white/20 transition-all text-center"
           >
             UNSER VEREIN
           </a>
