@@ -23,7 +23,7 @@ export default function AthleticsNav({ logoUrl, clubName }: AthleticsNavProps) {
       clubName={clubName}
       departmentLabel="Leichtathletik"
       navItems={NAV_ITEMS}
-      homeHref="../leichtathletik"
+      homeHref="../"
     />
   )
 }
