@@ -1,4 +1,5 @@
 import { fetchClubConfig, fetchSponsors } from '@/lib/api';
+import BaseNav from '@/components/shared/layout/BaseNav';
 import Hero from '@/components/Hero';
 import AbteilungenGrid from '@/components/AbteilungenGrid';
 import SponsorBand from '@/components/shared/layout/SponsorBand';
@@ -7,6 +8,14 @@ import AktuellesSection from '@/components/home/AktuellesSection';
 import KursangebotSection from '@/components/home/KursangebotSection';
 import KursDerWocheSection from '@/components/home/KursDerWocheSection';
 import ZahlenTraditionSection from '@/components/home/ZahlenTraditionSection';
+import FanshopSection from '@/components/home/FanshopSection';
+
+const HOME_NAV = [
+  { label: 'Aktuelles',   href: '#aktuelles' },
+  { label: 'Kursangebot', href: '#kursangebot' },
+  { label: 'Abteilungen', href: '#abteilungen' },
+  { label: 'Shop',        href: '/shop' },
+];
 
 export default async function HomePage() {
   const config   = await fetchClubConfig();
@@ -16,6 +25,14 @@ export default async function HomePage() {
 
   return (
     <>
+      <BaseNav
+        logoUrl={config.logo_url}
+        clubName={config.name}
+        navItems={HOME_NAV}
+        ctaLabel="Mitglied werden"
+        homeHref="."
+      />
+
       <main>
         {/* 1 – Hero */}
         <Hero
@@ -30,7 +47,9 @@ export default async function HomePage() {
         />
 
         {/* 2 – Aktuelles */}
-        <AktuellesSection />
+        <div id="aktuelles">
+          <AktuellesSection />
+        </div>
 
         {/* 3 – Kursangebot mit Tabs */}
         <KursangebotSection />
@@ -44,7 +63,10 @@ export default async function HomePage() {
         {/* 6 – Zahlen & Tradition */}
         <ZahlenTraditionSection />
 
-        {/* 7 – Sponsoren */}
+        {/* 7 – Fan-Shop */}
+        <FanshopSection />
+
+        {/* 8 – Sponsoren */}
         <SponsorBand sponsors={sponsors} />
       </main>
 
