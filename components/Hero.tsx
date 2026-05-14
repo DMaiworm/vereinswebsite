@@ -32,7 +32,7 @@ export default function Hero({ tagline, ctaLabel, ctaHref, heroBildUrl }: HeroPr
   }, []);
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#223e6d]">
+    <section className="relative min-h-[75vh] flex items-center justify-center overflow-hidden bg-[#223e6d]">
       <style>{`
         @keyframes fade-rotate {
           0%, 10% { opacity: 0; transform: translateY(10px); }
@@ -60,7 +60,7 @@ export default function Hero({ tagline, ctaLabel, ctaHref, heroBildUrl }: HeroPr
 
         {/* Badge */}
         <span className="inline-block bg-[#fde000] text-[#052856] px-4 py-1 rounded-full text-sm font-bold mb-6 tracking-widest uppercase animate-pulse">
-          Seit 1944
+          Tradition seit 1947
         </span>
 
         {/* Headline */}

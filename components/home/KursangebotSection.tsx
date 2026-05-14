@@ -70,7 +70,7 @@ const KATEGORIEN: Kategorie[] = [
 ];
 
 export default function KursangebotSection() {
-  const [activeKey, setActiveKey] = useState('fitness');
+  const [activeKey, setActiveKey] = useState('kinder');
 
   const active = KATEGORIEN.find((k) => k.key === activeKey) ?? KATEGORIEN[0];
 
