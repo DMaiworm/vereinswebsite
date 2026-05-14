@@ -28,7 +28,7 @@ export default async function KidsInBewegungPage() {
 
   return (
     <div className="bg-background font-body-md text-on-background">
-      <BaseNav logoUrl={logoUrl} clubName="Hünstetten" departmentLabel="Kids in Bewegung" navItems={KIDS_NAV} ctaLabel="Jetzt Anmelden" homeHref="/" />
+      <BaseNav logoUrl={logoUrl} clubName="Hünstetten" departmentLabel="Kids in Bewegung" navItems={KIDS_NAV} ctaLabel="Jetzt Anmelden" homeHref="../" />
       <main className="pt-20">
         <KursHero
           imageSrc="https://lh3.googleusercontent.com/aida-public/AB6AXuCfOznd2Yv2ObRCZnlOojk5zJnAUEUYoClcMnoveh4DKMnAC_jTq_DFgZyMXPqzwWP5Q8HX-pCNzzXlWZJtqvsYhESzph1ab_BpCh03OfxBzDnmb-Cgo2U43KNKZ6O-B8w0mWE2aZhSOyHuO-QAClRXriTyBx17LZeeVMTqdDd6T3DNOisYIi8JmmSqyujS9XDcTBZ_sXRTEyGPa_6OdWSaQ4EurOTLUR2kA5SImSgExEAjEyIjagss_eO2GwlvPrg2nL2LeUk2kQc"

@@ -36,7 +36,7 @@ export default async function AchtsamkeitPage() {
 
   return (
     <div className="bg-background font-body-md text-on-background">
-      <BaseNav logoUrl={logoUrl} clubName="Hünstetten" departmentLabel="Achtsamkeit & Entspannung" navItems={ACHTSAMKEIT_NAV} ctaLabel="Jetzt Anmelden" homeHref="/" />
+      <BaseNav logoUrl={logoUrl} clubName="Hünstetten" departmentLabel="Achtsamkeit & Entspannung" navItems={ACHTSAMKEIT_NAV} ctaLabel="Jetzt Anmelden" homeHref="../" />
       <main className="pt-20">
         <KursHero
           imageSrc="https://lh3.googleusercontent.com/aida-public/AB6AXuCDYJzMmOfe4LWHo1KVI47hn1N5gnaL3avUyCIWdClbnTu7qHeuqo0CqS14M1yw4_u9qp9SIPxwmNaCPl1BAxExYbVVdzZu-po69HH5fMvxVqBWDdB15-tY74NulE9KkmCpjdrMvNfSYcDpY6obIAl4ePCdoTYJhQDY4qS1J5_OpqIoK2oCrdWUNT7gBakng1zNZCbtXQv6MLdvzsDUD_suUOoe5wKX1mr-OCCVcZ06mKJgMMsAjSncH7V_THp9ydoxt_potnwYOUU"

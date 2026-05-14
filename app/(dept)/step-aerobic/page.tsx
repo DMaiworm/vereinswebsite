@@ -28,7 +28,7 @@ export default async function StepAerobicPage() {
 
   return (
     <div className="bg-background font-body-md text-on-background">
-      <BaseNav logoUrl={logoUrl} clubName="Hünstetten" departmentLabel="Step-Aerobic" navItems={STEP_AEROBIC_NAV} ctaLabel="Jetzt Anmelden" homeHref="/" />
+      <BaseNav logoUrl={logoUrl} clubName="Hünstetten" departmentLabel="Step-Aerobic" navItems={STEP_AEROBIC_NAV} ctaLabel="Jetzt Anmelden" homeHref="../" />
       <main className="pt-20">
         <KursHero
           imageSrc="https://lh3.googleusercontent.com/aida-public/AB6AXuBYjUo"
