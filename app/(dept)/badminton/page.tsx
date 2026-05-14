@@ -112,23 +112,27 @@ export default async function BadmintonPage() {
           sectionNum="01 — Aktuelles"
           theme="light"
         />
-        <ErwachseneSection
-          leitung={erwachseneTeam?.trainer.find(t => t.is_primary) ?? abteilung?.leitung}
-          teamFotoUrl={erwachseneTeam?.foto_url ?? null}
-          motto={erwachseneTeam?.motto ?? null}
-        />
+        <div id="erwachsene">
+          <ErwachseneSection
+            leitung={erwachseneTeam?.trainer.find(t => t.is_primary) ?? abteilung?.leitung}
+            teamFotoUrl={erwachseneTeam?.foto_url ?? null}
+            motto={erwachseneTeam?.motto ?? null}
+          />
+        </div>
         <GalerieGrid
           galerie={allGalerie}
           sectionNum="03 — Galerie"
           title={<>Kinetic <span className="text-outline-navy">Moments</span></>}
           background="bg-chalk"
         />
-        <JugendSection
-          trainers={jugendTeam?.trainer ?? []}
-          teamFotoUrl={jugendTeam?.foto_url ?? null}
-          alterVon={jugendTeam?.alter_von ?? null}
-          alterBis={jugendTeam?.alter_bis ?? null}
-        />
+        <div id="jugend">
+          <JugendSection
+            trainers={jugendTeam?.trainer ?? []}
+            teamFotoUrl={jugendTeam?.foto_url ?? null}
+            alterVon={jugendTeam?.alter_von ?? null}
+            alterBis={jugendTeam?.alter_bis ?? null}
+          />
+        </div>
         <EngagementSection />
         <ShopGrid variant="md3" products={products} />
         <SponsorBand sponsors={sponsors} />
@@ -344,7 +348,7 @@ function EngagementSection() {
               <span className="w-2 h-2 rounded-full bg-red-600 inline-block" />
               <span className="label-cap text-red-600">Dringend gesucht</span>
             </div>
-            <h2 className="display-giant text-navy mb-6" style={{ fontSize: 'clamp(36px, 5.5vw, 80px)' }}>
+            <h2 className="font-display font-black uppercase italic text-navy mb-6" style={{ fontSize: 'clamp(22px, 3vw, 42px)' }}>
               Übungsleiter<br />gesucht!
             </h2>
             <p className="text-ink-soft/50 text-sm leading-relaxed max-w-md mb-8">

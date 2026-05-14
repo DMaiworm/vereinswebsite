@@ -18,13 +18,14 @@ interface BaseNavProps {
 }
 
 const ABTEILUNGEN = [
-  { label: 'Badminton',       href: '../badminton' },
-  { label: 'Fitness',         href: '../fitness' },
-  { label: 'Fußball',         href: '../fussball' },
-  { label: 'Gesundheitssport',href: '../gesundheitssport' },
-  { label: 'Kinderturnen',    href: '../kinderturnen' },
-  { label: 'Leichtathletik',  href: '../leichtathletik' },
-  { label: 'Tischtennis',     href: '../tischtennis' },
+  { label: 'Badminton',          href: '../badminton' },
+  { label: 'Fitness',            href: '../fitness' },
+  { label: 'Fußball',            href: '../fussball' },
+  { label: 'Gesundheitssport',   href: '../gesundheitssport' },
+  { label: 'Jugendfußball (JFV)',href: '../JFV' },
+  { label: 'Kinderturnen',       href: '../kinderturnen' },
+  { label: 'Leichtathletik',     href: '../leichtathletik' },
+  { label: 'Tischtennis',        href: '../tischtennis' },
 ]
 
 const RECHTLICHES = [

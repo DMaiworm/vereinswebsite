@@ -4,11 +4,8 @@ import BaseNav from '@/components/shared/layout/BaseNav'
 import type { NavItem } from '@/components/shared/layout/BaseNav'
 
 const NAV_ITEMS: NavItem[] = [
-  { label: 'Adult Teams', href: '#', active: true },
-  { label: 'Youth Teams', href: '#' },
-  { label: 'Coaches', href: '#' },
-  { label: 'Partners', href: '#' },
-  { label: 'Trial Session', href: '#' },
+  { label: 'Erwachsene', href: '#erwachsene', active: true },
+  { label: 'Jugend', href: '#jugend' },
 ]
 
 interface BadmintonNavProps {

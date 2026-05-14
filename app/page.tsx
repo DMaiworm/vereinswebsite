@@ -62,6 +62,39 @@ export default async function HomePage() {
         {/* 5 – Kurs der Woche */}
         <KursDerWocheSection />
 
+        {/* JFV Hero Banner */}
+        <div className="relative overflow-hidden" style={{ height: '500px' }}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAIQu-mMb6znKt8RaFJN6N2-7uNWTYi6ao7w82x0rS6IBWpCrcPxHMMsTWHOcfae8qkElbCYCp19rDditLj45xsKtcxHeltn7ZonJ4XCkJP2-DRSCboPlukYhf9ORtKpRE_GykkbnulyTOceuDnZREwpD5C8WvEk9CTUho96Jbjlzb7Yia0tMk2THriDKnHU5lXDlZjz9pMNMnc2G4pHBV8SOLozDPXso1KC0v63dgA9xiOMSpKWha3AgDhkFQgqOs23j_iixlPhLQ"
+            alt="JFV Hünstetten Jugendfußball"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(83,136,175,0.5) 0%, rgba(5,40,86,0.75) 100%)' }} />
+          <div className="absolute inset-0 flex flex-row items-end justify-between px-10 md:px-16 pb-12">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: '#FDE000' }}>Jugendfußball</p>
+              <h3 className="font-display font-black uppercase leading-none mb-3" style={{ fontSize: 'clamp(1.5rem,3.5vw,2.5rem)', color: '#FDE000' }}>
+                JFV HÜNSTETTEN
+              </h3>
+              <p className="text-white mb-6" style={{ fontSize: '1rem', maxWidth: '560px' }}>
+                Vom ersten Ballkontakt bis zur Meisterschaft — Bambinis bis A-Jugend.<br />
+                Wir formen echte Teamplayer auf und neben dem Platz.
+              </p>
+              <div className="flex flex-row gap-4">
+                <a href="./JFV" className="px-6 py-3 rounded-xl font-display font-black italic uppercase text-sm shadow-xl hover:scale-105 transition-transform" style={{ backgroundColor: '#5388AF', color: '#fff' }}>
+                  Probetraining vereinbaren
+                </a>
+                <a href="./JFV" className="px-6 py-3 rounded-xl font-display font-black italic uppercase text-sm shadow-xl hover:scale-105 transition-transform" style={{ backgroundColor: '#C0392B', color: '#fff' }}>
+                  Unterstützer werden
+                </a>
+              </div>
+            </div>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="./jfv-logo.png" alt="JFV Hünstetten Logo" className="hidden md:block shrink-0 drop-shadow-2xl" style={{ width: 'clamp(140px,14vw,220px)', marginBottom: '-8px' }} />
+          </div>
+        </div>
+
         {/* 6 – Zahlen & Tradition */}
         <ZahlenTraditionSection
           aboutText={config.homepage_about_text}

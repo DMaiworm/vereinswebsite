@@ -9,6 +9,7 @@ const DEPT_SLUGS: Record<string, string> = {
   'Fußball':             'fussball',
   'Fussball':            'fussball',
   'Fussball - Senioren': 'fussball',
+  'Jugendfußball':       'JFV',
   'Gesundheitssport':    'gesundheitssport',
   'Yoga':                'gesundheitssport',
   'Fitness':             'fitness',
@@ -26,6 +27,13 @@ const FITNESS_CARD: Department = {
   beschreibung: 'LadyFit, ManFit, Tanzfitness, Step-Aerobic und Workout – sieben Kurse für alle, die gemeinsam fit bleiben wollen.',
 };
 
+const JFV_CARD: Department = {
+  id: 'jfv-static',
+  name: 'Jugendfußball',
+  icon: '⚽',
+  beschreibung: 'Vom ersten Ballkontakt bis zur A-Jugend – der JFV Hünstetten fördert junge Talente.',
+};
+
 interface AbteilungenGridProps {
   departments: Department[];
 }
@@ -34,7 +42,7 @@ export default function AbteilungenGrid({ departments }: AbteilungenGridProps) {
   if (departments.length === 0) return null;
 
   const hasFitness = departments.some((d) => d.name === 'Fitness');
-  const cards = hasFitness ? departments : [...departments, FITNESS_CARD];
+  const cards = [...(hasFitness ? departments : [...departments, FITNESS_CARD]), JFV_CARD];
 
   return (
     <section id="abteilungen" className="bg-[#cbd5e1] py-10 px-6 text-[#1b1c1c]">
@@ -69,12 +77,20 @@ export default function AbteilungenGrid({ departments }: AbteilungenGridProps) {
                   alt={label}
                   className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
+              ) : dept.id === 'jfv-static' ? (
+                <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, #5388AF 0%, #3e6b8d 100%)' }} />
               ) : (
                 <div className="absolute inset-0 bg-gradient-to-br from-[#052856] to-[#0a3568]" />
               )}
 
               {/* Gradient overlay */}
               <div className="absolute inset-0 bg-gradient-to-t from-[#052856]/90 via-[#052856]/30 to-transparent" />
+
+              {/* JFV Logo top-right */}
+              {dept.id === 'jfv-static' && (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src="/jfv-logo.png" alt="JFV Logo" className="absolute z-10 drop-shadow-lg" style={{ width: '48px', top: '12px', right: '12px' }} />
+              )}
 
               {/* Content */}
               <div className="absolute inset-0 p-4 flex flex-col justify-end">

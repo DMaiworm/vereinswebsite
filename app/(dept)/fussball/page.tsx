@@ -27,6 +27,7 @@ const FUSSBALL_NAV = [
   { label: '1. Mannschaft', href: '#',        active: true },
   { label: '2. Mannschaft', href: '#zweite' },
   { label: 'Alte Herren',   href: '#alte-herren' },
+  { label: 'Jugendfußball', href: '../JFV' },
   { label: 'Fan-Shop',      href: '#shop' },
 ]
 
