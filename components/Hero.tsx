@@ -66,7 +66,7 @@ export default function Hero({ tagline, ctaLabel, ctaHref, heroBildUrl, sponsors
       )}
 
       {/* Gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#052856]/60 to-[#052856]/80" />
+      <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(5,40,86,0.3) 0%, rgba(5,40,86,0.55) 100%)' }} />
 
       {/* Content */}
       <div className="relative z-10 flex flex-col md:flex-row md:items-end md:justify-between gap-10 px-6 md:px-16 pt-72 pb-16">

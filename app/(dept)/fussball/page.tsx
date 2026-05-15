@@ -63,7 +63,7 @@ export default async function FussballPage() {
             </div>
             <h1 className="font-headline font-black text-white text-5xl md:text-7xl lg:text-8xl leading-[0.9] max-w-4xl tracking-tighter">
               Fußball: <br />
-              <span className="text-secondary-container italic">Tradition &amp; Leidenschaft</span>
+              <span className="text-secondary-container">Tradition &amp; Leidenschaft</span>
             </h1>
             <p className="mt-8 text-on-primary-container text-xl md:text-2xl max-w-xl font-medium leading-relaxed">
               Willkommen im sportlichen Herzstück von Hünstetten. Wo Kameradschaft auf Leistung trifft.

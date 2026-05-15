@@ -1,7 +1,7 @@
 import BadmintonNav from '@/components/badminton/BadmintonNav'
 import SiteFooter from '@/components/shared/layout/SiteFooter'
 import SponsorBand from '@/components/shared/layout/SponsorBand'
-import NewsGrid from '@/components/shared/sections/NewsGrid'
+import AktuellesSection from '@/components/home/AktuellesSection'
 import GalerieGrid from '@/components/shared/sections/GalerieGrid'
 import ShopGrid from '@/components/shared/sections/ShopGrid'
 import TeamIntro1 from '@/components/shared/team/TeamIntro1'
@@ -9,8 +9,6 @@ import TeamIntro2 from '@/components/shared/team/TeamIntro2'
 import { fetchClubConfig, fetchAbteilung, fetchSponsors } from '@/lib/api'
 import type { Trainer, GalerieItem, AbteilungProfile, TrainingSlot } from '@/lib/api'
 import type { ShopProduct } from '@/components/shared/sections/ShopGrid'
-import type { SocialHandle, NewsCard } from '@/components/shared/sections/NewsGrid'
-
 // ─── Helpers ────────────────────────────────────────────────────────────────
 
 function formatTrainingSlot(slot: TrainingSlot): string {
@@ -18,27 +16,6 @@ function formatTrainingSlot(slot: TrainingSlot): string {
 }
 
 // ─── Static content ──────────────────────────────────────────────────────────
-
-const NEWS_BIG: NewsCard = {
-  src: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCHvVAleUYJuzPYEJLha9Mltwo3iwaT9oBgo3mEwObzsZoanwYaw01L-KbX3TIRuOVq2XwRtuklNU8uwJXsv5RNoKW9dPZN0F7C04pxnTGPE8SYCZkwBKG_R9oBuK_TI2umowvmVNXm9VU1QcN_B8DjxP2IVZcXRnOFd8UYxNtkHViFHXMn3b8yWMuuz1MHb317fpziGXFfGHZhunvvp2LLDw4QyMYSa-XRDsesuYe2QhSPbEC9kt8BZvZKddVlJ5vXPV8cojxLm8c',
-  category: 'Spielbericht',
-  title: 'Erfolg bei Bezirksmeisterschaft',
-  likes: 84,
-}
-const NEWS_SECOND: NewsCard = {
-  src: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDroGgypJqh_NjO26ER5fmmp56PlgowMJOWIjKMLS20CbTtiIvvdTTjCQPD5xtD_MUoRMSSf8h_9ZIVaVI4wVror7hxPPuNUX1KyTCgYEI6VChhP0klIMolspXmr74ZahILL0CrTKN2bkdDa3bdcpplic8sH8H6rwfww_DPytZQYFpXx8rqu61lgYgIYuF60sZBkCOYaGZ8It84tCZIESow35BN00zmMJoVridedgX9DiyPF3sSA2NA2HzayUsxJql5EvP360LmCog',
-  category: 'Training',
-  title: 'Power-Training am Dienstag',
-}
-const NEWS_THIRD: NewsCard = {
-  src: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDPIYsb43XGuYJPaQPMsMkUxdP1MiQ-2FS6AfGfmI272VB6MSI11yEgJX0PyxIIqiBcy_AmskdhJwP_824zxujCJiqdAIBXlCVl3LT9cTQS31cJsVUnjQ4Hy402hjpa7VK8xfj12ihI3hJkQlDpw6JGah09c25k9erGCUErHwVhE0mVBdplggsrrhTrrfF1fY6yZYqLxUYkFVVioMYieixqVTHE9i2_MAe368jFMQzvu3bG4sTNCba8ZxQ02fLPn1lf-HOwt7TxHVc',
-  category: 'Event',
-  title: 'Sommerfest in der Halle',
-}
-const SOCIAL_HANDLES: SocialHandle[] = [
-  { platform: 'instagram', name: '@SGHuenstetten\n_Badminton' },
-  { platform: 'facebook', name: 'SG Hünstetten\nBadminton' },
-]
 
 const products: ShopProduct[] = [
   {
@@ -104,14 +81,7 @@ export default async function BadmintonPage() {
       <BadmintonNav logoUrl={config?.logo_web_pfad ?? config?.logo_url} clubName={config?.short_name ?? config?.name} />
       <main>
         <Hero trainingSlot={erwachseneTeam?.training_slots?.[0] ? formatTrainingSlot(erwachseneTeam.training_slots[0]) : undefined} />
-        <NewsGrid
-          bigCard={NEWS_BIG}
-          secondCard={NEWS_SECOND}
-          thirdCard={NEWS_THIRD}
-          socialHandles={SOCIAL_HANDLES}
-          sectionNum="01 — Aktuelles"
-          theme="light"
-        />
+        <AktuellesSection />
         <div id="erwachsene">
           <ErwachseneSection
             leitung={erwachseneTeam?.trainer.find(t => t.is_primary) ?? abteilung?.leitung}
@@ -146,7 +116,7 @@ export default async function BadmintonPage() {
 
 function Hero({ trainingSlot }: { trainingSlot?: string }) {
   return (
-    <header className="relative h-screen min-h-[600px] flex flex-col justify-end overflow-hidden bg-navy noise">
+    <header className="relative flex flex-col justify-end overflow-hidden bg-navy noise" style={{ height: '65vh', maxHeight: '700px', minHeight: '500px' }}>
 
       <div className="absolute inset-0 z-0">
         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -162,7 +132,7 @@ function Hero({ trainingSlot }: { trainingSlot?: string }) {
       <div className="absolute inset-0 z-0 flex items-center justify-end pointer-events-none pr-8 md:pr-16 overflow-hidden">
         <span
           className="text-outline-chalk font-display font-black uppercase leading-none select-none"
-          style={{ fontSize: 'clamp(80px, 18vw, 280px)', letterSpacing: '-0.04em', opacity: 0.3 }}
+          style={{ fontSize: 'clamp(50px, 11vw, 160px)', letterSpacing: '-0.04em', opacity: 0.3 }}
         >
           BADMINTON
         </span>
@@ -176,7 +146,7 @@ function Hero({ trainingSlot }: { trainingSlot?: string }) {
           </span>
         </div>
 
-        <h1 className="anim-up-2 display-giant text-chalk mb-8" style={{ fontSize: 'clamp(56px, 9vw, 148px)' }}>
+        <h1 className="anim-up-2 display-giant text-chalk mb-8" style={{ fontSize: 'clamp(36px, 6vw, 96px)' }}>
           Speed<br />
           <span style={{ WebkitTextStroke: '2px #fde000', color: 'transparent' }}>&amp;</span>
           <span className="text-gold"> Tradition</span>
@@ -230,7 +200,7 @@ function ErwachseneSection({
       <div className="absolute top-0 left-0 pointer-events-none overflow-hidden w-full" style={{ zIndex: 0 }}>
         <span
           className="font-display font-black uppercase leading-none select-none block text-outline-chalk"
-          style={{ fontSize: 'clamp(60px,14vw,200px)', letterSpacing: '-0.04em', opacity: 0.06, marginTop: '-0.1em', whiteSpace: 'nowrap' }}
+          style={{ fontSize: 'clamp(40px, 9vw, 130px)', letterSpacing: '-0.04em', opacity: 0.06, marginTop: '-0.1em', whiteSpace: 'nowrap' }}
         >
           ERWACHSENE
         </span>
@@ -240,7 +210,7 @@ function ErwachseneSection({
         <div className="flex items-end justify-between mb-16 gap-6 flex-wrap">
           <div>
             <p className="sec-num text-chalk/40 mb-3">02 — Erwachsenen-Abteilung</p>
-            <h2 className="display-giant text-chalk" style={{ fontSize: 'clamp(36px, 5.5vw, 88px)' }}>
+            <h2 className="display-giant text-chalk" style={{ fontSize: 'clamp(28px, 4vw, 60px)' }}>
               Hobby &amp; <span className="text-gold">Leistung</span>
             </h2>
             {motto && <p className="label-cap text-gold/60 mt-3 tracking-label">{motto}</p>}
@@ -297,7 +267,7 @@ function JugendSection({
         <div className="mb-16">
           <p className="sec-num mb-3">04 — Jugend</p>
           <div className="flex items-end gap-8 flex-wrap">
-            <h2 className="display-giant text-navy" style={{ fontSize: 'clamp(36px, 5.5vw, 88px)' }}>
+            <h2 className="display-giant text-navy" style={{ fontSize: 'clamp(28px, 4vw, 60px)' }}>
               Jugend-<span className="text-gold">Entwicklung</span>
             </h2>
             {ageLabel && (
@@ -348,7 +318,7 @@ function EngagementSection() {
               <span className="w-2 h-2 rounded-full bg-red-600 inline-block" />
               <span className="label-cap text-red-600">Dringend gesucht</span>
             </div>
-            <h2 className="font-display font-black uppercase italic text-navy mb-6" style={{ fontSize: 'clamp(22px, 3vw, 42px)' }}>
+            <h2 className="font-display font-black uppercase text-navy mb-6" style={{ fontSize: 'clamp(22px, 3vw, 42px)' }}>
               Übungsleiter<br />gesucht!
             </h2>
             <p className="text-ink-soft/50 text-sm leading-relaxed max-w-md mb-8">

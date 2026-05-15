@@ -26,10 +26,17 @@ interface NewsGridMd3Props {
 // ── Classic variant types ──────────────────────────────────────────────────────
 
 export interface SocialHandle {
-  platform: 'instagram' | 'facebook'
+  platform: 'instagram' | 'facebook' | 'whatsapp' | 'youtube'
   name: string
   href?: string
   subtext?: string
+}
+
+export interface NewsEvent {
+  date: string
+  label: string
+  title: string
+  location: string
 }
 
 export interface NewsCard {
@@ -39,6 +46,37 @@ export interface NewsCard {
   likes?: number
 }
 
+const DEFAULT_EVENTS: NewsEvent[] = [
+  { date: '31. Mai', label: 'Sa', title: 'Sommerfest 2025 – 80 Jahre SG Hünstetten', location: 'Sportanlage Ketternschwalbach' },
+  { date: '14. Jun', label: 'Sa', title: 'Jugendturnier JFV Hünstetten', location: 'Kunstrasenplatz Hünstetten' },
+]
+
+const SOCIAL_ICON: Record<SocialHandle['platform'], { bg: string; icon: React.ReactNode }> = {
+  instagram: {
+    bg: 'linear-gradient(135deg,#f9ce34,#ee2a7b,#6228d7)',
+    icon: <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 text-white"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>,
+  },
+  facebook: {
+    bg: '#1877F2',
+    icon: <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 text-white"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>,
+  },
+  whatsapp: {
+    bg: '#25D366',
+    icon: <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 text-white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>,
+  },
+  youtube: {
+    bg: '#FF0000',
+    icon: <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 text-white"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>,
+  },
+}
+
+const DEFAULT_SOCIAL: SocialHandle[] = [
+  { platform: 'instagram', name: '@SGHuenstetten',           subtext: 'Fotos · Highlights · Stories' },
+  { platform: 'facebook',  name: 'SG Hünstetten',            subtext: 'Events · News · Community' },
+  { platform: 'whatsapp',  name: 'WhatsApp Kanal',           subtext: 'Infos · Termine · Ergebnisse' },
+  { platform: 'youtube',   name: 'SG Hünstetten',            subtext: 'Highlights · Spielberichte' },
+]
+
 interface NewsGridClassicProps {
   variant?: 'classic'
   sectionNum?: string
@@ -46,7 +84,8 @@ interface NewsGridClassicProps {
   bigCard: NewsCard
   secondCard: NewsCard
   thirdCard: NewsCard
-  socialHandles: SocialHandle[]
+  socialHandles?: SocialHandle[]
+  events?: NewsEvent[]
 }
 
 type NewsGridProps = NewsGridMd3Props | NewsGridClassicProps
@@ -146,10 +185,13 @@ export default function NewsGrid(props: NewsGridProps) {
     bigCard,
     secondCard,
     thirdCard,
-    socialHandles,
+    socialHandles: socialHandlesProp,
+    events: eventsProp,
   } = props as NewsGridClassicProps
   const isDark = theme === 'dark'
   const resolvedSectionNum = sectionNum ?? (isDark ? '02 — Aktuelles' : '01 — Aktuelles')
+  const socialHandles = socialHandlesProp ?? DEFAULT_SOCIAL
+  const events = eventsProp ?? DEFAULT_EVENTS
 
   return (
     <section className={`py-16 ${isDark ? 'bg-navy noise relative overflow-hidden' : 'bg-chalk'}`}>
@@ -166,14 +208,20 @@ export default function NewsGrid(props: NewsGridProps) {
 
       <div className={`max-w-screen-xl mx-auto px-6 md:px-10 ${isDark ? 'relative z-10' : ''}`}>
 
-        <div className="flex items-end justify-between mb-12 gap-6 flex-wrap">
-          <div>
-            <p className={`sec-num mb-3 ${isDark ? 'text-chalk/40' : ''}`}>{resolvedSectionNum}</p>
-            <h2 className={`display-giant ${isDark ? 'text-chalk' : 'text-navy'}`} style={{ fontSize: 'clamp(36px, 5vw, 72px)' }}>
-              News &amp;{' '}
-              {isDark ? <span className="text-gold">Updates</span> : 'Updates'}
+        {/* Header */}
+        <div className="flex items-end justify-between mb-10 gap-6 flex-wrap">
+          {isDark ? (
+            <div>
+              <p className="sec-num mb-3 text-chalk/40">{resolvedSectionNum}</p>
+              <h2 className="display-giant text-chalk" style={{ fontSize: 'clamp(36px, 5vw, 72px)' }}>
+                News &amp; <span className="text-gold">Updates</span>
+              </h2>
+            </div>
+          ) : (
+            <h2 className="text-4xl font-display font-extrabold uppercase text-navy">
+              News &amp; Updates
             </h2>
-          </div>
+          )}
           <a
             href="#"
             className={`hidden md:flex label-cap items-center gap-2 transition-colors ${isDark ? 'text-chalk/40 hover:text-chalk' : 'text-navy/50 hover:text-navy'}`}
@@ -182,80 +230,143 @@ export default function NewsGrid(props: NewsGridProps) {
           </a>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
-
-          {/* Big card — top left */}
-          <div className="lg:col-span-3 img-zoom relative rounded-lg overflow-hidden cursor-pointer" style={{ height: 400 }}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img alt={bigCard.title} className="w-full h-full object-cover" src={bigCard.src} />
-            <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/10 to-transparent flex flex-col justify-end p-8">
-              <span className="label-cap text-gold mb-3">{bigCard.category}</span>
-              <h3 className="font-display font-black text-chalk text-2xl md:text-3xl leading-tight tracking-display">
-                {bigCard.title}
-              </h3>
-              {bigCard.likes !== undefined && (
-                <p className="label-cap text-chalk/40 mt-3 flex items-center gap-2">
-                  <span className="material-symbols-outlined fill-icon text-xs">favorite</span> {bigCard.likes} Likes
-                </p>
-              )}
+        {isDark ? (
+          /* ── Dark: 5-col grid (Leichtathletik) ── */
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
+            <div className="lg:col-span-3 img-zoom relative rounded-lg overflow-hidden cursor-pointer" style={{ height: 400 }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img alt={bigCard.title} className="w-full h-full object-cover" src={bigCard.src} />
+              <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/10 to-transparent flex flex-col justify-end p-8">
+                <span className="label-cap text-gold mb-3">{bigCard.category}</span>
+                <h3 className="font-display font-black text-chalk text-2xl md:text-3xl leading-tight tracking-display">{bigCard.title}</h3>
+                {bigCard.likes !== undefined && (
+                  <p className="label-cap text-chalk/40 mt-3 flex items-center gap-2">
+                    <span className="material-symbols-outlined fill-icon text-xs">favorite</span> {bigCard.likes} Likes
+                  </p>
+                )}
+              </div>
+            </div>
+            <div className="lg:col-span-2 img-zoom relative rounded-lg overflow-hidden cursor-pointer" style={{ height: 400 }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img alt={secondCard.title} className="w-full h-full object-cover" src={secondCard.src} />
+              <div className="absolute inset-0 bg-gradient-to-t from-ink/75 to-transparent flex flex-col justify-end p-6">
+                <span className="label-cap text-gold mb-1.5">{secondCard.category}</span>
+                <h4 className="font-display font-bold text-chalk text-lg tracking-display">{secondCard.title}</h4>
+              </div>
+            </div>
+            <div className="lg:col-span-3 rounded-lg p-6 grid grid-cols-2 gap-4 bg-navy-mid/60 border border-white/10">
+              {socialHandles.slice(0, 2).map((handle) => (
+                <a key={handle.platform} href={handle.href ?? '#'} className="group flex flex-col gap-3 border border-white/10 rounded-md p-5 hover:border-gold/30 transition-colors">
+                  <div className="flex items-center gap-3">
+                    {handle.platform === 'instagram' ? (
+                      <span className="w-8 h-8 rounded-sm flex items-center justify-center shrink-0" style={{ background: 'linear-gradient(135deg,#f9ce34,#ee2a7b,#6228d7)' }}>
+                        <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                      </span>
+                    ) : (
+                      <span className="w-8 h-8 rounded-sm flex items-center justify-center shrink-0" style={{ backgroundColor: '#1877F2' }}>
+                        <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                      </span>
+                    )}
+                    <p className="label-cap text-chalk/40 capitalize">{handle.platform}</p>
+                  </div>
+                  <p className="font-display font-bold text-chalk text-sm tracking-display leading-snug">{handle.name}</p>
+                  <p className="label-cap text-chalk/30 text-[10px] mt-auto">{handle.subtext ?? (handle.platform === 'instagram' ? 'Fotos · Highlights · Stories' : 'Events · News · Community')}</p>
+                  <span className="label-cap text-gold text-[10px] flex items-center gap-1 group-hover:gap-2 transition-all">Folgen <span className="material-symbols-outlined text-xs">arrow_forward</span></span>
+                </a>
+              ))}
+            </div>
+            <div className="lg:col-span-2 img-zoom relative rounded-lg overflow-hidden cursor-pointer">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img alt={thirdCard.title} className="w-full h-full object-cover" src={thirdCard.src} />
+              <div className="absolute inset-0 bg-gradient-to-t from-ink/75 to-transparent flex flex-col justify-end p-6">
+                <span className="label-cap text-gold mb-1.5">{thirdCard.category}</span>
+                <h4 className="font-display font-bold text-chalk text-lg tracking-display">{thirdCard.title}</h4>
+              </div>
             </div>
           </div>
-
-          {/* Second card — top right */}
-          <div className="lg:col-span-2 img-zoom relative rounded-lg overflow-hidden cursor-pointer" style={{ height: 400 }}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img alt={secondCard.title} className="w-full h-full object-cover" src={secondCard.src} />
-            <div className="absolute inset-0 bg-gradient-to-t from-ink/75 to-transparent flex flex-col justify-end p-6">
-              <span className="label-cap text-gold mb-1.5">{secondCard.category}</span>
-              <h4 className="font-display font-bold text-chalk text-lg tracking-display">{secondCard.title}</h4>
+        ) : (
+          /* ── Light: 4-col grid (obere Reihe 3+1, untere Reihe 4×1) ── */
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            {/* Big card (col-span-3) */}
+            <div className="md:col-span-3 relative group overflow-hidden rounded-lg cursor-pointer" style={{ height: '340px' }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img alt={bigCard.title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src={bigCard.src} />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+              <div className="absolute inset-0 p-6 flex flex-col justify-end text-white">
+                <span className="label-cap text-gold mb-2">{bigCard.category}</span>
+                <h3 className="font-display font-black text-2xl md:text-3xl leading-tight mb-2">{bigCard.title}</h3>
+                {bigCard.likes !== undefined && <span className="text-sm text-white/60">❤ {bigCard.likes} Likes</span>}
+              </div>
+            </div>
+            {/* Second card */}
+            <div className="relative group overflow-hidden rounded-lg cursor-pointer" style={{ height: '340px' }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img alt={secondCard.title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src={secondCard.src} />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+              <div className="absolute inset-0 p-6 flex flex-col justify-end text-white">
+                <span className="label-cap text-gold mb-2">{secondCard.category}</span>
+                <h3 className="font-display font-bold text-xl leading-tight">{secondCard.title}</h3>
+              </div>
+            </div>
+            {/* Social box — alle 4 Plattformen */}
+            <div className="rounded-lg overflow-hidden flex flex-col" style={{ backgroundColor: '#052856', height: '272px' }}>
+              <div className="px-5 pt-4 pb-2 border-b border-white/10">
+                <p className="text-xs font-bold uppercase tracking-widest" style={{ color: '#FDE000' }}>Folge uns</p>
+              </div>
+              <div className="flex flex-col flex-1 px-5 py-3 gap-3">
+                {socialHandles.slice(0, 4).map((handle) => {
+                  const meta = SOCIAL_ICON[handle.platform]
+                  return (
+                    <a key={handle.platform} href={handle.href ?? '#'} className="flex items-center gap-3 group hover:opacity-80 transition-opacity">
+                      <span className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0" style={{ background: meta.bg }}>
+                        {meta.icon}
+                      </span>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-white text-xs font-bold leading-tight truncate">{handle.name}</p>
+                        <p className="text-white/40 text-[10px] leading-tight">{handle.subtext}</p>
+                      </div>
+                      <span className="text-white/20 group-hover:text-gold transition-colors text-xs">→</span>
+                    </a>
+                  )
+                })}
+              </div>
+            </div>
+            {/* Events box */}
+            <div className="rounded-lg overflow-hidden flex flex-col" style={{ backgroundColor: '#052856', height: '272px' }}>
+              <div className="px-5 pt-4 pb-2 border-b border-white/10 flex items-center justify-between">
+                <p className="text-xs font-bold uppercase tracking-widest" style={{ color: '#FDE000' }}>Termine</p>
+                <a href="#" className="text-[10px] font-bold uppercase tracking-widest text-white/30 hover:text-white/70 transition-colors">Alle →</a>
+              </div>
+              <div className="flex flex-col flex-1 px-5 py-4 gap-4 justify-evenly">
+                {events.slice(0, 2).map((ev) => (
+                  <div key={ev.title} className="flex gap-3 items-start">
+                    <div className="rounded-lg text-center shrink-0 overflow-hidden" style={{ width: '48px', backgroundColor: 'rgba(253,224,0,0.12)', border: '1px solid rgba(253,224,0,0.2)' }}>
+                      <div className="text-[9px] font-black uppercase tracking-widest py-0.5" style={{ backgroundColor: '#FDE000', color: '#052856' }}>{ev.label}</div>
+                      <div className="py-1 text-white font-black text-xs leading-tight">{ev.date}</div>
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-white font-bold text-xs leading-snug mb-1">{ev.title}</p>
+                      <p className="text-white/40 text-[10px] flex items-center gap-1">
+                        <span className="material-symbols-outlined text-[10px]">location_on</span>
+                        {ev.location}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            {/* Third card */}
+            <div className="relative group overflow-hidden rounded-lg cursor-pointer" style={{ height: '272px' }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img alt={thirdCard.title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src={thirdCard.src} />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+              <div className="absolute inset-0 p-6 flex flex-col justify-end text-white">
+                <span className="label-cap text-gold mb-2">{thirdCard.category}</span>
+                <h4 className="font-display font-bold text-lg leading-tight">{thirdCard.title}</h4>
+              </div>
             </div>
           </div>
-
-          {/* Social box — bottom left */}
-          <div className={`lg:col-span-3 rounded-lg p-6 grid grid-cols-2 gap-4 ${isDark ? 'bg-navy-mid/60 border border-white/10' : 'bg-navy'}`}>
-            {socialHandles.slice(0, 2).map((handle) => (
-              <a
-                key={handle.platform}
-                href={handle.href ?? '#'}
-                className="group flex flex-col gap-3 border border-white/10 rounded-md p-5 hover:border-gold/30 transition-colors"
-              >
-                <div className="flex items-center gap-3">
-                  {handle.platform === 'instagram' ? (
-                    <span className="w-8 h-8 rounded-sm bg-gradient-to-br from-[#f9ce34] via-[#ee2a7b] to-[#6228d7] flex items-center justify-center shrink-0">
-                      <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
-                      </svg>
-                    </span>
-                  ) : (
-                    <span className="w-8 h-8 rounded-sm bg-[#1877F2] flex items-center justify-center shrink-0">
-                      <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
-                      </svg>
-                    </span>
-                  )}
-                  <p className="label-cap text-chalk/40 capitalize">{handle.platform}</p>
-                </div>
-                <p className="font-display font-bold text-chalk text-sm tracking-display leading-snug">{handle.name}</p>
-                <p className="label-cap text-chalk/30 text-[10px] mt-auto">
-                  {handle.subtext ?? (handle.platform === 'instagram' ? 'Fotos · Highlights · Stories' : 'Events · News · Community')}
-                </p>
-                <span className="label-cap text-gold text-[10px] flex items-center gap-1 group-hover:gap-2 transition-all">
-                  Folgen <span className="material-symbols-outlined text-xs">arrow_forward</span>
-                </span>
-              </a>
-            ))}
-          </div>
-
-          {/* Third card — bottom right */}
-          <div className="lg:col-span-2 img-zoom relative rounded-lg overflow-hidden cursor-pointer">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img alt={thirdCard.title} className="w-full h-full object-cover" src={thirdCard.src} />
-            <div className="absolute inset-0 bg-gradient-to-t from-ink/75 to-transparent flex flex-col justify-end p-6">
-              <span className="label-cap text-gold mb-1.5">{thirdCard.category}</span>
-              <h4 className="font-display font-bold text-chalk text-lg tracking-display">{thirdCard.title}</h4>
-            </div>
-          </div>
-        </div>
+        )}
       </div>
     </section>
   )

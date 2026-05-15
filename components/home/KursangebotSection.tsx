@@ -80,11 +80,11 @@ export default function KursangebotSection() {
 
         {/* Header */}
         <div className="mb-12">
-          <h2 className="text-5xl md:text-6xl font-display font-extrabold italic uppercase leading-none text-white">
+          <h2 className="text-5xl md:text-6xl font-display font-extrabold uppercase leading-none text-white">
             Für jeden das{' '}
             <br />
             <span style={{ WebkitTextStrokeWidth: '2px', WebkitTextStrokeColor: '#fde000', color: '#fde000' }}>
-              RICHTIGE
+              RICHTIGE ANGEBOT
             </span>
           </h2>
         </div>
@@ -95,7 +95,7 @@ export default function KursangebotSection() {
             <button
               key={kat.key}
               onClick={() => setActiveKey(kat.key)}
-              className={`text-[10px] font-bold uppercase tracking-widest px-6 py-2 rounded-lg transition-colors ${
+              className={`text-xs font-bold uppercase tracking-widest px-6 py-2 rounded-lg transition-colors ${
                 kat.key === activeKey
                   ? 'bg-[#fde000] text-[#052856]'
                   : 'text-white/50 hover:bg-white/10 hover:text-white'
@@ -112,14 +112,14 @@ export default function KursangebotSection() {
             <Link
               key={kurs.name}
               href={kurs.href}
-              className="p-8 border border-white/10 hover:bg-white/5 transition-colors bg-white/[0.04] flex flex-col h-full rounded-lg"
+              className="p-8 flex flex-col h-full rounded-lg bg-white hover:shadow-lg transition-shadow"
             >
-              <span className="text-[9px] text-[#fde000] font-bold uppercase tracking-widest mb-2">
+              <span className="text-[9px] font-bold uppercase tracking-widest mb-2" style={{ color: '#5388AF' }}>
                 {kurs.motto}
               </span>
-              <h3 className="text-xl font-bold mb-4 text-white">{kurs.name}</h3>
-              <p className="text-sm text-white/50 mb-10 leading-relaxed line-clamp-3">{kurs.beschreibung}</p>
-              <span className="mt-auto text-[10px] font-bold uppercase tracking-widest flex items-center gap-2 text-white/30 hover:text-white transition-colors">
+              <h3 className="text-xl font-bold mb-4" style={{ color: '#052856' }}>{kurs.name}</h3>
+              <p className="text-sm mb-10 leading-relaxed line-clamp-3" style={{ color: '#1b1c1c' }}>{kurs.beschreibung}</p>
+              <span className="mt-auto text-[10px] font-bold uppercase tracking-widest flex items-center gap-2" style={{ color: '#052856' }}>
                 Mehr erfahren
                 <span className="material-symbols-outlined text-xs">arrow_forward</span>
               </span>

@@ -5,7 +5,7 @@ import SiteFooter from '@/components/shared/layout/SiteFooter'
 import ShopGrid, { type ShopProduct } from '@/components/shared/sections/ShopGrid'
 import GalerieSnapshots from '@/components/shared/sections/GalerieSnapshots'
 import TrainerCta from '@/components/shared/sections/TrainerCta'
-import NewsGrid, { type NewsPostMd3, type SocialLinkMd3 } from '@/components/shared/sections/NewsGrid'
+import AktuellesSection from '@/components/home/AktuellesSection'
 import TrainerSection from '@/components/tischtennis/TrainerSection'
 
 const TT_NAV = [
@@ -28,12 +28,6 @@ export default async function TischtennisPage() {
 
   const logoSrc = logoUrl ?? 'https://lh3.googleusercontent.com/aida/ADBb0ugEHEH_SmWv3OWV3CakUjK1PrkqJfqepaRL2jyBXFrELhC3lfUsxJGewe38WdtjCp3o4W7uA8Q85UKm6wcDJ46IpBuqOQYpiI-nzBT83zl77I-kymLxRY44Qd_QhJoiMkvUHaSo-lG2jJzO48OZ1b5QVFKojKGXnSisRddfCeG9b9JJ6wLQYorc-SdGQDejUGj_aMy0gN-CD0vBvUBo9SHRhWhiOdAQ97Fav75TDcxQpTXhZznXTNMKu9yvVpG-r7prTDcPXIP4uw'
 
-  const newsPosts: NewsPostMd3[] = [
-    { title: 'Technik-Fokus',     likes: 45,  tag: 'Post ansehen',         icon: 'photo_library', alt: 'Training action',  src: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAwcwyWIfVBNfEWGcTRBkPfs4ns9FGgfUnHHxHeQsBSFt3l3LkLdVQGQaFe5gyhXETm4L43a0OFc_MhHuppCcCY8K2Wy3O4VnqqUP3VGLkFZxl_vZ5YBScxlfofyqUM8au_JcdWpSENP-5KRqtGc4D7FMxzv1fr0-AadJoAa37IsseqgplXSWicB6AjV5pe_y1R3pZZH-MkG9xzZuy7cLXxLusPGfLn1T3kmNAlKBmDtzrzm7iQjRoF1MCaW1sqayKMSnDF9LkHIJ0' },
-    { title: 'Turniersieg!',      likes: 112, tag: 'Highlights',            icon: 'videocam',      alt: 'Team cheering',    src: 'https://lh3.googleusercontent.com/aida-public/AB6AXuANC1Jmb3-v_58mdtC_yLYsU6xzUSAZQGkiwLgqDu8Hyrfmd2ul6sH4nMs3Om1Mn5E-YRMYTYO_JKoIQc6OPac9M01CXjEl2-doWkaPzDnhDjW56qB7ZRkZvas8ET29T_O__avPysestctDj9wTlwW6AUtW05GDt6qL27DhLTMcX16YCTbh-IxaBbxVO9W3RBi3HXC3Wbju2YR8V5gIDdO-jXAeL3-aEXRHRiPS190KysCJmAQAZxrvsgLhR44zStI57xAzieXcQg4' },
-    { title: 'Ausrüster-Update',  likes: 38,  tag: 'Equipment',             icon: 'image',         alt: 'New gear',         src: 'https://lh3.googleusercontent.com/aida-public/AB6AXuB5fiQCX0Vakkx-dhVwUsqe9ZQx7GpMt22uu_nR8o9jEWxQjR4EONB0gwvTaVGR4viWDTPcGvmPSg106oh1-konSs5bSv26AYJIbLpN6yoTUkoszw2bHNuHAIz_bpZr8fjAUVT-42GfBWo_C92vJfiw2FUkn3BH8G8p4_9qfnVTp5IvO9cAP4EElvhGUHnAVCX9eFzGJc3leJPwvsuQCE8gilbD2re9qE8P3uMA8EVWtOn8Gs2BIQuoa-X4Nf68IPWlSKFgpl3K4V0' },
-    { title: 'Staff Meeting',     likes: 52,  tag: 'Hinter den Kulissen',   icon: 'notifications', alt: 'Coach meeting',    src: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBArG4D8ysCxcAk9yPN8Enxi61_lY7_rQH5QYnJNHyt-ZQCPutC-JQr353FsJxvMi-O7yqsCsHIDykNYNktlHLt-yQwHgZsR4CbPLRwoBR5glzNBpUTNJSM0SWijINQS3upP3I-jGdoCYVDQ2QVg_gpEH54SrHPUx9_C9Zh5pbFgWCbQHQgfxc_-4UJBxlO-hsW9efDoN6UQFoC7Dr_zylKajFMRxroh-n1SnYRXugKiQ102r-xlZm20Ee9rhKYwZY1BtyWVw8eyNo' },
-  ]
 
   const products: ShopProduct[] = [
     { name: 'Allwetter-Jacke "Pro"',    sub: 'Deep Blue Legacy Design', price: '79,90 €', badge: 'Bestseller', alt: 'Allwetter-Jacke', src: 'https://lh3.googleusercontent.com/aida-public/AB6AXuC2V573FaaC-lVusVrI44uQ4b8GywIhs4Pv0YY4uVEcQjsfykdHlJ-3ZMSIeq3S64XdL0FCElOAV6zVUGd7s1jTe443LBiv2DLff75lhUr14QiT4FeN6Qh96s6W2wFEpZX3QhOiHyw48c3dtFldd14dli3cmS76ZXS5wW9IYsevyF1vFDiUo-YADYAW_s99PcHaRs7glmpNMEkTJiChfx1e2Rtrmh2rDCm23aZFYayg5B7mDjFyEGGbn4HVw8XEZdSK1LjID0ig-Tg' },
@@ -60,7 +54,7 @@ export default async function TischtennisPage() {
             <div className="max-w-3xl">
               <span className="inline-block bg-secondary-container text-on-secondary-container px-4 py-1 rounded-full text-sm font-bold tracking-widest uppercase mb-6 animate-pulse">Sektion Tischtennis</span>
               <h1 className="font-headline font-black text-white leading-[0.9] tracking-tighter mb-8 drop-shadow-2xl text-5xl md:text-7xl lg:text-8xl">
-                Tischtennis <br /> <span className="text-secondary-container italic">in seiner ganzen</span> <br /> Pracht.
+                Tischtennis <br /> <span className="text-secondary-container">in seiner ganzen</span> <br /> Pracht.
               </h1>
               <div className="flex flex-col sm:flex-row gap-6 mt-12">
                 <button className="bg-secondary-container text-on-secondary-container px-10 py-5 rounded-xl font-headline font-extrabold text-xl shadow-2xl hover:translate-y-[-4px] transition-all flex items-center gap-3 group">
@@ -78,16 +72,7 @@ export default async function TischtennisPage() {
           </div>
         </header>
 
-        <NewsGrid
-          variant="md3"
-          departmentLabel="Tischtennis"
-          posts={newsPosts}
-          socialLinks={[
-            { platform: 'facebook',  handle: 'SG Hünstetten Tischtennis' },
-            { platform: 'instagram', handle: '@SGHuenstetten_Tischtennis' },
-            { platform: 'whatsapp',  handle: 'WhatsApp Channel' },
-          ] satisfies SocialLinkMd3[]}
-        />
+        <AktuellesSection />
 
         <TrainerSection />
 
@@ -101,7 +86,7 @@ export default async function TischtennisPage() {
                 <p className="text-xl text-white opacity-90 font-medium max-w-xl">Erfahrung trifft Leidenschaft. Mehr als nur ein Team – eine Gemeinschaft, die seit Jahrzehnten zusammenhält.</p>
               </div>
               <div className="text-right">
-                <span className="text-8xl font-headline font-black text-secondary-container italic">#1</span>
+                <span className="text-8xl font-headline font-black text-secondary-container">#1</span>
               </div>
             </div>
             <div className="relative rounded-[3rem] overflow-hidden group shadow-2xl">
