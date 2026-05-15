@@ -90,7 +90,7 @@ export default function KursangebotSection() {
         </div>
 
         {/* Tabs */}
-        <div className="flex flex-wrap gap-4 mb-12 border-b border-white/10 pb-8">
+        <div className="flex flex-wrap gap-4 mb-6">
           {KATEGORIEN.map((kat) => (
             <button
               key={kat.key}
