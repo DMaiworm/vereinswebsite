@@ -1,14 +1,13 @@
 import AthleticsNav from '@/components/athletics/AthleticsNav'
 import SiteFooter from '@/components/shared/layout/SiteFooter'
 import SponsorBand from '@/components/shared/layout/SponsorBand'
-import NewsGrid from '@/components/shared/sections/NewsGrid'
+import AktuellesSection from '@/components/home/AktuellesSection'
 import GalerieGrid from '@/components/shared/sections/GalerieGrid'
 import ShopGrid from '@/components/shared/sections/ShopGrid'
 import TeamIntro from '@/components/shared/team/TeamIntro'
 import { fetchClubConfig, fetchAbteilung, fetchSponsors } from '@/lib/api'
 import type { Trainer, AbteilungProfile, TrainingSlot } from '@/lib/api'
 import type { ShopProduct } from '@/components/shared/sections/ShopGrid'
-import type { SocialHandle, NewsCard } from '@/components/shared/sections/NewsGrid'
 
 // ─── Helpers ────────────────────────────────────────────────────────────────
 
@@ -21,27 +20,6 @@ function formatBadgeSlot(slot: TrainingSlot): string {
 }
 
 // ─── Static content ──────────────────────────────────────────────────────────
-
-const NEWS_BIG: NewsCard = {
-  src: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBwdaRMnVCm4SoGM5pd2i2-ByBhgbjpKoA9grMx7emDzVA4XoYnQt7xhtENonpt7NvMY_uynJ7GaX46kKpf6epqz8FBeJsO8077PCfXTejbPEZ4_wDNjinSzQhjOskhnrkOLi3IHzzOH59E6JzfImjepWaw5sCBaLUrN81v5LbHnzvwEul4NVrGCxGWWl0MGfcu1ZXYm6ZOIV9krafAJOm3iP59_-Mm79GCFTvtFWw2A5NL15Renxd_HfJ95cZ_RFI_kDnHEJopIIY',
-  category: 'Wettkampf',
-  title: 'Erfolg beim Stadtwaldlauf 2025',
-  likes: 84,
-}
-const NEWS_SECOND: NewsCard = {
-  src: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBtPUJv_zozKMS-2LFk_keuuVUPqXup-ol7l1unriWokZ096F6UqnIyJBlvCvV7U3pQm4n_0DrfnWHmDkpbR14V-SBpWOTN7MYZD_xq2oZ2CmQD3pzGQOnr3Spdbx38AK_hP48ctBBuPLVlqDKxasHBAcnXrumBNDPm0UnxNNWIiFrC7zwEJSQqIYf6DcxSJIgPEF1eAISgXegEhW-QHn5TxIyJkrzxuFfaqsfATZhoBwxdoPgOHWhuVDxfpKXOhtsOUuhMR2T3taI',
-  category: 'Team',
-  title: 'KiLa Sommerfest 2025',
-}
-const NEWS_THIRD: NewsCard = {
-  src: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDjA0lrFWe5f5V9MmsokEgcCvZehu-zttrvha4K1qZXsXBDuCYv3e_LnktJVL1aWSU2AxCIJU9fCmZzjFbHjF-EL-fI6dceQOYNFDDGC9fasb3-assvvTdnUUa68Ex_K34HSYlA8djme2kTU7JSdhyBozYojLordp4NmDCh2L8Q0M5CQXLrVM5cEocVjp0lTCXdMZuo5tGUFYuqWLcEt46mrhI6w_ixy9LLdjjbwCr3Nr6lCrNrknl-EdZiM8w2iGqlHdHc9Xg_nM8',
-  category: 'Update',
-  title: 'Neue Ausrüstung eingetroffen',
-}
-const SOCIAL_HANDLES: SocialHandle[] = [
-  { platform: 'instagram', name: '@sgh_leichtathletik' },
-  { platform: 'facebook', name: 'SG Hünstetten Leichtathletik' },
-]
 
 const shopProducts: ShopProduct[] = [
   { name: 'Team-Trainingsjacke', sub: 'Offizielle Kollektion', price: '59 €', badge: 'Premium',
@@ -96,14 +74,7 @@ export default async function AthleticsPage() {
           earlyBirdsSlot={earlyBirdsTeam?.training_slots?.[0] ? formatShortSlot(earlyBirdsTeam.training_slots[0]) : undefined}
         />
         <KilaSection teams={kilaTeams} />
-        <NewsGrid
-          bigCard={NEWS_BIG}
-          secondCard={NEWS_SECOND}
-          thirdCard={NEWS_THIRD}
-          socialHandles={SOCIAL_HANDLES}
-          sectionNum="02 — Aktuelles"
-          theme="dark"
-        />
+        <AktuellesSection />
         <TrainerSection trainers={allTrainers} />
         <GalerieGrid
           sectionNum="04 — Galerie"
