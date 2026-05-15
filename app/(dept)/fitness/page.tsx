@@ -65,7 +65,7 @@ export default async function FitnessPage() {
         <StatsBar items={FITNESS_STATS} />
 
         {/* Was ist Gesundheitssport */}
-        <section className="py-16 bg-surface max-w-7xl mx-auto px-6">
+        <section className="py-12 bg-surface max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <div className="space-y-6">
               <h2 className="font-headline text-4xl font-black text-primary leading-tight">Was ist Gesundheitssport?</h2>
@@ -94,7 +94,7 @@ export default async function FitnessPage() {
         <TeamsInAbteilung mannschaften={abteilung?.mannschaften} />
 
         {/* Aktueller Kursplan */}
-        <section className="py-16 bg-surface">
+        <section className="py-12 bg-surface">
           <div className="max-w-7xl mx-auto px-6">
             <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
               <div>
@@ -250,7 +250,7 @@ export default async function FitnessPage() {
         </section>
 
         {/* Fitness ist Prävention */}
-        <section className="py-16 relative overflow-hidden">
+        <section className="py-12 relative overflow-hidden">
           <div className="max-w-7xl mx-auto px-6 flex flex-col lg:flex-row items-center gap-16">
             <div className="w-full lg:w-1/2 relative">
               <div className="absolute -top-10 -left-10 w-40 h-40 bg-primary/10 rounded-full blur-3xl"></div>

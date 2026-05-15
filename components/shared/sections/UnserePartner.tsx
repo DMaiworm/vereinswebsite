@@ -83,7 +83,7 @@ export default function UnserePartner({ sponsors = [] }: Props) {
   }
 
   return (
-    <section id="partner" className="py-16 bg-surface-container">
+    <section id="partner" className="py-12 bg-surface-container">
       <div className="container mx-auto px-8">
         <div className="mb-10 text-center">
           <h2 className="text-primary font-headline font-black uppercase text-5xl tracking-tight">Unsere Partner</h2>

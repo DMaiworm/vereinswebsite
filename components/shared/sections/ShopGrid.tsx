@@ -1,3 +1,5 @@
+import Link from 'next/link'
+
 export interface ShopProduct {
   name: string
   sub: string
@@ -25,27 +27,28 @@ interface Md3Props {
   products: ShopProduct[]
   title?: string
   subtitle?: string
+  shopHref?: string
 }
 
 type ShopGridProps = ClassicProps | Md3Props
 
 export default function ShopGrid(props: ShopGridProps) {
   if (props.variant === 'md3') {
-    const { products, title = 'SG Hünstetten Fan-Shop', subtitle = 'Zeig Flagge für deinen Verein.' } = props
+    const { products, title = 'SG Hünstetten Fan-Shop', subtitle = 'Zeig Flagge für deinen Verein.', shopHref = '/shop' } = props
     return (
-      <section className="py-16" style={{ backgroundColor: '#dedad8' }}>
-        <div className="max-w-[1440px] mx-auto px-8">
+      <section className="py-12" style={{ backgroundColor: '#f6f3f2' }}>
+        <div className="max-w-screen-xl mx-auto px-6 md:px-10">
           <div className="flex flex-col md:flex-row justify-between items-center mb-8">
             <div>
-              <h2 className="text-5xl font-headline tracking-tighter uppercase">
+              <h2 className="font-headline tracking-tighter uppercase" style={{ fontSize: 'clamp(1.75rem, 4vw, 3rem)' }}>
                 <span className="font-black text-gold" style={{ fontWeight: 900, WebkitTextStroke: '1.5px #052856' }}>SG</span><span className="font-bold text-primary ml-[3px]">HÜNSTETTEN</span>
                 {' '}<span className="font-light text-primary">FANSHOP</span>
               </h2>
-              <p className="text-on-surface-variant mt-2 text-lg italic">{subtitle}</p>
+              <p className="text-on-surface-variant mt-2 text-lg">{subtitle}</p>
             </div>
-            <button className="mt-6 md:mt-0 px-8 py-4 bg-primary text-white rounded-xl font-headline font-bold flex items-center gap-3 hover:bg-primary-container transition-all uppercase tracking-widest shadow-md" type="button">
+            <Link href={shopHref} className="mt-6 md:mt-0 px-8 py-4 bg-primary text-white rounded-xl font-headline font-bold flex items-center gap-3 hover:bg-primary-container transition-all uppercase tracking-widest shadow-md">
               Alle Artikel <span className="material-symbols-outlined">shopping_bag</span>
-            </button>
+            </Link>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {products.map((p) => (
@@ -85,7 +88,7 @@ export default function ShopGrid(props: ShopGridProps) {
   } = props as ClassicProps
 
   return (
-    <section className={`py-16 ${background}`}>
+    <section className={`py-12 ${background}`}>
       <div className="max-w-screen-xl mx-auto px-6 md:px-10">
         <div className="flex items-end justify-between mb-12 gap-6 flex-wrap">
           <div>

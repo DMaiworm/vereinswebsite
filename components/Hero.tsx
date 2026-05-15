@@ -73,7 +73,7 @@ export default function Hero({ tagline, ctaLabel, ctaHref, heroBildUrl, sponsors
 
         {/* Left: Headline + Tagline */}
         <div className="max-w-2xl">
-          <h1 className="font-display font-black text-4xl md:text-7xl text-white tracking-tighter leading-none mb-4">
+          <h1 className="font-display font-black text-white tracking-tighter leading-none mb-4" style={{ fontSize: 'clamp(2.25rem, 6vw, 5rem)' }}>
             <span className="block">WIR SIND</span>
             <span className="block mt-2">
               <span

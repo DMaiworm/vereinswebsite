@@ -12,7 +12,7 @@ type BentoSchwerpunkteProps = {
 
 export default function BentoSchwerpunkte({ title, featured, small }: BentoSchwerpunkteProps) {
   return (
-    <section className="py-16 bg-surface-container-low">
+    <section className="py-12 bg-surface-container-low">
       <div className="max-w-[1200px] mx-auto px-6">
         <h2 className="text-headline-lg font-headline-lg text-primary-container mb-8 text-center">{title}</h2>
         <div className="grid grid-cols-1 md:grid-cols-6 gap-6">

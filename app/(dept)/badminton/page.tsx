@@ -146,7 +146,7 @@ function Hero({ trainingSlot }: { trainingSlot?: string }) {
           </span>
         </div>
 
-        <h1 className="anim-up-2 display-giant text-chalk mb-8" style={{ fontSize: 'clamp(36px, 6vw, 96px)' }}>
+        <h1 className="anim-up-2 display-giant text-chalk mb-8" style={{ fontSize: 'clamp(2.25rem, 6vw, 5rem)' }}>
           Speed<br />
           <span style={{ WebkitTextStroke: '2px #fde000', color: 'transparent' }}>&amp;</span>
           <span className="text-gold"> Tradition</span>
@@ -210,7 +210,7 @@ function ErwachseneSection({
         <div className="flex items-end justify-between mb-16 gap-6 flex-wrap">
           <div>
             <p className="sec-num text-chalk/40 mb-3">02 — Erwachsenen-Abteilung</p>
-            <h2 className="display-giant text-chalk" style={{ fontSize: 'clamp(28px, 4vw, 60px)' }}>
+            <h2 className="display-giant text-chalk" style={{ fontSize: 'clamp(1.75rem, 4vw, 3rem)' }}>
               Hobby &amp; <span className="text-gold">Leistung</span>
             </h2>
             {motto && <p className="label-cap text-gold/60 mt-3 tracking-label">{motto}</p>}
@@ -261,13 +261,13 @@ function JugendSection({
   const ageLabel = alterVon && alterBis ? `${alterVon}–${alterBis} Jahre` : alterVon ? `Ab ${alterVon} Jahren` : null
 
   return (
-    <section className="py-16 bg-mist">
+    <section className="py-12 bg-mist">
       <div className="max-w-screen-xl mx-auto px-6 md:px-10">
 
         <div className="mb-16">
           <p className="sec-num mb-3">04 — Jugend</p>
           <div className="flex items-end gap-8 flex-wrap">
-            <h2 className="display-giant text-navy" style={{ fontSize: 'clamp(28px, 4vw, 60px)' }}>
+            <h2 className="display-giant text-navy" style={{ fontSize: 'clamp(1.75rem, 4vw, 3rem)' }}>
               Jugend-<span className="text-gold">Entwicklung</span>
             </h2>
             {ageLabel && (
@@ -310,7 +310,7 @@ function JugendSection({
 
 function EngagementSection() {
   return (
-    <section className="py-16 bg-chalk">
+    <section className="py-12 bg-chalk">
       <div className="max-w-screen-xl mx-auto px-6 md:px-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
           <div>

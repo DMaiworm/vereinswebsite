@@ -75,12 +75,12 @@ export default function KursangebotSection() {
   const active = KATEGORIEN.find((k) => k.key === activeKey) ?? KATEGORIEN[0];
 
   return (
-    <section id="kursangebot" className="py-10 bg-[#052856]">
+    <section id="kursangebot" className="py-12 bg-[#052856]">
       <div className="max-w-screen-xl mx-auto px-6 md:px-10">
 
         {/* Header */}
         <div className="mb-12">
-          <h2 className="text-5xl md:text-6xl font-display font-extrabold uppercase leading-none text-white">
+          <h2 className="font-display font-extrabold uppercase leading-none text-white" style={{ fontSize: 'clamp(1.75rem, 4vw, 3rem)' }}>
             Für jeden das{' '}
             <br />
             <span style={{ WebkitTextStrokeWidth: '2px', WebkitTextStrokeColor: '#fde000', color: '#fde000' }}>

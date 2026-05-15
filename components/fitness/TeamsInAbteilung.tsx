@@ -62,7 +62,7 @@ export default function TeamsInAbteilung({ mannschaften }: Props) {
     : HARDCODED_TEAMS
 
   return (
-    <section className="bg-surface-container-low py-16">
+    <section className="bg-surface-container-low py-12">
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-8">
           <h2 className="font-headline text-4xl font-black text-primary mb-4">Unsere Übungsgruppen</h2>

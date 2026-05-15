@@ -19,7 +19,7 @@ export default function GalerieSnapshots({
   bottom,
 }: GalerieSnapshotsProps) {
   return (
-    <section id="galerie" className="py-16 bg-surface">
+    <section id="galerie" className="py-12 bg-surface">
       <div className="max-w-[1440px] mx-auto px-8">
         <h2 className="text-4xl font-headline font-black text-primary mb-16 uppercase tracking-widest text-center">
           {title}

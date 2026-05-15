@@ -59,7 +59,7 @@ export default async function SponsorenPage() {
  </section>
 
  {/* Statistics Section */}
- <section className="py-16 bg-surface relative overflow-hidden">
+ <section className="py-12 bg-surface relative overflow-hidden">
  <div className="container mx-auto px-8">
  <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
  <div className="p-4 bg-surface-container-lowest rounded-3xl shadow-lg border-b-4 border-secondary-container transform hover:-translate-y-2 transition-transform">
@@ -83,7 +83,7 @@ export default async function SponsorenPage() {
  </section>
 
  {/* Integrated CTA Section */}
- <section className="py-16 bg-surface-container-highest relative overflow-hidden">
+ <section className="py-12 bg-surface-container-highest relative overflow-hidden">
  <div className="max-w-7xl mx-auto px-8 grid md:grid-cols-2 gap-16 items-center">
  <div>
  <h2 className="font-headline text-4xl md:text-5xl font-black text-primary leading-tight mb-6">

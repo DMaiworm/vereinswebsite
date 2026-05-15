@@ -398,7 +398,7 @@ export default function ShopClient() {
         </section>
 
         {/* ===== CATALOG ===== */}
-        <section className="max-w-screen-xl mx-auto px-8 py-16">
+        <section className="max-w-screen-xl mx-auto px-8 py-12">
           <div className="flex flex-col lg:flex-row gap-10">
 
             {/* Filter Sidebar */}
@@ -563,7 +563,7 @@ export default function ShopClient() {
         </section>
 
         {/* ===== EDITORIAL ===== */}
-        <section className="bg-primary text-white py-20 overflow-hidden relative">
+        <section className="bg-primary text-white py-12 overflow-hidden relative">
           <div className="absolute -left-12 -bottom-20 opacity-10 font-headline font-black italic text-[18rem] leading-none select-none pointer-events-none">SGH</div>
           <div className="max-w-screen-xl mx-auto px-8 relative z-10 grid md:grid-cols-3 gap-10">
             <div>

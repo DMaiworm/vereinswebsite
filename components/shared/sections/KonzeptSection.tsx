@@ -8,7 +8,7 @@ type KonzeptSectionProps = {
 
 export default function KonzeptSection({ imageSrc, imageAlt, overlayQuote, paragraphs, blockquote }: KonzeptSectionProps) {
   return (
-    <section className="py-16 max-w-[1200px] mx-auto px-6">
+    <section className="py-12 max-w-[1200px] mx-auto px-6">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
         <div className="relative order-2 lg:order-1">
           <div className="absolute -top-4 -left-4 w-24 h-24 bg-[rgba(253,224,0,0.20)] rounded-3xl -z-10 rotate-6 blur-xl"></div>

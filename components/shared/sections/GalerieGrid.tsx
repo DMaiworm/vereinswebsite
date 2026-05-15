@@ -53,7 +53,7 @@ export default function GalerieGrid({
       : null
 
   return (
-    <section className={`py-16 ${background}`}>
+    <section className={`py-12 ${background}`}>
       <div className="max-w-screen-xl mx-auto px-6 md:px-10">
 
         <div className="flex items-end justify-between mb-10 gap-6 flex-wrap">

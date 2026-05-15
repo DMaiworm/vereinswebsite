@@ -53,7 +53,7 @@ export default function AbteilungenGrid({ departments }: AbteilungenGridProps) {
         <span className="text-[#052856] uppercase tracking-[0.3em] text-xs font-bold block mb-4 text-center">
           Unser Verein
         </span>
-        <h2 className="text-4xl md:text-5xl font-display font-extrabold mb-0 text-center text-[#052856]">
+        <h2 className="font-display font-extrabold mb-0 text-center text-[#052856]" style={{ fontSize: 'clamp(1.75rem, 4vw, 3rem)' }}>
           Abteilungen
         </h2>
       </div>

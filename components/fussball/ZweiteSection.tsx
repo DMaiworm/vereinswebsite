@@ -40,7 +40,7 @@ export default function ZweiteSection({
   naechsteSpiele = DEFAULT_NAECHSTE,
 }: ZweiteSectionProps) {
   return (
-    <section id="zweite" className="py-16 bg-surface">
+    <section id="zweite" className="py-12 bg-surface">
       <div className="max-w-screen-2xl mx-auto px-8 grid grid-cols-1 lg:grid-cols-12 gap-16">
 
         {/* 2. Mannschaft */}

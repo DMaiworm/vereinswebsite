@@ -41,7 +41,7 @@ const PLATFORM_META: Record<SocialLinkMd3['platform'], { label: string; bg: stri
 
 export default function NewsGrid({ title = 'NEWS', departmentLabel, posts, socialLinks = [] }: NewsGridMd3Props) {
   return (
-    <section className="py-16 bg-surface">
+    <section className="py-12 bg-surface">
       <div className="max-w-screen-2xl mx-auto px-8">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-5xl font-headline tracking-tighter uppercase">

@@ -71,12 +71,12 @@ export default function AktuellesSection({ instagramUsername }: AktuellesSection
   );
 
   return (
-    <section className="py-10 px-6 bg-chalk">
+    <section className="py-12 px-6 bg-chalk">
       <div className="max-w-7xl mx-auto">
 
         {/* Header row */}
         <div className="flex justify-between items-end mb-10">
-          <h2 className="text-4xl font-display font-extrabold uppercase text-[#052856]">
+          <h2 className="font-display font-extrabold uppercase text-[#052856]" style={{ fontSize: 'clamp(1.75rem, 4vw, 3rem)' }}>
             News &amp; Updates
           </h2>
           <a href="#" className="text-sm font-bold text-[#052856]/60 hover:text-[#052856] transition-colors">

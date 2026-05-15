@@ -83,7 +83,7 @@ export default function FundgrubeClient() {
   return (
     <>
       {/* ── Hero ── */}
-      <section className="bg-primary py-16 px-6">
+      <section className="bg-primary py-12 px-6">
         <div className="max-w-7xl mx-auto">
           <span className="inline-block px-4 py-1 bg-white/10 text-white/70 rounded-full text-xs font-black uppercase tracking-widest mb-4">
             Gefundene Gegenstände
@@ -96,7 +96,7 @@ export default function FundgrubeClient() {
       </section>
 
       {/* ── Verlust melden ── */}
-      <section id="verlust" className="py-16 px-6 bg-surface-container-low">
+      <section id="verlust" className="py-12 px-6 bg-surface-container-low">
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center gap-3 mb-1">
             <span className="material-symbols-outlined text-2xl text-primary">report_problem</span>
@@ -210,7 +210,7 @@ export default function FundgrubeClient() {
       </section>
 
       {/* ── Item grid ── */}
-      <section className="py-16 px-6 bg-background">
+      <section className="py-12 px-6 bg-background">
         <div className="max-w-7xl mx-auto">
           {loading ? (
             <div className="flex justify-center py-24">

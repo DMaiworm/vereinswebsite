@@ -61,7 +61,7 @@ export default async function FussballPage() {
             <div className="inline-block bg-secondary-container text-on-secondary-container px-4 py-1 rounded-full text-sm font-bold mb-6 tracking-widest uppercase animate-pulse">
               Tradition seit 1944
             </div>
-            <h1 className="font-headline font-black text-white text-5xl md:text-7xl lg:text-8xl leading-[0.9] max-w-4xl tracking-tighter">
+            <h1 className="font-headline font-black text-white leading-[0.9] max-w-4xl tracking-tighter" style={{ fontSize: 'clamp(2.25rem, 6vw, 5rem)' }}>
               Fußball: <br />
               <span className="text-secondary-container">Tradition &amp; Leidenschaft</span>
             </h1>
@@ -74,12 +74,12 @@ export default async function FussballPage() {
         <SponsorBand sponsors={sponsors} />
 
         {/* 1. Mannschaft */}
-        <section className="pt-24 pb-12 bg-surface overflow-hidden">
+        <section className="py-12 bg-surface overflow-hidden">
           <div className="max-w-screen-2xl mx-auto px-8">
             <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
               <div>
                 <span className="text-primary font-headline font-bold text-lg">Regionalklasse West</span>
-                <h2 className="text-5xl md:text-6xl font-headline font-black tracking-tighter text-primary mt-2 uppercase">1. MANNSCHAFT</h2>
+                <h2 className="font-headline font-black tracking-tighter text-primary mt-2 uppercase" style={{ fontSize: 'clamp(1.75rem, 4vw, 3rem)' }}>1. MANNSCHAFT</h2>
               </div>
               <div className="flex gap-4">
                 <div className="bg-surface-container-highest px-6 py-4 rounded-xl">

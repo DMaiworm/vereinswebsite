@@ -1,6 +1,6 @@
 export default function JfvSection() {
   return (
-    <section className="py-16 bg-navy noise relative overflow-hidden">
+    <section className="py-12 bg-navy noise relative overflow-hidden">
 
       {/* Watermark */}
       <div className="pointer-events-none absolute inset-0 flex items-center justify-end overflow-hidden pr-4">

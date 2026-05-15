@@ -8,7 +8,7 @@ type ContentSplitProps = {
 
 export default function ContentSplit({ title, paragraphs, checkItems, imageSrc, imageAlt }: ContentSplitProps) {
   return (
-    <section className="py-16 max-w-[1200px] mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+    <section className="py-12 max-w-[1200px] mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
       <div>
         <h2 className="text-headline-lg font-headline-lg text-primary-container mb-6">{title}</h2>
         <div className="space-y-6 text-on-surface-variant text-body-md">

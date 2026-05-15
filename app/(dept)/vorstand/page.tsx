@@ -74,7 +74,7 @@ export default async function VorstandPage() {
  </section>
 
  {/* Der Vorstand */}
- <section className="py-16 px-8 md:px-16 lg:px-24 bg-surface">
+ <section className="py-12 px-8 md:px-16 lg:px-24 bg-surface">
  <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
  <div>
  <h2 className="font-headline font-black text-4xl md:text-5xl text-primary tracking-tight uppercase">
@@ -105,7 +105,7 @@ export default async function VorstandPage() {
  </section>
 
  {/* Unsere Abteilungsleiter */}
- <section className="py-16 px-8 md:px-16 lg:px-24 bg-surface-container-low">
+ <section className="py-12 px-8 md:px-16 lg:px-24 bg-surface-container-low">
  <div className="text-center mb-16">
  <span className="font-label text-xs font-bold uppercase tracking-[0.2em] text-primary mb-4 block">Kompetenz am Spielfeldrand</span>
  <h2 className="font-headline font-black text-4xl md:text-5xl text-primary tracking-tight uppercase">Unsere Abteilungsleiter</h2>
@@ -124,7 +124,7 @@ export default async function VorstandPage() {
  </section>
 
  {/* Die Stillen Helfer */}
- <section className="py-16 px-8 md:px-16 lg:px-24 bg-primary text-white overflow-hidden relative">
+ <section className="py-12 px-8 md:px-16 lg:px-24 bg-primary text-white overflow-hidden relative">
  <div className="absolute top-0 right-0 opacity-10 font-headline font-black text-[15rem] leading-none select-none pointer-events-none translate-x-20">
  HEROES
  </div>
@@ -165,7 +165,7 @@ export default async function VorstandPage() {
  </section>
 
  {/* Werde Teil des Teams CTA */}
- <section id="join" className="py-16 px-8 md:px-16 lg:px-24">
+ <section id="join" className="py-12 px-8 md:px-16 lg:px-24">
  <div className="max-w-6xl mx-auto rounded-[3rem] overflow-hidden bg-surface-container-lowest shadow-2xl flex flex-col md:flex-row border border-outline-variant/10">
  <div className="md:w-1/2 relative h-64 md:h-auto">
  {/* eslint-disable-next-line @next/next/no-img-element */}

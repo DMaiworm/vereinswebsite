@@ -74,7 +74,7 @@ export default async function MitgliedschaftPage() {
  </section>
 
  {/* Benefits */}
- <section id="vorteile" className="py-16 bg-surface">
+ <section id="vorteile" className="py-12 bg-surface">
  <div className="container mx-auto px-8">
  <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
  <div className="max-w-2xl">
@@ -110,7 +110,7 @@ export default async function MitgliedschaftPage() {
  </section>
 
  {/* Membership Types & Fees */}
- <section id="beitraege" className="py-16 vanguard-gradient text-white overflow-hidden relative">
+ <section id="beitraege" className="py-12 vanguard-gradient text-white overflow-hidden relative">
  <div className="absolute right-0 top-0 opacity-10 font-headline font-black text-[20rem] translate-x-1/2 -translate-y-1/2 select-none">SG</div>
  <div className="container mx-auto px-8 relative z-10">
  <div className="text-center mb-20">
@@ -167,7 +167,7 @@ export default async function MitgliedschaftPage() {
  </section>
 
  {/* Application & Downloads Bento */}
- <section id="anmeldung" className="py-16 bg-surface-container-low">
+ <section id="anmeldung" className="py-12 bg-surface-container-low">
  <div className="container mx-auto px-8">
  <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
  {/* CTA Block */}
@@ -212,7 +212,7 @@ export default async function MitgliedschaftPage() {
  </section>
 
  {/* Milestones */}
- <section className="py-16 bg-surface overflow-hidden">
+ <section className="py-12 bg-surface overflow-hidden">
  <div className="container mx-auto px-8">
  <div className="text-center mb-16">
  <span className="text-primary font-label font-bold text-xs tracking-[0.3em] uppercase">Ehrenabteilung</span>
@@ -255,7 +255,7 @@ export default async function MitgliedschaftPage() {
  </section>
 
  {/* Contact & Admin */}
- <section className="py-16 bg-white border-t-8 border-secondary-container">
+ <section className="py-12 bg-white border-t-8 border-secondary-container">
  <div className="container mx-auto px-8">
  <div className="flex flex-col lg:flex-row gap-16 items-center">
  <div className="lg:w-1/2">

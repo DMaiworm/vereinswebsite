@@ -105,7 +105,7 @@ export default async function GeschichtePage() {
  </section>
 
  {/* Timeline */}
- <section id="chronik" className="py-16 bg-surface relative timeline-line">
+ <section id="chronik" className="py-12 bg-surface relative timeline-line">
  <div className="container mx-auto px-6 relative">
 
  {/* ERA 1: Gründungsjahre */}
@@ -311,7 +311,7 @@ export default async function GeschichtePage() {
  </section>
 
  {/* Social Responsibility */}
- <section id="gemeinschaft" className="py-16 vanguard-gradient text-white overflow-hidden">
+ <section id="gemeinschaft" className="py-12 vanguard-gradient text-white overflow-hidden">
  <div className="container mx-auto px-6">
  <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
  <div>
@@ -361,7 +361,7 @@ export default async function GeschichtePage() {
  </section>
 
  {/* Future Outlook */}
- <section className="py-16 bg-white relative">
+ <section className="py-12 bg-white relative">
  <div className="container mx-auto px-6">
  <div className="bg-surface-container-low rounded-[3rem] p-8 md:p-16 relative overflow-hidden flex flex-col md:flex-row items-center gap-12 border-b-8 border-primary">
  <div className="md:w-3/5 relative z-10">

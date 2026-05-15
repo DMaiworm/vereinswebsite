@@ -68,13 +68,13 @@ export default function KursDerWocheSection() {
   const { kurs, imageLeft } = pickKurs()
 
   return (
-    <section className="bg-surface-container-low py-10">
+    <section className="bg-surface-container-low py-12">
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-16">
           <span className="inline-block px-4 py-1 bg-primary/10 text-primary rounded-full text-xs font-black uppercase tracking-widest mb-4">
             Kurs der Woche
           </span>
-          <h2 className="font-headline text-4xl font-black text-primary">Unsere Abteilungen stellen sich vor</h2>
+          <h2 className="font-headline font-black text-primary" style={{ fontSize: 'clamp(1.75rem, 4vw, 3rem)' }}>Unsere Abteilungen stellen sich vor</h2>
         </div>
         <TeamRow {...kurs} imageLeft={imageLeft} />
       </div>

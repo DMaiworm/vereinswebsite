@@ -173,7 +173,7 @@ function Hero({ lauftreffSlot, earlyBirdsSlot }: { lauftreffSlot?: string; early
           </span>
         </div>
 
-        <h1 className="anim-up-2 display-giant text-chalk mb-8" style={{ fontSize: 'clamp(52px, 9vw, 140px)' }}>
+        <h1 className="anim-up-2 display-giant text-chalk mb-8" style={{ fontSize: 'clamp(2.25rem, 6vw, 5rem)' }}>
           Dynamik<br />
           <span style={{ WebkitTextStroke: '2px #fde000', color: 'transparent' }}>&amp;</span>
           <span className="text-gold"> Gemeinschaft</span>
@@ -214,13 +214,13 @@ function Hero({ lauftreffSlot, earlyBirdsSlot }: { lauftreffSlot?: string; early
 
 function KilaSection({ teams }: { teams: AbteilungProfile['mannschaften'] }) {
   return (
-    <section className="py-16 bg-chalk" id="kila">
+    <section className="py-12 bg-chalk" id="kila">
       <div className="max-w-screen-xl mx-auto px-6 md:px-10">
 
         <div className="mb-14">
           <p className="sec-num mb-3">01 — Kinder-Leichtathletik</p>
           <div className="flex items-end gap-8 flex-wrap">
-            <h2 className="display-giant text-navy" style={{ fontSize: 'clamp(36px, 5.5vw, 88px)' }}>
+            <h2 className="display-giant text-navy" style={{ fontSize: 'clamp(1.75rem, 4vw, 3rem)' }}>
               KiLa <span className="text-gold">Kids</span>
             </h2>
             <p className="text-ink-soft/50 text-sm max-w-sm leading-relaxed mb-2 font-body">
@@ -309,11 +309,11 @@ function KilaSection({ teams }: { teams: AbteilungProfile['mannschaften'] }) {
 
 function TrainerSection({ trainers }: { trainers: Trainer[] }) {
   return (
-    <section className="py-16 bg-chalk">
+    <section className="py-12 bg-chalk">
       <div className="max-w-screen-xl mx-auto px-6 md:px-10">
         <div className="mb-14">
           <p className="sec-num mb-3">03 — Trainer &amp; Experten</p>
-          <h2 className="display-giant text-navy" style={{ fontSize: 'clamp(32px, 5vw, 72px)' }}>
+          <h2 className="display-giant text-navy" style={{ fontSize: 'clamp(1.75rem, 4vw, 3rem)' }}>
             Das Team <span className="text-outline-navy">hinter</span><br />
             dem Team
           </h2>
@@ -338,12 +338,12 @@ function LauftreffsSection({
   earlyBirdsBadge?: string
 }) {
   return (
-    <section className="py-16 bg-navy noise relative overflow-hidden" id="lauftreff">
+    <section className="py-12 bg-navy noise relative overflow-hidden" id="lauftreff">
       <div className="max-w-screen-xl mx-auto px-6 md:px-10 relative z-10">
 
         <div className="mb-14">
           <p className="sec-num text-chalk/40 mb-3">05 — Laufgruppen</p>
-          <h2 className="display-giant text-chalk" style={{ fontSize: 'clamp(32px, 5vw, 72px)' }}>
+          <h2 className="display-giant text-chalk" style={{ fontSize: 'clamp(1.75rem, 4vw, 3rem)' }}>
             Gemeinsam <span className="text-gold">Laufen</span>
           </h2>
         </div>

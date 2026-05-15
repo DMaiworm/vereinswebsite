@@ -23,12 +23,12 @@ export default function ZahlenTraditionSection({
   ];
 
   return (
-    <section className="bg-white py-10 px-6">
+    <section className="bg-white py-12 px-6">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
 
         {/* Left */}
         <div>
-          <h2 className="text-5xl md:text-6xl font-display font-extrabold uppercase mb-10 leading-none text-[#052856]">
+          <h2 className="font-display font-extrabold uppercase mb-10 leading-none text-[#052856]" style={{ fontSize: 'clamp(1.75rem, 4vw, 3rem)' }}>
             Seit{' '}
             <span style={{ WebkitTextStroke: '2px #052856', color: 'transparent' }}>1944</span>
             {' '}die Heimat des Sports

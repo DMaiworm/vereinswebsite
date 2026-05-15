@@ -9,7 +9,14 @@ import AktuellesSection from '@/components/home/AktuellesSection';
 import KursangebotSection from '@/components/home/KursangebotSection';
 import KursDerWocheSection from '@/components/home/KursDerWocheSection';
 import ZahlenTraditionSection from '@/components/home/ZahlenTraditionSection';
-import FanshopSection from '@/components/home/FanshopSection';
+import ShopGrid, { type ShopProduct } from '@/components/shared/sections/ShopGrid';
+
+const HOME_PRODUCTS: ShopProduct[] = [
+  { name: 'Allwetter-Jacke "Pro"',   sub: 'Deep Blue Legacy Design', price: '79,90 €', badge: 'Bestseller', src: 'https://lh3.googleusercontent.com/aida-public/AB6AXuC2V573FaaC-lVusVrI44uQ4b8GywIhs4Pv0YY4uVEcQjsfykdHlJ-3ZMSIeq3S64XdL0FCElOAV6zVUGd7s1jTe443LBiv2DLff75lhUr14QiT4FeN6Qh96s6W2wFEpZX3QhOiHyw48c3dtFldd14dli3cmS76ZXS5wW9IYsevyF1vFDiUo-YADYAW_s99PcHaRs7glmpNMEkTJiChfx1e2Rtrmh2rDCm23aZFYayg5B7mDjFyEGGbn4HVw8XEZdSK1LjID0ig-Tg', alt: 'Allwetter-Jacke' },
+  { name: 'Fan-Schal "Hünstetten"',  sub: '100% Tradition',          price: '14,90 €', badge: null,         src: 'https://lh3.googleusercontent.com/aida-public/AB6AXuB7Q0bbCYYA1o_fEJC1eE-OLtre38sf5ox-Bg7V6gWKq15a0uG4Yimd7dc7otaKOcYE1z0Re6QIyPMZxd1FIkNnJ-rAGWHi7sxUa_w9I60zy6XjW8fOVTx8WyM_UM4mdRV5MpDa2T2kQyGE7YzclOTBuk9wxzWFxW5tuSL2mzsp4Mes8pjXVEkNfJOp7gdMnGdy8xvUR_cL7c7OaLt0RL-1OdK-PWvwaS_j_G4LYcJVsjpmbKdQOss3Q0hSpHd3UyKMGhes1Ht4hLs', alt: 'Fan-Schal' },
+  { name: 'Wintermütze Classic',     sub: 'Hält den Kopf warm',       price: '19,90 €', badge: null,         src: 'https://lh3.googleusercontent.com/aida-public/AB6AXuB_qcexn1QakqKyUiv8NnEoXBxrrrv1hwlj6hLy4s_vZRMVG85imVveu9LIO3pA9J-3--xC9TQh5Dwu8Bs4tIW-veoBLWATFFU-_h5FF3U1Z3ppoE9Fgl5K3khNTTOpEQrx7aNpcWd6rT95mZ8MkPqsejrODHpPsPPMgUYvfodbsONlxMlbH9KNxKXZxWqO32xsyPJCnd6JKAvCF9cKh2IhgoGRMEU03loYW3PDjXGmiO1y7_Xe7gdB9MBN9J5DQW9dXxZ3cdiLKr6I', alt: 'Wintermütze' },
+  { name: 'Polo-Shirt Vereinsliebe', sub: 'Pikée-Qualität',           price: '34,90 €', badge: null,         src: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDtv0I899I6DiERhzC4IisiBfNU5ZLu-IClwoxh8ARV2DAO1CCk9re4gyyv9mzxrw2wT_PwxspLBwvkUUn4wtmZbJieXKFZNaz6mWwAARsLfCl6mqwPDsCyDVWSNKxu0jXT7RR5Qbkj4WUvdpQVmclOWkOa8_zR-3ZyiZ2AkCvwnCocgrWzMe8d_3Um-Jfkc1mw0Oi3w54CvMdM61IekryK3sikL075v7rJdTdt2AIMcMnL9YPy2oUL_PCjUv4gJ9NRpaScXzgqd-8', alt: 'Polo-Shirt' },
+]
 
 const HOME_NAV = [
   { label: 'Aktuelles',   href: '#aktuelles' },
@@ -103,7 +110,7 @@ export default async function HomePage() {
         />
 
         {/* 7 – Fan-Shop */}
-        <FanshopSection />
+        <ShopGrid variant="md3" products={HOME_PRODUCTS} />
 
         {/* 8 – Sponsoren */}
         <SponsorBand sponsors={sponsors} />

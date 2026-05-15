@@ -6,7 +6,7 @@ export type StatsBarItem = {
 
 export default function StatsBar({ items }: { items: StatsBarItem[] }) {
   return (
-    <section className="bg-surface py-16">
+    <section className="bg-surface py-12">
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
           {items.map((item) => (
