@@ -28,7 +28,7 @@ export default function ZahlenTraditionSection({
 
         {/* Left */}
         <div>
-          <h2 className="font-display font-extrabold uppercase mb-10 leading-none text-[#052856]" style={{ fontSize: 'clamp(1.75rem, 4vw, 3rem)' }}>
+          <h2 className="font-display font-extrabold uppercase mb-6 leading-none text-[#052856]" style={{ fontSize: 'clamp(1.75rem, 4vw, 3rem)' }}>
             Seit{' '}
             <span style={{ WebkitTextStroke: '2px #052856', color: 'transparent' }}>1944</span>
             {' '}die Heimat des Sports

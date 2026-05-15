@@ -79,7 +79,7 @@ export default function KursangebotSection() {
       <div className="max-w-screen-xl mx-auto px-6 md:px-10">
 
         {/* Header */}
-        <div className="mb-12">
+        <div className="mb-6">
           <h2 className="font-display font-extrabold uppercase leading-none text-white" style={{ fontSize: 'clamp(1.75rem, 4vw, 3rem)' }}>
             Für jeden das{' '}
             <br />

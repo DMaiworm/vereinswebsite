@@ -80,7 +80,7 @@ export default async function TischtennisPage() {
         <section className="py-12 bg-primary text-white relative">
           <div className="absolute top-0 right-0 w-1/3 h-full bg-primary-container opacity-30 transform skew-x-12" />
           <div className="max-w-[1440px] mx-auto px-8 relative z-10">
-            <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
+            <div className="flex flex-col md:flex-row justify-between items-end mb-6 gap-8">
               <div>
                 <h2 className="font-headline font-black leading-none mb-4 text-white uppercase tracking-tighter" style={{ fontSize: 'clamp(1.75rem, 4vw, 3rem)' }}>Unsere Senioren I</h2>
                 <p className="text-xl text-white opacity-90 font-medium max-w-xl">Erfahrung trifft Leidenschaft. Mehr als nur ein Team – eine Gemeinschaft, die seit Jahrzehnten zusammenhält.</p>

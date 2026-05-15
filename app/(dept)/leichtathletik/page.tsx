@@ -217,7 +217,7 @@ function KilaSection({ teams }: { teams: AbteilungProfile['mannschaften'] }) {
     <section className="py-12 bg-chalk" id="kila">
       <div className="max-w-screen-xl mx-auto px-6 md:px-10">
 
-        <div className="mb-14">
+        <div className="mb-6">
           <p className="sec-num mb-3">01 — Kinder-Leichtathletik</p>
           <div className="flex items-end gap-8 flex-wrap">
             <h2 className="display-giant text-navy" style={{ fontSize: 'clamp(1.75rem, 4vw, 3rem)' }}>
@@ -311,7 +311,7 @@ function TrainerSection({ trainers }: { trainers: Trainer[] }) {
   return (
     <section className="py-12 bg-chalk">
       <div className="max-w-screen-xl mx-auto px-6 md:px-10">
-        <div className="mb-14">
+        <div className="mb-6">
           <p className="sec-num mb-3">03 — Trainer &amp; Experten</p>
           <h2 className="display-giant text-navy" style={{ fontSize: 'clamp(1.75rem, 4vw, 3rem)' }}>
             Das Team <span className="text-outline-navy">hinter</span><br />
@@ -341,7 +341,7 @@ function LauftreffsSection({
     <section className="py-12 bg-navy noise relative overflow-hidden" id="lauftreff">
       <div className="max-w-screen-xl mx-auto px-6 md:px-10 relative z-10">
 
-        <div className="mb-14">
+        <div className="mb-6">
           <p className="sec-num text-chalk/40 mb-3">05 — Laufgruppen</p>
           <h2 className="display-giant text-chalk" style={{ fontSize: 'clamp(1.75rem, 4vw, 3rem)' }}>
             Gemeinsam <span className="text-gold">Laufen</span>

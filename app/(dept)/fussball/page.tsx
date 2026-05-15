@@ -76,7 +76,7 @@ export default async function FussballPage() {
         {/* 1. Mannschaft */}
         <section className="py-12 bg-surface overflow-hidden">
           <div className="max-w-screen-2xl mx-auto px-8">
-            <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+            <div className="flex flex-col md:flex-row justify-between items-end mb-6 gap-6">
               <div>
                 <span className="text-primary font-headline font-bold text-lg">Regionalklasse West</span>
                 <h2 className="font-headline font-black tracking-tighter text-primary mt-2 uppercase" style={{ fontSize: 'clamp(1.75rem, 4vw, 3rem)' }}>1. MANNSCHAFT</h2>

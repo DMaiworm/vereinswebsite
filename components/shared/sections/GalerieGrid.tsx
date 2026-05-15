@@ -56,7 +56,7 @@ export default function GalerieGrid({
     <section className={`py-12 ${background}`}>
       <div className="max-w-screen-xl mx-auto px-6 md:px-10">
 
-        <div className="flex items-end justify-between mb-10 gap-6 flex-wrap">
+        <div className="flex items-end justify-between mb-6 gap-6 flex-wrap">
           <div>
             <p className="sec-num mb-3">{sectionNum}</p>
             <h2 className="display-giant text-navy" style={{ fontSize: 'clamp(32px, 5vw, 72px)' }}>

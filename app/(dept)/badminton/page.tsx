@@ -207,7 +207,7 @@ function ErwachseneSection({
       </div>
 
       <div className="max-w-screen-xl mx-auto px-6 md:px-10 py-16 relative" style={{ zIndex: 2 }}>
-        <div className="flex items-end justify-between mb-16 gap-6 flex-wrap">
+        <div className="flex items-end justify-between mb-6 gap-6 flex-wrap">
           <div>
             <p className="sec-num text-chalk/40 mb-3">02 — Erwachsenen-Abteilung</p>
             <h2 className="display-giant text-chalk" style={{ fontSize: 'clamp(1.75rem, 4vw, 3rem)' }}>
@@ -264,7 +264,7 @@ function JugendSection({
     <section className="py-12 bg-mist">
       <div className="max-w-screen-xl mx-auto px-6 md:px-10">
 
-        <div className="mb-16">
+        <div className="mb-6">
           <p className="sec-num mb-3">04 — Jugend</p>
           <div className="flex items-end gap-8 flex-wrap">
             <h2 className="display-giant text-navy" style={{ fontSize: 'clamp(1.75rem, 4vw, 3rem)' }}>

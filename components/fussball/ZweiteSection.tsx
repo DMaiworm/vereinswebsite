@@ -46,7 +46,7 @@ export default function ZweiteSection({
         {/* 2. Mannschaft */}
         <div className="lg:col-span-8">
           <span className="text-secondary font-headline font-bold text-lg">Unterbau &amp; Talentschmiede</span>
-          <h2 className="text-5xl font-headline font-black tracking-tighter text-primary mt-2 mb-8">UNSERE &ldquo;ZWEITE&rdquo;</h2>
+          <h2 className="text-5xl font-headline font-black tracking-tighter text-primary mt-2 mb-6">UNSERE &ldquo;ZWEITE&rdquo;</h2>
           <div className="relative w-full aspect-video rounded-3xl overflow-hidden shadow-xl mb-10">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img

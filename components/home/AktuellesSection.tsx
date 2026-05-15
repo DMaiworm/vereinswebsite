@@ -75,7 +75,7 @@ export default function AktuellesSection({ instagramUsername }: AktuellesSection
       <div className="max-w-7xl mx-auto">
 
         {/* Header row */}
-        <div className="flex justify-between items-end mb-10">
+        <div className="flex justify-between items-end mb-6">
           <h2 className="font-display font-extrabold uppercase text-[#052856]" style={{ fontSize: 'clamp(1.75rem, 4vw, 3rem)' }}>
             News &amp; Updates
           </h2>
