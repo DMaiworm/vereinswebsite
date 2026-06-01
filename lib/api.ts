@@ -109,12 +109,23 @@ export interface GalerieItem {
   testimonial_autor: string | null;
 }
 
+export interface TrainerPublic {
+  id: string;
+  vorname: string;
+  nachname: string;
+  bio: string | null;
+  foto_url: string | null;
+  lizenzen: string[];
+  teams: string[];
+}
+
 export interface AbteilungProfile {
   id: string;
   name: string;
   icon: string | null;
   beschreibung: string | null;
   leitung: Trainer | null;
+  trainer: TrainerPublic[];
   mannschaften: Array<{
     id: string;
     name: string;

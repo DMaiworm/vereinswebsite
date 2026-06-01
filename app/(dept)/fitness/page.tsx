@@ -10,6 +10,7 @@ import AbteilungHero from '@/components/shared/sections/AbteilungHero'
 import StatsBar, { type StatsBarItem } from '@/components/shared/sections/StatsBar'
 import KursInfoBox from '@/components/shared/sections/KursInfoBox'
 import AbteilungCta from '@/components/shared/sections/AbteilungCta'
+import KursplanDynamisch from '@/components/shared/sections/KursplanDynamisch'
 
 const FITNESS_NAV = [
   { label: 'LadyFit',        href: '../ladyfit' },
@@ -107,140 +108,14 @@ export default async function FitnessPage() {
                 <button className="text-on-surface-variant font-bold px-6 py-2 rounded-lg hover:bg-surface-container-high transition-colors">Best Ager</button>
               </div>
             </div>
-            <div className="overflow-x-auto">
-              <table className="w-full text-left border-separate border-spacing-y-4">
-                <thead className="bg-surface-container-low">
-                  <tr>
-                    <th className="px-8 py-4 font-headline font-bold text-primary rounded-l-2xl">Zeit</th>
-                    <th className="px-8 py-4 font-headline font-bold text-primary">Kursname</th>
-                    <th className="px-8 py-4 font-headline font-bold text-primary">Zielgruppe</th>
-                    <th className="px-8 py-4 font-headline font-bold text-primary">Trainer</th>
-                    <th className="px-8 py-4 font-headline font-bold text-primary rounded-r-2xl">Aktion</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr className="bg-surface-container-lowest hover:scale-[1.01] transition-transform duration-200">
-                    <td className="px-8 py-6 rounded-l-2xl">
-                      <div className="font-headline font-black text-primary">Montag</div>
-                      <div className="text-xs font-bold text-on-surface-variant">18:30 – 20:00 Uhr</div>
-                    </td>
-                    <td className="px-8 py-6">
-                      <div className="font-bold text-lg text-primary">Tanzfitness</div>
-                      <div className="text-xs text-on-surface-variant">Ästhetik und Ausdauer</div>
-                    </td>
-                    <td className="px-8 py-6">
-                      <span className="px-3 py-1 bg-primary-fixed text-on-primary-fixed-variant rounded-full text-[10px] font-black uppercase tracking-widest">Alle</span>
-                    </td>
-                    <td className="px-8 py-6"><span className="font-medium">Celina Schneider</span></td>
-                    <td className="px-8 py-6 rounded-r-2xl">
-                      <button className="text-primary font-black text-xs uppercase tracking-widest border-b-2 border-secondary hover:text-secondary transition-colors">Anmelden</button>
-                    </td>
-                  </tr>
-                  <tr className="bg-surface-container-lowest hover:scale-[1.01] transition-transform duration-200">
-                    <td className="px-8 py-6 rounded-l-2xl">
-                      <div className="font-headline font-black text-primary">Dienstag</div>
-                      <div className="text-xs font-bold text-on-surface-variant">10:00 – 11:00 Uhr</div>
-                    </td>
-                    <td className="px-8 py-6">
-                      <div className="font-bold text-lg text-primary">LadyFit</div>
-                      <div className="text-xs text-on-surface-variant">Bleib in Bewegung</div>
-                    </td>
-                    <td className="px-8 py-6">
-                      <span className="px-3 py-1 bg-secondary-fixed text-on-secondary-fixed-variant rounded-full text-[10px] font-black uppercase tracking-widest">Frauen</span>
-                    </td>
-                    <td className="px-8 py-6"><span className="font-medium">Marianne Schmicking</span></td>
-                    <td className="px-8 py-6 rounded-r-2xl">
-                      <button className="text-primary font-black text-xs uppercase tracking-widest border-b-2 border-secondary hover:text-secondary transition-colors">Anmelden</button>
-                    </td>
-                  </tr>
-                  <tr className="bg-surface-container-lowest hover:scale-[1.01] transition-transform duration-200">
-                    <td className="px-8 py-6 rounded-l-2xl">
-                      <div className="font-headline font-black text-primary">Dienstag</div>
-                      <div className="text-xs font-bold text-on-surface-variant">18:30 – 19:30 Uhr</div>
-                    </td>
-                    <td className="px-8 py-6">
-                      <div className="font-bold text-lg text-primary">ManFit</div>
-                      <div className="text-xs text-on-surface-variant">Man(n) bewegt sich</div>
-                    </td>
-                    <td className="px-8 py-6">
-                      <span className="px-3 py-1 bg-tertiary-fixed text-on-tertiary-fixed-variant rounded-full text-[10px] font-black uppercase tracking-widest">Männer</span>
-                    </td>
-                    <td className="px-8 py-6"><span className="font-medium">Michael Larisch</span></td>
-                    <td className="px-8 py-6 rounded-r-2xl">
-                      <button className="text-primary font-black text-xs uppercase tracking-widest border-b-2 border-secondary hover:text-secondary transition-colors">Anmelden</button>
-                    </td>
-                  </tr>
-                  <tr className="bg-surface-container-lowest hover:scale-[1.01] transition-transform duration-200">
-                    <td className="px-8 py-6 rounded-l-2xl">
-                      <div className="font-headline font-black text-primary">Dienstag</div>
-                      <div className="text-xs font-bold text-on-surface-variant">19:00 – 20:00 Uhr</div>
-                    </td>
-                    <td className="px-8 py-6">
-                      <div className="font-bold text-lg text-primary">Workout</div>
-                      <div className="text-xs text-on-surface-variant">Spaß an der Bewegung</div>
-                    </td>
-                    <td className="px-8 py-6">
-                      <span className="px-3 py-1 bg-primary-fixed text-on-primary-fixed-variant rounded-full text-[10px] font-black uppercase tracking-widest">Alle</span>
-                    </td>
-                    <td className="px-8 py-6"><span className="font-medium">Irina Djurganina</span></td>
-                    <td className="px-8 py-6 rounded-r-2xl">
-                      <button className="text-primary font-black text-xs uppercase tracking-widest border-b-2 border-secondary hover:text-secondary transition-colors">Anmelden</button>
-                    </td>
-                  </tr>
-                  <tr className="bg-surface-container-lowest hover:scale-[1.01] transition-transform duration-200">
-                    <td className="px-8 py-6 rounded-l-2xl">
-                      <div className="font-headline font-black text-primary">Mittwoch</div>
-                      <div className="text-xs font-bold text-on-surface-variant">20:00 – 21:00 Uhr</div>
-                    </td>
-                    <td className="px-8 py-6">
-                      <div className="font-bold text-lg text-primary">Step-Aerobic</div>
-                      <div className="text-xs text-on-surface-variant">Step by Step</div>
-                    </td>
-                    <td className="px-8 py-6">
-                      <span className="px-3 py-1 bg-primary-fixed text-on-primary-fixed-variant rounded-full text-[10px] font-black uppercase tracking-widest">Alle</span>
-                    </td>
-                    <td className="px-8 py-6"><span className="font-medium">Bettina Wredenhagen</span></td>
-                    <td className="px-8 py-6 rounded-r-2xl">
-                      <button className="text-primary font-black text-xs uppercase tracking-widest border-b-2 border-secondary hover:text-secondary transition-colors">Anmelden</button>
-                    </td>
-                  </tr>
-                  <tr className="bg-surface-container-lowest hover:scale-[1.01] transition-transform duration-200">
-                    <td className="px-8 py-6 rounded-l-2xl">
-                      <div className="font-headline font-black text-primary">Montag</div>
-                      <div className="text-xs font-bold text-on-surface-variant">19:00 – 20:00 Uhr · Apr – Okt</div>
-                    </td>
-                    <td className="px-8 py-6">
-                      <div className="font-bold text-lg text-primary">Fit das ganze Jahr</div>
-                      <div className="text-xs text-on-surface-variant">Ganzkörpertraining</div>
-                    </td>
-                    <td className="px-8 py-6">
-                      <span className="px-3 py-1 bg-primary-fixed text-on-primary-fixed-variant rounded-full text-[10px] font-black uppercase tracking-widest">Alle</span>
-                    </td>
-                    <td className="px-8 py-6"><span className="font-medium">Werner Harasta</span></td>
-                    <td className="px-8 py-6 rounded-r-2xl">
-                      <button className="text-primary font-black text-xs uppercase tracking-widest border-b-2 border-secondary hover:text-secondary transition-colors">Anmelden</button>
-                    </td>
-                  </tr>
-                  <tr className="bg-surface-container-lowest hover:scale-[1.01] transition-transform duration-200">
-                    <td className="px-8 py-6 rounded-l-2xl">
-                      <div className="font-headline font-black text-primary">Montag</div>
-                      <div className="text-xs font-bold text-on-surface-variant">19:00 – 20:00 Uhr · Nov – Mär</div>
-                    </td>
-                    <td className="px-8 py-6">
-                      <div className="font-bold text-lg text-primary">Fit in die Skisaison</div>
-                      <div className="text-xs text-on-surface-variant">Skisportmotorisches Training</div>
-                    </td>
-                    <td className="px-8 py-6">
-                      <span className="px-3 py-1 bg-primary-fixed text-on-primary-fixed-variant rounded-full text-[10px] font-black uppercase tracking-widest">Alle</span>
-                    </td>
-                    <td className="px-8 py-6"><span className="font-medium">Werner Harasta</span></td>
-                    <td className="px-8 py-6 rounded-r-2xl">
-                      <button className="text-primary font-black text-xs uppercase tracking-widest border-b-2 border-secondary hover:text-secondary transition-colors">Anmelden</button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+            {abteilung?.mannschaften && abteilung.mannschaften.length > 0
+              ? <KursplanDynamisch mannschaften={abteilung.mannschaften} />
+              : (
+                <p className="text-sm text-on-surface-variant text-center py-8">
+                  Kein aktueller Kursplan verfügbar. Bitte kontaktiere uns direkt.
+                </p>
+              )
+            }
             <KursInfoBox
               title="Du bist unsicher, welcher Kurs passt?"
               description="Komm einfach zu einem kostenlosen Probetraining vorbei oder lass dich von unseren Trainern beraten."
