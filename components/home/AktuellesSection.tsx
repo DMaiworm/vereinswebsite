@@ -74,6 +74,8 @@ interface AktuellesSectionProps {
 }
 
 export default function AktuellesSection({ instagramUsername, news = [] }: AktuellesSectionProps) {
+  if (news.length === 0) return null;
+
   const igHref = instagramUsername ? `https://instagram.com/${instagramUsername}` : '#';
   const socialWithIg = SOCIAL.map(s =>
     s.platform === 'Instagram' ? { ...s, href: igHref, handle: instagramUsername ? `@${instagramUsername}` : s.handle } : s
@@ -101,14 +103,14 @@ export default function AktuellesSection({ instagramUsername, news = [] }: Aktue
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={news[0]?.bildUrl ?? NEWS_BIG_SRC}
-              alt={news[0]?.titel ?? 'Starker Auftakt in die Rückrunde'}
+              alt={news[0]?.titel ?? 'News'}
               className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               onError={(e) => { (e.target as HTMLImageElement).src = NEWS_BIG_SRC; }}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
             <div className="absolute inset-0 p-6 flex flex-col justify-end text-white">
               <span className="text-[#fde000] text-xs font-bold uppercase mb-2">Vereinsnews</span>
-              <h3 className="text-3xl font-bold mb-4">{news[0]?.titel ?? 'Starker Auftakt in die Rückrunde'}</h3>
+              <h3 className="text-3xl font-bold mb-4">{news[0]?.titel ?? ''}</h3>
               {news[0] && <span className="text-sm text-white/60">{new Date(news[0].erstelltAm).toLocaleDateString('de-DE')}</span>}
             </div>
           </div>
@@ -118,14 +120,14 @@ export default function AktuellesSection({ instagramUsername, news = [] }: Aktue
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={news[1]?.bildUrl ?? NEWS_SECOND_SRC}
-              alt={news[1]?.titel ?? 'Qi-Gong Kurs startet im September'}
+              alt={news[1]?.titel ?? 'News'}
               className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               onError={(e) => { (e.target as HTMLImageElement).src = NEWS_SECOND_SRC; }}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
             <div className="absolute inset-0 p-6 flex flex-col justify-end text-white">
               <span className="text-[#fde000] text-xs font-bold uppercase mb-2">Vereinsnews</span>
-              <h3 className="text-2xl font-bold mb-4">{news[1]?.titel ?? 'Qi-Gong Kurs startet im September'}</h3>
+              <h3 className="text-2xl font-bold mb-4">{news[1]?.titel ?? ''}</h3>
             </div>
           </div>
 
@@ -194,7 +196,7 @@ export default function AktuellesSection({ instagramUsername, news = [] }: Aktue
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
             <div className="absolute inset-0 p-6 flex flex-col justify-end text-white">
               <span className="text-[#fde000] text-xs font-bold uppercase mb-2">Vereinsnews</span>
-              <h3 className="text-xl font-bold">{news[2]?.titel ?? 'Sommerfest 2025 – Wir feiern 80 Jahre SG!'}</h3>
+              <h3 className="text-xl font-bold">{news[2]?.titel ?? ''}</h3>
             </div>
           </div>
 

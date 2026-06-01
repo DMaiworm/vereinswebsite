@@ -6,8 +6,8 @@ import GalerieGrid from '@/components/shared/sections/GalerieGrid'
 import ShopGrid from '@/components/shared/sections/ShopGrid'
 import TeamIntro1 from '@/components/shared/team/TeamIntro1'
 import TeamIntro2 from '@/components/shared/team/TeamIntro2'
-import { fetchClubConfig, fetchAbteilung, fetchSponsors } from '@/lib/api'
-import type { Trainer, GalerieItem, AbteilungProfile, TrainingSlot } from '@/lib/api'
+import { fetchClubConfig, fetchAbteilung, fetchSponsors, fetchPublicNews } from '@/lib/api'
+import type { Trainer, GalerieItem, AbteilungProfile, TrainingSlot, NewsEintrag } from '@/lib/api'
 import type { ShopProduct } from '@/components/shared/sections/ShopGrid'
 // ─── Helpers ────────────────────────────────────────────────────────────────
 
@@ -64,6 +64,10 @@ export default async function BadmintonPage() {
     ? await fetchSponsors(config.operator_id).catch(() => [])
     : []
 
+  const vereinsNews: NewsEintrag[] = config?.operator_id
+    ? await fetchPublicNews({ operatorId: config.operator_id, ebene: 'verein' }).then(r => r.news).catch(() => [])
+    : []
+
   const erwachseneTeam = abteilung?.mannschaften.find(m =>
     m.name.toLowerCase().includes('erwachsene')
   )
@@ -81,7 +85,7 @@ export default async function BadmintonPage() {
       <BadmintonNav logoUrl={config?.logo_web_pfad ?? config?.logo_url} clubName={config?.short_name ?? config?.name} />
       <main>
         <Hero trainingSlot={erwachseneTeam?.training_slots?.[0] ? formatTrainingSlot(erwachseneTeam.training_slots[0]) : undefined} />
-        <AktuellesSection />
+        <AktuellesSection news={vereinsNews} />
         <div id="erwachsene">
           <ErwachseneSection
             leitung={erwachseneTeam?.trainer.find(t => t.is_primary) ?? abteilung?.leitung}

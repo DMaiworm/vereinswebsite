@@ -1,4 +1,5 @@
-import { fetchClubConfig, fetchSponsors } from '@/lib/api'
+import { fetchClubConfig, fetchSponsors, fetchPublicNews } from '@/lib/api'
+import type { NewsEintrag } from '@/lib/api'
 import BaseNav from '@/components/shared/layout/BaseNav'
 import SponsorBand from '@/components/shared/layout/SponsorBand'
 import SiteFooter from '@/components/shared/layout/SiteFooter'
@@ -18,10 +19,14 @@ const TT_NAV = [
 export default async function TischtennisPage() {
   let logoUrl: string | null = null
   let sponsors: Awaited<ReturnType<typeof fetchSponsors>> = []
+  let vereinsNews: NewsEintrag[] = []
   try {
     const config = await fetchClubConfig()
     logoUrl = config.logo_web_pfad ?? config.logo_url
-    if (config.operator_id) sponsors = await fetchSponsors(config.operator_id).catch(() => [])
+    if (config.operator_id) {
+      sponsors = await fetchSponsors(config.operator_id).catch(() => [])
+      vereinsNews = await fetchPublicNews({ operatorId: config.operator_id, ebene: 'verein' }).then(r => r.news).catch(() => [])
+    }
   } catch {
     // Fallback: hardcoded logo bleibt über src-Attribut
   }
@@ -72,7 +77,7 @@ export default async function TischtennisPage() {
           </div>
         </header>
 
-        <AktuellesSection />
+        <AktuellesSection news={vereinsNews} />
 
         <TrainerSection />
 

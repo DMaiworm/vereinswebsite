@@ -5,8 +5,8 @@ import AktuellesSection from '@/components/home/AktuellesSection'
 import GalerieGrid from '@/components/shared/sections/GalerieGrid'
 import ShopGrid from '@/components/shared/sections/ShopGrid'
 import TeamIntro from '@/components/shared/team/TeamIntro'
-import { fetchClubConfig, fetchAbteilung, fetchSponsors } from '@/lib/api'
-import type { Trainer, AbteilungProfile, TrainingSlot } from '@/lib/api'
+import { fetchClubConfig, fetchAbteilung, fetchSponsors, fetchPublicNews } from '@/lib/api'
+import type { Trainer, AbteilungProfile, TrainingSlot, NewsEintrag } from '@/lib/api'
 import type { ShopProduct } from '@/components/shared/sections/ShopGrid'
 
 // ─── Helpers ────────────────────────────────────────────────────────────────
@@ -49,6 +49,10 @@ export default async function AthleticsPage() {
     ? await fetchSponsors(config.operator_id).catch(() => [])
     : []
 
+  const vereinsNews: NewsEintrag[] = config?.operator_id
+    ? await fetchPublicNews({ operatorId: config.operator_id, ebene: 'verein' }).then(r => r.news).catch(() => [])
+    : []
+
   const kilaTeams = abteilung?.mannschaften.filter(m =>
     m.name.toLowerCase().includes('kinder') || m.name.toLowerCase().includes('jugend')
   ) ?? []
@@ -74,7 +78,7 @@ export default async function AthleticsPage() {
           earlyBirdsSlot={earlyBirdsTeam?.training_slots?.[0] ? formatShortSlot(earlyBirdsTeam.training_slots[0]) : undefined}
         />
         <KilaSection teams={kilaTeams} />
-        <AktuellesSection />
+        <AktuellesSection news={vereinsNews} />
         <TrainerSection trainers={allTrainers} />
         <GalerieGrid
           sectionNum="04 — Galerie"
