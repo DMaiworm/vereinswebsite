@@ -1,7 +1,7 @@
 import BaseNav from '@/components/shared/layout/BaseNav'
 import SiteFooter from '@/components/shared/layout/SiteFooter'
 import SponsorBand from '@/components/shared/layout/SponsorBand'
-import { fetchClubConfig, fetchSponsors } from '@/lib/api'
+import { fetchClubConfig, fetchSponsors, fetchGeschichte } from '@/lib/api'
 
 const GESCHICHTE_NAV = [
  { label: 'Gründung', href: '#gruendung' },
@@ -55,13 +55,23 @@ function MilestoneItem({ year, title, desc, imageUrl, dotClass, align }: Milesto
  )
 }
 
+// Styling alterniert zwischen geraden (0,2) und ungeraden (1,3) Ären-Indizes
+const ERA_STYLES = [
+ { headerBg: 'bg-secondary-container', headerText: 'text-primary',   dotClass: 'bg-primary' },
+ { headerBg: 'bg-primary',             headerText: 'text-white',     dotClass: 'bg-secondary-container' },
+]
+
 export default async function GeschichtePage() {
  let logoUrl: string | null = null
  let sponsors: Awaited<ReturnType<typeof fetchSponsors>> = []
+ let aeren: Awaited<ReturnType<typeof fetchGeschichte>>['aeren'] = []
+
  try {
- const config = await fetchClubConfig()
- logoUrl = config.logo_web_pfad ?? config.logo_url ?? null
- if (config.operator_id) sponsors = await fetchSponsors(config.operator_id).catch(() => [])
+   const config = await fetchClubConfig()
+   logoUrl = config.logo_web_pfad ?? config.logo_url ?? null
+   if (config.operator_id) sponsors = await fetchSponsors(config.operator_id).catch(() => [])
+   const geschichte = await fetchGeschichte(config.club_id)
+   aeren = geschichte.aeren
  } catch { /* fallback */ }
 
  return (
@@ -108,39 +118,40 @@ export default async function GeschichtePage() {
  <section id="chronik" className="py-12 bg-surface relative timeline-line">
  <div className="container mx-auto px-6 relative">
 
- {/* ERA 1: Gründungsjahre */}
- <div id="gruendung" className="mb-32">
+ {aeren.length === 0 ? (
+ <div className="text-center py-24">
+ <p className="text-2xl font-headline font-black text-on-surface-variant uppercase tracking-tight">
+ Vereinsgeschichte wird gerade gepflegt.
+ </p>
+ <p className="mt-3 text-on-surface-variant">Schauen Sie bald wieder vorbei.</p>
+ </div>
+ ) : (
+ aeren.map((aera, aeraIdx) => {
+ const style = ERA_STYLES[aeraIdx % 2]
+ const isFirstAera = aeraIdx === 0
+ return (
+ <div key={aera.id} id={isFirstAera ? 'gruendung' : undefined} className={`mb-32 ${aeraIdx > 0 ? 'pt-24' : ''}`}>
  <div className="flex justify-center mb-16">
- <h2 className="text-3xl md:text-4xl font-headline font-black text-primary uppercase tracking-tight bg-secondary-container px-8 py-3 ">
- DIE GRÜNDUNGSJAHRE (1947–1959)
+ <h2 className={`text-3xl md:text-4xl font-headline font-black ${style.headerText} uppercase tracking-tight ${style.headerBg} px-8 py-3`}>
+ {aera.titel.toUpperCase()}{aera.zeitraum ? ` (${aera.zeitraum})` : ''}
  </h2>
  </div>
  <div className="space-y-16">
+ {aera.meilensteine.map((ms, msIdx) => (
  <MilestoneItem
- year="1947" align="left" dotClass="bg-primary"
- title="Offizielle Gründung"
- desc="Gründung der SG Görsroth unter US-Aufsicht. Erste Fußballspiele auf Behelfswiesen."
- imageUrl="https://lh3.googleusercontent.com/aida-public/AB6AXuBCr92-H4tnQ9WAVqr-9qkm312g9VZwyTBuVw3CX-6oEoI-S86dV03sOOPaATGHWZvZM08mI8j8n8H2lq9YMeczWhEmE-CSkHWytcw1Ejx2LdV0eNnamkx7uCVReNJmnRHLPaDQT9hGOW3pQk9ysf2Bj24UI5I2fIBl4ow3TgsBWjbN5SvOCiwVfYH7apt2nNWFq5ORfSZV-hMnTtyWOWrbxdx1iPnqA_vKlCc9h03u3hUbKPGIf9A13XeBgWwW3EyLUuJRYsJIW5Y"
+ key={ms.id}
+ year={String(ms.jahr)}
+ title={ms.titel}
+ desc={ms.beschreibung ?? ''}
+ imageUrl={ms.fotoUrl ?? undefined}
+ dotClass={style.dotClass}
+ align={msIdx % 2 === 0 ? 'left' : 'right'}
  />
- <MilestoneItem
- year="1950" align="right" dotClass="bg-primary"
- title="Erste Trikotsätze"
- desc="Durch Spenden der lokalen Wirtschaft konnten die ersten einheitlichen Trikots in Blau beschafft werden."
- imageUrl="https://lh3.googleusercontent.com/aida-public/AB6AXuAQarl7RyYjhxQxy36sudRhK5POFS4L8WAQzqeDvQKMN_cl2llsf8wd1a8sS--1oBlmhy7ChBAa6jnDO60ydqPaHFdpybQsFYZR-Fd1-jedDHhQpuF_NyZZ4L95vNeOdTdbbF9GeubjFG2weqAiPaNlDzHAUK5tMQBwiJl6WDncTGLRV_XGWrs6kkt3Nt_A_KUpXfxKgW0sivFsl8CTViRqwsGj9w2i_cgC8WCnmMjn8e22IbT5PTwRZykTpLQG6AXztqr_BgFcUbE"
- />
- <MilestoneItem
- year="1954" align="left" dotClass="bg-primary"
- title="Weltmeister-Euphorie"
- desc={'Das "Wunder von Bern" löst einen ungeahnten Mitgliederboom in Hünstetten aus.'}
- />
- <MilestoneItem
- year="1958" align="right" dotClass="bg-primary"
- title="Jugendabteilung"
- desc="Gründung der ersten eigenständigen Jugendmannschaft zur Förderung lokaler Talente."
- />
+ ))}
  </div>
 
- {/* Gallery Break 1 */}
+ {/* Gallery Break nach Ära 1 (Gründungsjahre) */}
+ {aeraIdx === 0 && (
  <div className="mt-24 grid grid-cols-2 md:grid-cols-4 gap-4 px-4">
  {[
  'AB6AXuBXy1aNQxb9UwdtGX-8uThPUI8kwKQNZtkutDoebsjBTeWac7vENSQn1qmOIDFCKRgkrQQXm7nomJI7iGy-SuxBnf2ks14vBp7SbE2ztjy3i70VxszyyAEuGklVr_3FxqnCuGddK7DvTgUzpydN6wHMzYpyw0MjwhWErf5ilicIv1uuN5ZipXeXtrpQsV-rZ3xjZ34iKMyx6LM9wVyQ9lfAuMzclLAMgEiGOKc_1SS5A0ulBunV38P9_iiqcMnkpgiJnttEf0phFxA',
@@ -158,83 +169,10 @@ export default async function GeschichtePage() {
  </div>
  ))}
  </div>
- </div>
+ )}
 
- {/* ERA 2: Krise & Wiedergeburt */}
- <div className="mb-32 pt-24">
- <div className="flex justify-center mb-16">
- <h2 className="text-3xl md:text-4xl font-headline font-black text-white uppercase tracking-tight bg-primary px-8 py-3 ">
- KRISE &amp; WIEDERGEBURT (1960–1985)
- </h2>
- </div>
- <div className="space-y-16">
- <MilestoneItem
- year="1967" align="left" dotClass="bg-secondary-container"
- title="Diehlenhof-Bau"
- desc="Startschuss für den Bau der zentralen Sportstätte Diehlenhof durch massive Eigenleistung."
- />
- <MilestoneItem
- year="1972" align="right" dotClass="bg-secondary-container"
- title="Vereinsheim-Eröffnung"
- desc="Das neue Herzstück des Vereins wird eingeweiht. Ein Meilenstein für die Vereinskultur."
- imageUrl="https://lh3.googleusercontent.com/aida-public/AB6AXuAHjpU5gkjvvIsdezU8rA-V2GdQU6WCdtmhHCKnv-hhts-FyzR2jOn8cBe_Bel9EV_CTWTZ65ndk6And98JyQFHkia8VmOfffw9zS5zDkS4TTYrmd_rR1vNmHNi9qLon9RHHIL_zzOFNeuU2W0tKu1ZupbSSg6TQXQls57n-mtQHn80ZPCJPP6MuZteIsba0MNR9ZWbT6pr1_mFmuGRnfIfvRzooCwYhbmSBPMIIOkoQ9xPFWvbLpx9UUbiBcx4yqMHe-5BpnDnBfw"
- />
- <MilestoneItem
- year="1975" align="left" dotClass="bg-secondary-container"
- title="Finanzielle Hürden"
- desc="Eine schwere Wirtschaftskrise fordert den Verein, wird aber durch außerordentliches Engagement der Mitglieder überwunden."
- />
- <MilestoneItem
- year="1982" align="right" dotClass="bg-secondary-container"
- title="35-jähriges Jubiläum"
- desc="Großes Festwochenende unterstreicht die gewachsene Bedeutung der SG für die Gemeinde."
- />
- <MilestoneItem
- year="1985" align="left" dotClass="bg-secondary-container"
- title="Modernisierung Flutlicht"
- desc="Erstmals ist Training und Spielbetrieb auch in den Abendstunden professionell möglich."
- />
- </div>
- </div>
-
- {/* ERA 3: Goldene Ära */}
- <div className="mb-32 pt-24">
- <div className="flex justify-center mb-16">
- <h2 className="text-3xl md:text-4xl font-headline font-black text-primary uppercase tracking-tight bg-secondary-container px-8 py-3 ">
- DIE GOLDENE ÄRA (1986–2005)
- </h2>
- </div>
- <div className="space-y-16">
- <MilestoneItem
- year="1989" align="right" dotClass="bg-primary"
- title="SG Hünstetten"
- desc="Offizielle Umbenennung zur SG Hünstetten zur besseren Repräsentation aller Ortsteile."
- imageUrl="https://lh3.googleusercontent.com/aida-public/AB6AXuDEHCGlF_tJN4JsFC4OIdLMi9-vLuVcg0t_zxBnXil6IYSTiCSHvv9Xhd8XQ6MCLVKks7-DbiLmw1ttGVLjj0miziFkZfesxCzsJvyQsDivOjMN2-jRsLYQC41kAewgQ_r6Jnw8jO8zahkdIPOyjy_eY_ikoHRdqg6-mP4eZJAPze5J78ki1BXob-AOuXsAlTEJdQpDIHz5WzRSEHrrEwuWnBnbLVzQZ9p1aIJibDIRYYV2jTweMTOnRsGvbFdjam9AQsBuQt0qpXg"
- />
- <MilestoneItem
- year="1992" align="left" dotClass="bg-primary"
- title="Meisterschaft Bezirksliga"
- desc="Erstmals krönt sich die SG zum Meister und klopft an die Tür zum Profifußball."
- />
- <MilestoneItem
- year="1994" align="right" dotClass="bg-primary"
- title="Aufstieg Landesliga"
- desc="Der größte sportliche Erfolg der Vereinsgeschichte: Der Sprung in Hessens dritthöchste Spielklasse."
- />
- <MilestoneItem
- year="1998" align="left" dotClass="bg-primary"
- title="Gründung Alte Herren"
- desc="Um verdiente Spieler im Verein zu halten, wird eine eigene Ü35-Abteilung etabliert."
- />
- <MilestoneItem
- year="2002" align="right" dotClass="bg-primary"
- title="Sanierung Hauptplatz"
- desc="Der Rasenplatz im Diehlenhof wird nach neuesten ökologischen Standards saniert."
- imageUrl="https://lh3.googleusercontent.com/aida-public/AB6AXuAXej0i19hfPPXBqCa7Vv0M2KzdExLgPCp6liJtkkPb1kL6t6sTPfD-_uJYOfIfZv5N6mJg56Tl62kbx2Rtv502io1LdwQxOcOBOUVfoGDSF1Ga67Ap8Q9X3mpZ4t20g53rkTo1zdk5GpUloNe0_JwlZgyDHlqFfta8LL2svef2RYDH4Tji7gPbF9HEpjJ7w3b1Q4ggPOh_Q5AeR-Y1aKeWu-7qPLtwXMP6Uu8LxRZauf2vz6vkSZzLUsNBr4LU6x75fEKYGQq1qIo"
- />
- </div>
-
- {/* Feature Gallery */}
+ {/* Feature Gallery nach Ära 3 (Die Goldene Ära) */}
+ {aeraIdx === 2 && (
  <div className="mt-24 px-4">
  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center bg-primary p-12 rounded-[3rem]">
  <div className="space-y-6">
@@ -263,49 +201,11 @@ export default async function GeschichtePage() {
  </div>
  </div>
  </div>
+ )}
  </div>
-
- {/* ERA 4: Moderne Expansion */}
- <div className="mb-32 pt-24">
- <div className="flex justify-center mb-16">
- <h2 className="text-3xl md:text-4xl font-headline font-black text-white uppercase tracking-tight bg-primary px-8 py-3 ">
- MODERNE EXPANSION (2006–HEUTE)
- </h2>
- </div>
- <div className="space-y-16">
- <MilestoneItem
- year="2010" align="left" dotClass="bg-secondary-container"
- title="Kunstrasen-Projekt"
- desc="Umstellung auf Ganzjahresbetrieb durch den ersten modernen Kunstrasenplatz der Region."
- />
- <MilestoneItem
- year="2013" align="right" dotClass="bg-secondary-container"
- title="A-Liga Meisterschaft"
- desc="Triumph durch Teamgeist nach einer Phase der Neuorientierung."
- />
- <MilestoneItem
- year="2016" align="left" dotClass="bg-secondary-container"
- title="Damenfußball"
- desc="Start der ersten Damenmannschaft, die binnen zwei Jahren in die Kreisoberliga aufsteigt."
- />
- <MilestoneItem
- year="2019" align="right" dotClass="bg-secondary-container"
- title="Expansion B-Klasse"
- desc="Kontinuierliche Entwicklung und Festigung der sportlichen Breite im Seniorenbereich."
- imageUrl="https://lh3.googleusercontent.com/aida-public/AB6AXuCImSHRCxelstK56oKfQwxK6Cno7ZWzsT-d_PAwJVRubuaGenf63rq2OSLfJXOBXCxyVGoTEc_d7zR7gY2dTFn3tHpOjiXP41BC31IVZztafus0L5bpVgjvfH6s5B26lKjfTgustPjfOLEXgUPxn-PEGWXIPYAIG_Zuoc2TkLN8PN3XKzpXUVk2PcJyCFFi5QPzNFjrV79VxCTrRrsVB_47wevNocIAVA6uChXEu2CeR26nJ-8woM-faZHD3Slbxm06A-0RYn5A8y4"
- />
- <MilestoneItem
- year="2021" align="left" dotClass="bg-secondary-container"
- title="Digitale Transformation"
- desc="Einführung von Mitglieder-Apps und digitalen Trainingsplänen für alle Teams."
- />
- <MilestoneItem
- year="2024" align="right" dotClass="bg-secondary-container"
- title="80 Jahre Momentum"
- desc="Wir feiern acht Jahrzehnte Tradition und blicken mit Vision 2030 in die Zukunft."
- />
- </div>
- </div>
+ )
+ })
+ )}
 
  </div>
  </section>

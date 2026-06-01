@@ -277,3 +277,29 @@ export async function fetchFundsachenKategorien(): Promise<FundsacheKategorie[]>
 export async function fetchFacilities(): Promise<Facility[]> {
   return restGet<Facility[]>('facilities', 'select=id,name&order=name')
 }
+
+export interface GeschichteMeilenstein {
+  id: string;
+  jahr: number;
+  titel: string;
+  beschreibung: string | null;
+  fotoUrl: string | null;
+  sortOrder: number;
+}
+
+export interface GeschichteAera {
+  id: string;
+  titel: string;
+  zeitraum: string | null;
+  sortOrder: number;
+  meilensteine: GeschichteMeilenstein[];
+}
+
+export interface GeschichteResponse {
+  aeren: GeschichteAera[];
+  sonstige: GeschichteMeilenstein[];
+}
+
+export async function fetchGeschichte(clubId: string): Promise<GeschichteResponse> {
+  return get<GeschichteResponse>('public-geschichte', { club_id: clubId });
+}
