@@ -166,6 +166,25 @@ export async function fetchTrainers(operatorId: string): Promise<Trainer[]> {
   return get<Trainer[]>('public-trainers', { operator_id: operatorId });
 }
 
+export interface VorstandEintrag {
+  id: string;
+  name: string;
+  bezeichnung: string;
+  gruppe: 'vorstand' | 'abteilungsleitung';
+  fotoUrl: string | null;
+  email: string | null;
+  abteilung: string | null;
+}
+
+export interface VorstandResponse {
+  vorstand: VorstandEintrag[];
+  abteilungsleiter: VorstandEintrag[];
+}
+
+export async function fetchVorstand(clubId: string): Promise<VorstandResponse> {
+  return get<VorstandResponse>('public-vorstand', { club_id: clubId });
+}
+
 // ─── Supabase REST (public tables) ──────────────────────────────────────────
 
 const SUPABASE_URL  = API_BASE.replace('/functions/v1', '')
