@@ -185,6 +185,34 @@ export async function fetchVorstand(clubId: string): Promise<VorstandResponse> {
   return get<VorstandResponse>('public-vorstand', { club_id: clubId });
 }
 
+export interface NewsEintrag {
+  id: string;
+  titel: string;
+  inhalt: string;
+  bildUrl: string | null;
+  erstelltAm: string;
+  ebene: 'verein' | 'abteilung' | 'team';
+  kontext: string | null;
+  autorName: string | null;
+}
+
+export interface NewsResponse {
+  news: NewsEintrag[];
+}
+
+export async function fetchPublicNews(params: {
+  operatorId?: string;
+  departmentId?: string;
+  teamId?: string;
+  ebene: 'verein' | 'abteilung' | 'team';
+}): Promise<NewsResponse> {
+  const p: Record<string, string> = { ebene: params.ebene };
+  if (params.operatorId)   p.operator_id   = params.operatorId;
+  if (params.departmentId) p.department_id = params.departmentId;
+  if (params.teamId)       p.team_id       = params.teamId;
+  return get<NewsResponse>('public-news', p);
+}
+
 // ─── Supabase REST (public tables) ──────────────────────────────────────────
 
 const SUPABASE_URL  = API_BASE.replace('/functions/v1', '')

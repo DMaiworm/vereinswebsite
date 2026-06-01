@@ -1,4 +1,5 @@
-import { fetchClubConfig, fetchSponsors } from '@/lib/api';
+import { fetchClubConfig, fetchSponsors, fetchPublicNews } from '@/lib/api';
+import type { NewsEintrag } from '@/lib/api';
 import { asset } from '@/lib/assetPath';
 import BaseNav from '@/components/shared/layout/BaseNav';
 import Hero from '@/components/Hero';
@@ -30,6 +31,11 @@ export default async function HomePage() {
   const sponsors = config.operator_id
     ? await fetchSponsors(config.operator_id).catch(() => [])
     : [];
+  let vereinsNews: NewsEintrag[] = [];
+  if (config.operator_id) {
+    const result = await fetchPublicNews({ operatorId: config.operator_id, ebene: 'verein' }).catch(() => ({ news: [] }));
+    vereinsNews = result.news;
+  }
 
   return (
     <>
@@ -58,7 +64,7 @@ export default async function HomePage() {
 
         {/* 2 – Aktuelles */}
         <div id="aktuelles">
-          <AktuellesSection instagramUsername={config.instagram_username} />
+          <AktuellesSection instagramUsername={config.instagram_username} news={vereinsNews} />
         </div>
 
         {/* 3 – Kursangebot mit Tabs */}

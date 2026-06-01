@@ -60,11 +60,20 @@ const EVENTS = [
   { date: '14. Jun', label: 'Sa', title: 'Jugendturnier JFV Hünstetten', location: 'Kunstrasenplatz Hünstetten' },
 ];
 
-interface AktuellesSectionProps {
-  instagramUsername?: string | null;
+interface NewsItem {
+  id: string;
+  titel: string;
+  inhalt: string;
+  bildUrl: string | null;
+  erstelltAm: string;
 }
 
-export default function AktuellesSection({ instagramUsername }: AktuellesSectionProps) {
+interface AktuellesSectionProps {
+  instagramUsername?: string | null;
+  news?: NewsItem[];
+}
+
+export default function AktuellesSection({ instagramUsername, news = [] }: AktuellesSectionProps) {
   const igHref = instagramUsername ? `https://instagram.com/${instagramUsername}` : '#';
   const socialWithIg = SOCIAL.map(s =>
     s.platform === 'Instagram' ? { ...s, href: igHref, handle: instagramUsername ? `@${instagramUsername}` : s.handle } : s
@@ -91,16 +100,16 @@ export default function AktuellesSection({ instagramUsername }: AktuellesSection
           <div className="md:col-span-2 relative group overflow-hidden rounded-lg cursor-pointer" style={{ height: '340px' }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={NEWS_BIG_SRC}
-              alt="Starker Auftakt in die Rückrunde"
+              src={news[0]?.bildUrl ?? NEWS_BIG_SRC}
+              alt={news[0]?.titel ?? 'Starker Auftakt in die Rückrunde'}
               className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-              onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+              onError={(e) => { (e.target as HTMLImageElement).src = NEWS_BIG_SRC; }}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
             <div className="absolute inset-0 p-6 flex flex-col justify-end text-white">
-              <span className="text-[#fde000] text-xs font-bold uppercase mb-2">Spielbericht</span>
-              <h3 className="text-3xl font-bold mb-4">Starker Auftakt in die Rückrunde</h3>
-              <span className="text-sm text-white/60">❤ 124 Likes</span>
+              <span className="text-[#fde000] text-xs font-bold uppercase mb-2">Vereinsnews</span>
+              <h3 className="text-3xl font-bold mb-4">{news[0]?.titel ?? 'Starker Auftakt in die Rückrunde'}</h3>
+              {news[0] && <span className="text-sm text-white/60">{new Date(news[0].erstelltAm).toLocaleDateString('de-DE')}</span>}
             </div>
           </div>
 
@@ -108,15 +117,15 @@ export default function AktuellesSection({ instagramUsername }: AktuellesSection
           <div className="relative group overflow-hidden rounded-lg cursor-pointer" style={{ height: '340px' }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={NEWS_SECOND_SRC}
-              alt="Qi-Gong Kurs startet im September"
+              src={news[1]?.bildUrl ?? NEWS_SECOND_SRC}
+              alt={news[1]?.titel ?? 'Qi-Gong Kurs startet im September'}
               className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-              onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+              onError={(e) => { (e.target as HTMLImageElement).src = NEWS_SECOND_SRC; }}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
             <div className="absolute inset-0 p-6 flex flex-col justify-end text-white">
-              <span className="text-[#fde000] text-xs font-bold uppercase mb-2">Neues Angebot</span>
-              <h3 className="text-2xl font-bold mb-4">Qi-Gong Kurs startet im September</h3>
+              <span className="text-[#fde000] text-xs font-bold uppercase mb-2">Vereinsnews</span>
+              <h3 className="text-2xl font-bold mb-4">{news[1]?.titel ?? 'Qi-Gong Kurs startet im September'}</h3>
             </div>
           </div>
 
@@ -177,15 +186,15 @@ export default function AktuellesSection({ instagramUsername }: AktuellesSection
           <div className="relative group overflow-hidden rounded-lg cursor-pointer" style={{ height: '272px' }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={NEWS_THIRD_SRC}
-              alt="Sommerfest 2025"
+              src={news[2]?.bildUrl ?? NEWS_THIRD_SRC}
+              alt={news[2]?.titel ?? 'Sommerfest 2025'}
               className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-              onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+              onError={(e) => { (e.target as HTMLImageElement).src = NEWS_THIRD_SRC; }}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
             <div className="absolute inset-0 p-6 flex flex-col justify-end text-white">
-              <span className="text-[#fde000] text-xs font-bold uppercase mb-2">Event</span>
-              <h3 className="text-xl font-bold">Sommerfest 2025 – Wir feiern 80 Jahre SG!</h3>
+              <span className="text-[#fde000] text-xs font-bold uppercase mb-2">Vereinsnews</span>
+              <h3 className="text-xl font-bold">{news[2]?.titel ?? 'Sommerfest 2025 – Wir feiern 80 Jahre SG!'}</h3>
             </div>
           </div>
 
