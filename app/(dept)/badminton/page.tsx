@@ -12,7 +12,7 @@ import type { ShopProduct } from '@/components/shared/sections/ShopGrid'
 // ─── Helpers ────────────────────────────────────────────────────────────────
 
 function formatTrainingSlot(slot: TrainingSlot): string {
-  return `${slot.wochentag.substring(0, 2)}. · ${slot.start_time.slice(0, 5)} – ${slot.end_time.slice(0, 5)} · ${slot.resource}`
+  return `${slot.wochentag.substring(0, 2)}. · ${slot.von.slice(0, 5)} – ${slot.bis.slice(0, 5)} · ${slot.ort}`
 }
 
 // ─── Static content ──────────────────────────────────────────────────────────

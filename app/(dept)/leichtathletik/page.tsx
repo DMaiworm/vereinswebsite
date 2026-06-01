@@ -12,11 +12,11 @@ import type { ShopProduct } from '@/components/shared/sections/ShopGrid'
 // ─── Helpers ────────────────────────────────────────────────────────────────
 
 function formatShortSlot(slot: TrainingSlot): string {
-  return `${slot.wochentag.substring(0, 2)}. ${slot.start_time.slice(0, 5)} Uhr`
+  return `${slot.wochentag.substring(0, 2)}. ${slot.von.slice(0, 5)} Uhr`
 }
 
 function formatBadgeSlot(slot: TrainingSlot): string {
-  return `Jeden ${slot.wochentag} · ${slot.start_time.slice(0, 5)}`
+  return `Jeden ${slot.wochentag} · ${slot.von.slice(0, 5)}`
 }
 
 // ─── Static content ──────────────────────────────────────────────────────────

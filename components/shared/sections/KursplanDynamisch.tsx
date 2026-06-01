@@ -29,8 +29,8 @@ function buildRows(mannschaften: Mannschaft[]): Row[] {
         rows.push({
           mannschaft:  m,
           wochentag:   slot.wochentag,
-          zeit:        `${slot.start_time.slice(0, 5)} – ${slot.end_time.slice(0, 5)} Uhr`,
-          ort:         slot.resource,
+          zeit:        `${slot.von.slice(0, 5)} – ${slot.bis.slice(0, 5)} Uhr`,
+          ort:         slot.ort,
           trainerName: m.trainer[0]
             ? `${m.trainer[0].vorname} ${m.trainer[0].nachname}`
             : '–',

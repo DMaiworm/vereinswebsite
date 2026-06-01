@@ -55,9 +55,9 @@ export interface Sponsor {
 export interface TrainingSlot {
   wochentag: string;
   wochentag_nr: number;
-  start_time: string;
-  end_time: string;
-  resource: string;
+  von: string;
+  bis: string;
+  ort: string;
 }
 
 export interface Trainer {
