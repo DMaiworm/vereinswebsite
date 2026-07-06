@@ -90,7 +90,7 @@ Claude Design verwendet `<img>`. Für 1:1-Ports `<img>` behalten, ESLint-Warning
 Nie hardcoded `lh3.googleusercontent.com`-URLs für das Vereinslogo verwenden. Stattdessen:
 ```tsx
 const config = await fetchClubConfig()
-const logoSrc = config.logo_web_pfad ?? config.logo_url ?? '/fallback-logo.png'
+const logoSrc = config.logoWebUrl ?? config.logoUrl ?? '/fallback-logo.png'
 ```
 
 ---

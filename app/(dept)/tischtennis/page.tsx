@@ -22,10 +22,10 @@ export default async function TischtennisPage() {
   let vereinsNews: NewsEintrag[] = []
   try {
     const config = await fetchClubConfig()
-    logoUrl = config.logo_web_pfad ?? config.logo_url
-    if (config.operator_id) {
-      sponsors = await fetchSponsors(config.operator_id).catch(() => [])
-      vereinsNews = await fetchPublicNews({ operatorId: config.operator_id, ebene: 'verein' }).then(r => r.news).catch(() => [])
+    logoUrl = config.logoWebUrl ?? config.logoUrl
+    {
+      sponsors = await fetchSponsors().catch(() => [])
+      vereinsNews = await fetchPublicNews({ scope: 'verein' }).then(r => r.data).catch(() => [])
     }
   } catch {
     // Fallback: hardcoded logo bleibt über src-Attribut

@@ -33,10 +33,11 @@ export default function GalerieGrid({
     ? galerie[0]
     : staticMain
     ? {
-        foto_url: staticMain.src,
+        fotoUrl: staticMain.src,
+        fotoAlt: null,
         titel: staticMain.caption ?? null,
-        testimonial_text: staticMain.testimonial ?? null,
-        testimonial_autor: staticMain.testimonialAutor ?? null,
+        testimonialText: staticMain.testimonial ?? null,
+        testimonialAutor: staticMain.testimonialAutor ?? null,
       }
     : null
 
@@ -45,10 +46,11 @@ export default function GalerieGrid({
       ? galerie[1]
       : staticSecondary
       ? {
-          foto_url: staticSecondary.src,
+          fotoUrl: staticSecondary.src,
+          fotoAlt: null,
           titel: staticSecondary.caption ?? null,
-          testimonial_text: null,
-          testimonial_autor: null,
+          testimonialText: null,
+          testimonialAutor: null,
         }
       : null
 
@@ -70,9 +72,9 @@ export default function GalerieGrid({
 
         <div className="grid grid-cols-12 gap-4">
           <div className="col-span-12 lg:col-span-8 img-zoom rounded-lg overflow-hidden relative" style={{ height }}>
-            {mainItem?.foto_url ? (
+            {mainItem?.fotoUrl ? (
               // eslint-disable-next-line @next/next/no-img-element
-              <img alt={mainItem.titel ?? 'Galerie'} className="w-full h-full object-cover" src={mainItem.foto_url} />
+              <img alt={mainItem.titel ?? 'Galerie'} className="w-full h-full object-cover" src={mainItem.fotoUrl} />
             ) : (
               <div className="w-full h-full bg-mist-mid" />
             )}
@@ -80,11 +82,11 @@ export default function GalerieGrid({
               {mainItem?.titel && (
                 <p className="font-display font-bold text-chalk text-xl tracking-display">{mainItem.titel}</p>
               )}
-              {mainItem?.testimonial_text && (
+              {mainItem?.testimonialText && (
                 <p className="text-chalk/60 text-sm mt-2 italic">
-                  &ldquo;{mainItem.testimonial_text}&rdquo;
-                  {mainItem.testimonial_autor && (
-                    <span className="not-italic text-chalk/40 ml-2">— {mainItem.testimonial_autor}</span>
+                  &ldquo;{mainItem.testimonialText}&rdquo;
+                  {mainItem.testimonialAutor && (
+                    <span className="not-italic text-chalk/40 ml-2">— {mainItem.testimonialAutor}</span>
                   )}
                 </p>
               )}
@@ -92,10 +94,10 @@ export default function GalerieGrid({
           </div>
 
           <div className="col-span-12 lg:col-span-4 flex flex-col gap-4" style={{ height }}>
-            {secondaryItem?.foto_url ? (
+            {secondaryItem?.fotoUrl ? (
               <div className="img-zoom rounded-lg overflow-hidden flex-1 relative grayscale hover:grayscale-0 transition-all duration-700">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img alt={secondaryItem.titel ?? 'Galerie'} className="w-full h-full object-cover" src={secondaryItem.foto_url} />
+                <img alt={secondaryItem.titel ?? 'Galerie'} className="w-full h-full object-cover" src={secondaryItem.fotoUrl} />
                 {secondaryItem.titel && (
                   <div className="absolute inset-0 bg-gradient-to-t from-navy/70 to-transparent flex items-end p-5 pointer-events-none">
                     <p className="font-display font-semibold text-chalk text-sm tracking-display">{secondaryItem.titel}</p>

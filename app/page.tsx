@@ -28,19 +28,16 @@ const HOME_NAV = [
 
 export default async function HomePage() {
   const config   = await fetchClubConfig();
-  const sponsors = config.operator_id
-    ? await fetchSponsors(config.operator_id).catch(() => [])
-    : [];
-  let vereinsNews: NewsEintrag[] = [];
-  if (config.operator_id) {
-    const result = await fetchPublicNews({ operatorId: config.operator_id, ebene: 'verein' }).catch(() => ({ news: [] }));
-    vereinsNews = result.news;
-  }
+  const sponsors = await fetchSponsors().catch(() => []);
+  const vereinsNews: NewsEintrag[] = await fetchPublicNews({ scope: 'verein' })
+    .then(r => r.data)
+    .catch(() => []);
+  const logoUrl = config.logoWebUrl ?? config.logoUrl;
 
   return (
     <>
       <BaseNav
-        logoUrl={config.logo_web_pfad ?? config.logo_url}
+        logoUrl={logoUrl}
         clubName={config.name}
         navItems={HOME_NAV}
         ctaLabel="Mitglied werden"
@@ -51,20 +48,20 @@ export default async function HomePage() {
         {/* 1 – Hero */}
         <Hero
           name={config.name}
-          shortName={config.short_name}
-          logoUrl={config.logo_web_pfad ?? config.logo_url}
-          primaryColor={config.primary_color}
-          secondaryColor={config.secondary_color}
-          tagline={config.homepage_tagline ?? '80 Jahre Tradition, Leidenschaft und Gemeinschaft im Herzen der Region.'}
-          ctaLabel={config.homepage_cta_label ?? 'JETZT DURCHSTARTEN'}
+          shortName={config.shortName}
+          logoUrl={logoUrl}
+          primaryColor={config.colors.primary}
+          secondaryColor={config.colors.secondary}
+          tagline={config.homepage.tagline ?? '80 Jahre Tradition, Leidenschaft und Gemeinschaft im Herzen der Region.'}
+          ctaLabel={config.homepage.ctaLabel ?? 'JETZT DURCHSTARTEN'}
           ctaHref="#kursangebot"
-          heroBildUrl={config.homepage_hero_bild_url}
+          heroBildUrl={config.homepage.heroImageUrl}
           sponsors={sponsors}
         />
 
         {/* 2 – Aktuelles */}
         <div id="aktuelles">
-          <AktuellesSection instagramUsername={config.instagram_username} news={vereinsNews} />
+          <AktuellesSection instagramUsername={config.social.instagram} news={vereinsNews} />
         </div>
 
         {/* 3 – Kursangebot mit Tabs */}
@@ -108,11 +105,11 @@ export default async function HomePage() {
 
         {/* 6 – Zahlen & Tradition */}
         <ZahlenTraditionSection
-          aboutText={config.homepage_about_text}
-          aboutText2={config.homepage_about_text_2}
-          statsMitglieder={config.stats_mitglieder}
-          statsKurseProWoche={config.stats_kurse_pro_woche}
-          statsLizenziertTrainer={config.stats_lizenzierte_trainer}
+          aboutText={config.homepage.aboutText}
+          aboutText2={config.homepage.aboutText2}
+          statsMitglieder={config.stats.mitglieder}
+          statsKurseProWoche={config.stats.kurseProWoche}
+          statsLizenziertTrainer={config.stats.lizenzierteTrainer}
         />
 
         {/* 7 – Fan-Shop */}
@@ -122,7 +119,7 @@ export default async function HomePage() {
         <SponsorBand sponsors={sponsors} />
       </main>
 
-      <SiteFooter logoUrl={config.logo_web_pfad ?? config.logo_url} linkPrefix="./" />
+      <SiteFooter logoUrl={logoUrl} linkPrefix="./" />
     </>
   );
 }

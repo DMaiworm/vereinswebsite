@@ -26,12 +26,12 @@ export default async function RueckenfitPage() {
   let team: Awaited<ReturnType<typeof fetchAbteilung>>['mannschaften'][number] | undefined
   try {
     const config = await fetchClubConfig()
-    logoUrl = config.logo_web_pfad ?? config.logo_url ?? null
-    if (config.operator_id) sponsors = await fetchSponsors(config.operator_id).catch(() => [])
+    logoUrl = config.logoWebUrl ?? config.logoUrl ?? null
+    sponsors = await fetchSponsors().catch(() => [])
   } catch { /* fallback */ }
   try {
     const abteilung = await fetchAbteilung(GESUNDHEITSSPORT_ID)
-    team = abteilung.mannschaften.find(m => m.short_name === TEAM_SHORT_NAME)
+    team = abteilung.mannschaften.find(m => m.shortName === TEAM_SHORT_NAME)
   } catch { /* fallback */ }
 
   return (
@@ -43,7 +43,7 @@ export default async function RueckenfitPage() {
           imageAlt="Controlled back exercises being performed on a mat in a bright, modern fitness studio"
           badge={team?.motto ?? 'Vanguard Wellness Division'}
           title={team?.name ?? 'Rücken? Fit!'}
-          subtitle={team?.beschreibung ?? 'Mobil und beweglich – ein Leben lang. Ganz getreu nach dem Motto: Rücken – Ich doch nicht!'}
+          subtitle={team?.description ?? 'Mobil und beweglich – ein Leben lang. Ganz getreu nach dem Motto: Rücken – Ich doch nicht!'}
           primaryCta={{ label: 'Kursplatz Sichern' }}
           secondaryCta={{ label: 'Kursplan ansehen' }}
         />

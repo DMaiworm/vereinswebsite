@@ -71,16 +71,16 @@ export default function SponsorenStrip({ sponsors }: SponsorenStripProps) {
           {doubled.map((s, i) => (
             <a
               key={`${s.id}-${i}`}
-              href={s.website_url ?? undefined}
+              href={s.websiteUrl ?? undefined}
               target="_blank"
               rel="noopener noreferrer"
               className="flex shrink-0 items-center justify-center opacity-40 transition-opacity duration-300 hover:opacity-90"
               aria-label={s.firmenname}
-              style={{ cursor: s.website_url ? 'pointer' : 'default' }}
+              style={{ cursor: s.websiteUrl ? 'pointer' : 'default' }}
             >
-              {s.logo_web_url ? (
+              {s.logoWebUrl ? (
                 <Image
-                  src={s.logo_web_url}
+                  src={s.logoWebUrl}
                   alt={s.firmenname}
                   width={120}
                   height={48}

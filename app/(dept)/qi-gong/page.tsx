@@ -26,12 +26,12 @@ export default async function QiGongPage() {
   let team: Awaited<ReturnType<typeof fetchAbteilung>>['mannschaften'][number] | undefined
   try {
     const config = await fetchClubConfig()
-    logoUrl = config.logo_web_pfad ?? config.logo_url ?? null
-    if (config.operator_id) sponsors = await fetchSponsors(config.operator_id).catch(() => [])
+    logoUrl = config.logoWebUrl ?? config.logoUrl ?? null
+    sponsors = await fetchSponsors().catch(() => [])
   } catch { /* fallback */ }
   try {
     const abteilung = await fetchAbteilung(GESUNDHEITSSPORT_ID)
-    team = abteilung.mannschaften.find(m => m.short_name === TEAM_SHORT_NAME)
+    team = abteilung.mannschaften.find(m => m.shortName === TEAM_SHORT_NAME)
   } catch { /* fallback */ }
 
   return (
@@ -43,7 +43,7 @@ export default async function QiGongPage() {
           imageAlt="Serene practitioner performing slow Qi-Gong movements in a sunlit, minimalist studio with warm morning light"
           badge={team?.motto ?? 'Qi-Gong & Tai Chi'}
           title={team?.name ?? 'Qi-Gong - Die Lebensenergie trainieren'}
-          subtitle={team?.beschreibung ?? 'Erlerne in entspannter Atmosphäre gesundheitsfördernde Elemente aus dem Qigong und Tai Chi.'}
+          subtitle={team?.description ?? 'Erlerne in entspannter Atmosphäre gesundheitsfördernde Elemente aus dem Qigong und Tai Chi.'}
           primaryCta={{ label: 'Jetzt Buchen' }}
           secondaryCta={{ label: 'Mehr Details' }}
         />

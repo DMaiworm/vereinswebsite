@@ -20,7 +20,7 @@ export default function TeamIntro2({
   return (
     <div className={`grid grid-cols-1 md:grid-cols-2 gap-4 ${className}`}>
       {trainers.map((t) => {
-        const role = t.is_primary ? rolePrimary : roleSecondary
+        const role = t.isPrimary ? rolePrimary : roleSecondary
         return (
           <div
             key={t.id}
@@ -35,12 +35,12 @@ export default function TeamIntro2({
                 isDark ? 'bg-navy-mid' : 'bg-mist-mid'
               }`}
             >
-              {t.foto_url && (
+              {t.fotoUrl && (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
                   alt={`${t.vorname} ${t.nachname}`}
                   className="w-full h-full object-cover object-top"
-                  src={t.foto_url}
+                  src={t.fotoUrl}
                 />
               )}
             </div>

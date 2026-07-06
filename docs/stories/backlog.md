@@ -12,3 +12,4 @@
 | [S-008](S-008-css-vereinfachung.md) | CSS-Vereinfachung: Font-Alias-Collapse + Route Group `(dept)` für zentrales Hell-Thema | done | app/globals.css, app/(dept)/, 24× layout.tsx |
 | [S-009](S-009-abteilungen-bereich-klubhaus.md) | Abteilungen-Bereich in der Klubhaus-App: CRUD für Abteilung, Teams & Trainer mit RLS | ready | Klubhaus-App, Supabase Auth, RLS |
 | [S-010](S-010-db-schema-audit-erweiterung.md) | DB-Schema-Audit & Erweiterung: fehlende Verein/Team/Trainer-Felder in Supabase + api.ts | ready | Supabase DB, Edge Functions, lib/api.ts |
+| [S-011](S-011-webapi-v1-migration.md) | Website-API-Migration auf `public-*` v1-Contract: Envelope, camelCase, `?club=`/`?id=`, Markdown, Fundgrube → public-lostfound | ready | lib/api.ts, app/layout.tsx, ~30× page.tsx, app/(dept)/fundgrube/ |

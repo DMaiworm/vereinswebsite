@@ -15,8 +15,8 @@ export default async function ImpressumPage() {
  let sponsors: Awaited<ReturnType<typeof fetchSponsors>> = []
  try {
  const config = await fetchClubConfig()
- logoUrl = config.logo_web_pfad ?? config.logo_url ?? null
- if (config.operator_id) sponsors = await fetchSponsors(config.operator_id).catch(() => [])
+ logoUrl = config.logoWebUrl ?? config.logoUrl ?? null
+ sponsors = await fetchSponsors().catch(() => [])
  } catch { /* fallback */ }
 
  return (

@@ -12,11 +12,11 @@ import type { ShopProduct } from '@/components/shared/sections/ShopGrid'
 // ─── Helpers ────────────────────────────────────────────────────────────────
 
 function formatShortSlot(slot: TrainingSlot): string {
-  return `${slot.wochentag.substring(0, 2)}. ${slot.von.slice(0, 5)} Uhr`
+  return `${slot.wochentag.substring(0, 2)}. ${slot.startTime.slice(0, 5)} Uhr`
 }
 
 function formatBadgeSlot(slot: TrainingSlot): string {
-  return `Jeden ${slot.wochentag} · ${slot.von.slice(0, 5)}`
+  return `Jeden ${slot.wochentag} · ${slot.startTime.slice(0, 5)}`
 }
 
 // ─── Static content ──────────────────────────────────────────────────────────
@@ -45,13 +45,11 @@ export default async function AthleticsPage() {
     ? await fetchAbteilung(athleticsDept.id).catch(() => null)
     : null
 
-  const sponsors = config?.operator_id
-    ? await fetchSponsors(config.operator_id).catch(() => [])
-    : []
+  const sponsors = await fetchSponsors().catch(() => [])
 
-  const vereinsNews: NewsEintrag[] = config?.operator_id
-    ? await fetchPublicNews({ operatorId: config.operator_id, ebene: 'verein' }).then(r => r.news).catch(() => [])
-    : []
+  const vereinsNews: NewsEintrag[] = await fetchPublicNews({ scope: 'verein' })
+    .then(r => r.data)
+    .catch(() => [])
 
   const kilaTeams = abteilung?.mannschaften.filter(m =>
     m.name.toLowerCase().includes('kinder') || m.name.toLowerCase().includes('jugend')
@@ -69,13 +67,13 @@ export default async function AthleticsPage() {
   return (
     <>
       <AthleticsNav
-        logoUrl={config?.logo_web_pfad ?? config?.logo_url}
-        clubName={config?.short_name ?? config?.name}
+        logoUrl={config?.logoWebUrl ?? config?.logoUrl}
+        clubName={config?.shortName ?? config?.name}
       />
       <main>
         <Hero
-          lauftreffSlot={lauftreffTeam?.training_slots?.[0] ? formatShortSlot(lauftreffTeam.training_slots[0]) : undefined}
-          earlyBirdsSlot={earlyBirdsTeam?.training_slots?.[0] ? formatShortSlot(earlyBirdsTeam.training_slots[0]) : undefined}
+          lauftreffSlot={lauftreffTeam?.trainingSlots?.[0] ? formatShortSlot(lauftreffTeam.trainingSlots[0]) : undefined}
+          earlyBirdsSlot={earlyBirdsTeam?.trainingSlots?.[0] ? formatShortSlot(earlyBirdsTeam.trainingSlots[0]) : undefined}
         />
         <KilaSection teams={kilaTeams} />
         <AktuellesSection news={vereinsNews} />
@@ -94,15 +92,15 @@ export default async function AthleticsPage() {
           height={460}
         />
         <LauftreffsSection
-          lauftreffLeitung={lauftreffTeam?.trainer.find(t => t.is_primary) ?? null}
-          earlyBirdsLeitung={earlyBirdsTeam?.trainer.find(t => t.is_primary) ?? null}
-          lauftreffBadge={lauftreffTeam?.training_slots?.[0] ? formatBadgeSlot(lauftreffTeam.training_slots[0]) : undefined}
-          earlyBirdsBadge={earlyBirdsTeam?.training_slots?.[0] ? formatBadgeSlot(earlyBirdsTeam.training_slots[0]) : undefined}
+          lauftreffLeitung={lauftreffTeam?.trainer.find(t => t.isPrimary) ?? null}
+          earlyBirdsLeitung={earlyBirdsTeam?.trainer.find(t => t.isPrimary) ?? null}
+          lauftreffBadge={lauftreffTeam?.trainingSlots?.[0] ? formatBadgeSlot(lauftreffTeam.trainingSlots[0]) : undefined}
+          earlyBirdsBadge={earlyBirdsTeam?.trainingSlots?.[0] ? formatBadgeSlot(earlyBirdsTeam.trainingSlots[0]) : undefined}
         />
         <ShopGrid variant="md3" products={shopProducts} />
         <SponsorBand sponsors={sponsors} />
       </main>
-      <SiteFooter logoUrl={config?.logo_web_pfad ?? config?.logo_url} departmentLabel="Leichtathletik" />
+      <SiteFooter logoUrl={config?.logoWebUrl ?? config?.logoUrl} departmentLabel="Leichtathletik" />
     </>
   )
 }
@@ -123,8 +121,8 @@ function deduplicateTrainers(mannschaften: AbteilungProfile['mannschaften']): Tr
   return result
 }
 
-function ageLabel(team: { name: string; alter_von: number | null; alter_bis: number | null }): string {
-  if (team.alter_bis && team.alter_bis > 0) return `U${team.alter_bis}`
+function ageLabel(team: { name: string; alterVon?: number | null; alterBis?: number | null }): string {
+  if (team.alterBis && team.alterBis > 0) return `U${team.alterBis}`
   const match = team.name.match(/(\d+)-(\d+)/)
   if (match) return `U${match[2]}`
   return team.name.split(' ')[0]
@@ -375,9 +373,9 @@ function LauftreffsSection({
               {lauftreffLeitung && (
                 <div className="flex items-center gap-3 mb-6">
                   <div className="w-9 h-9 rounded-full overflow-hidden bg-navy-mid ring-1 ring-gold/20 shrink-0">
-                    {lauftreffLeitung.foto_url && (
+                    {lauftreffLeitung.fotoUrl && (
                       // eslint-disable-next-line @next/next/no-img-element
-                      <img alt={`${lauftreffLeitung.vorname} ${lauftreffLeitung.nachname}`} className="w-full h-full object-cover object-top" src={lauftreffLeitung.foto_url} />
+                      <img alt={`${lauftreffLeitung.vorname} ${lauftreffLeitung.nachname}`} className="w-full h-full object-cover object-top" src={lauftreffLeitung.fotoUrl} />
                     )}
                   </div>
                   <div>
@@ -415,9 +413,9 @@ function LauftreffsSection({
               {earlyBirdsLeitung && (
                 <div className="flex items-center gap-3 mb-6">
                   <div className="w-9 h-9 rounded-full overflow-hidden bg-navy-mid ring-1 ring-gold/20 shrink-0">
-                    {earlyBirdsLeitung.foto_url && (
+                    {earlyBirdsLeitung.fotoUrl && (
                       // eslint-disable-next-line @next/next/no-img-element
-                      <img alt={`${earlyBirdsLeitung.vorname} ${earlyBirdsLeitung.nachname}`} className="w-full h-full object-cover object-top" src={earlyBirdsLeitung.foto_url} />
+                      <img alt={`${earlyBirdsLeitung.vorname} ${earlyBirdsLeitung.nachname}`} className="w-full h-full object-cover object-top" src={earlyBirdsLeitung.fotoUrl} />
                     )}
                   </div>
                   <div>

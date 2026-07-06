@@ -1,62 +1,138 @@
 /**
- * API-Wrapper für alle öffentlichen Supabase Edge Functions.
+ * API-Wrapper für die öffentliche `public-*` API (Ziel-Contract v1).
+ * Siehe website-publishing-api-guide.md.
+ *
  * Konfiguration via .env.local:
- *   NEXT_PUBLIC_CLUB_SLUG  = Vereins-Slug (z.B. "sg-huenstetten")
+ *   NEXT_PUBLIC_CLUB_SLUG  = Vereins-Slug (z.B. "sg-huenstetten")  → ?club=<slug>
  *   NEXT_PUBLIC_API_BASE   = https://xxx.supabase.co/functions/v1
+ *
+ * Grundprinzipien (Guide §1):
+ *   - Ein Envelope für alles: { data, meta, error }
+ *   - camelCase in allen Feldern
+ *   - Slug-zentriert: vereinsweite Endpunkte ?club=<slug>, Sub-Ressourcen ?id=
+ *   - Modul-bewusst: error.code === 'module_disabled' ⇒ leeres Ergebnis, kein Crash
  */
 
 const API_BASE  = process.env.NEXT_PUBLIC_API_BASE!;
 const CLUB_SLUG = process.env.NEXT_PUBLIC_CLUB_SLUG!;
 
-// ─── Types ──────────────────────────────────────────────────────────────────
+// ─── Envelope ─────────────────────────────────────────────────────────────────
+
+export interface Meta {
+  total: number;
+  limit: number;
+  offset: number;
+  next: number | null;
+}
+
+interface ApiError {
+  code: string;
+  message: string;
+}
+
+interface Envelope<T> {
+  data: T | null;
+  meta: Meta | null;
+  error: ApiError | null;
+}
+
+/** Fehlercodes, die als „leeres Ergebnis" statt als Crash behandelt werden (Modul-Gating, Guide §7/§9). */
+function isSoftError(code: string): boolean {
+  return code === 'module_disabled' || code === 'not_found';
+}
+
+async function request<T>(endpoint: string, params: Record<string, string>): Promise<Envelope<T>> {
+  const url = new URL(`${API_BASE}/${endpoint}`);
+  Object.entries(params).forEach(([k, v]) => url.searchParams.set(k, v));
+  const res = await fetch(url.toString(), {
+    cache: process.env.NODE_ENV === 'development' ? 'no-store' : 'force-cache',
+  });
+  // v1-Fehler (inkl. 404 module_disabled/not_found) tragen den Envelope im Body.
+  const body = await res.json().catch(() => null);
+  if (body && typeof body === 'object' && ('data' in body || 'error' in body)) {
+    return body as Envelope<T>;
+  }
+  throw new Error(`${endpoint} failed: HTTP ${res.status}`);
+}
+
+/** Objekt-Ressource: gibt `data` oder — bei Soft-Error — `null` zurück. */
+async function getObject<T>(endpoint: string, params: Record<string, string>): Promise<T | null> {
+  const env = await request<T>(endpoint, params);
+  if (env.error) {
+    if (isSoftError(env.error.code)) return null;
+    throw new Error(`${endpoint}: ${env.error.code} – ${env.error.message}`);
+  }
+  return env.data;
+}
+
+/** Listen-Ressource: gibt `{ data, meta }` zurück; Soft-Error ⇒ leere Liste. */
+async function getList<T>(endpoint: string, params: Record<string, string>): Promise<{ data: T[]; meta: Meta | null }> {
+  const env = await request<T[]>(endpoint, params);
+  if (env.error) {
+    if (isSoftError(env.error.code)) return { data: [], meta: null };
+    throw new Error(`${endpoint}: ${env.error.code} – ${env.error.message}`);
+  }
+  return { data: env.data ?? [], meta: env.meta };
+}
+
+// ─── Types (camelCase, `data`-Form aus Guide §10) ──────────────────────────────
 
 export interface Department {
   id: string;
   name: string;
   icon: string | null;
-  beschreibung: string | null;
-  hero_foto_pfad?: string | null;
+  description: string | null;
+  heroImageUrl?: string | null;
+  heroImageAlt?: string | null;
 }
 
 export interface ClubConfig {
-  club_id: string;
+  clubId: string;
   slug: string;
   name: string;
-  short_name: string | null;
-  primary_color: string;
-  secondary_color: string;
-  logo_url: string | null;
-  logo_web_pfad: string | null;
-  operator_id: string | null;
+  shortName: string | null;
+  colors: { primary: string; secondary: string };
+  logoUrl: string | null;
+  logoWebUrl: string | null;
   gruendungsjahr?: number | null;
-  instagram_username?: string | null;
-  facebook_url?: string | null;
-  homepage_tagline?: string | null;
-  homepage_hero_bild_url?: string | null;
-  homepage_cta_label?: string | null;
-  homepage_about_text?: string | null;
-  homepage_about_text_2?: string | null;
-  stats_mitglieder?: string | null;
-  stats_kurse_pro_woche?: string | null;
-  stats_lizenzierte_trainer?: string | null;
+  social: { instagram: string | null; facebook: string | null };
+  homepage: {
+    tagline: string | null;
+    heroImageUrl: string | null;
+    heroImageAlt: string | null;
+    ctaLabel: string | null;
+    aboutText: string | null;
+    aboutText2: string | null;
+  };
+  stats: {
+    mitglieder?: string | null;
+    kurseProWoche?: string | null;
+    lizenzierteTrainer?: string | null;
+  };
   departments: Department[];
 }
 
 export interface Sponsor {
   id: string;
   firmenname: string;
-  logo_web_url: string | null;
-  logo_druck_url: string | null;
-  website_url: string | null;
-  club_id: string | null;
-  kategorie: 'gold' | 'silber' | 'bronze' | 'partner' | 'keine' | null;
+  logoWebUrl: string | null;
+  logoDruckUrl: string | null;
+  logoAlt: string | null;
+  websiteUrl: string | null;
+  /**
+   * NICHT Teil des v1-Contracts (`public-sponsors` liefert keine Kategorie).
+   * Nur optional, damit Tier-basierte Fallback-UIs (UnserePartner) kompilieren;
+   * bei Live-Daten immer `undefined` ⇒ Sponsor landet im neutralen/Bronze-Tier.
+   * TODO(Contract): Tiering ggf. additiv im Contract nachziehen.
+   */
+  kategorie?: 'gold' | 'silber' | 'bronze' | 'partner' | 'keine' | null;
 }
 
 export interface TrainingSlot {
   wochentag: string;
-  wochentag_nr: number;
-  von: string;
-  bis: string;
+  wochentagNr: number;
+  startTime: string;
+  endTime: string;
   ort: string;
 }
 
@@ -67,16 +143,18 @@ export interface Trainer {
   email: string | null;
   telefon: string | null;
   bio: string | null;
-  foto_url: string | null;
-  is_primary: boolean;
+  fotoUrl: string | null;
+  isPrimary: boolean;
+  lizenzen?: string[];
+  erfolge?: string[];
 }
 
 export interface Spielergebnis {
   datum: string;
   gegner: string;
-  tore_heimisch: number | null;
-  tore_gegner: number | null;
-  ist_heimspiel: boolean;
+  toreHeimisch: number | null;
+  toreGegner: number | null;
+  istHeimspiel: boolean;
   wettbewerb: string | null;
 }
 
@@ -84,97 +162,69 @@ export interface Spielplan {
   datum: string;
   uhrzeit: string | null;
   gegner: string;
-  ist_heimspiel: boolean;
+  istHeimspiel: boolean;
   wettbewerb: string | null;
   ort: string | null;
 }
 
-export interface TeamProfile {
-  id: string;
-  name: string;
-  short_name: string | null;
-  color: string;
-  liga: string | null;
-  foto_url: string | null;
-  trainer: Trainer[];
-  training_slots: TrainingSlot[];
-  ergebnisse: Spielergebnis[];
-  spielplan: Spielplan[];
-}
-
 export interface GalerieItem {
   titel: string | null;
-  foto_url: string | null;
-  testimonial_text: string | null;
-  testimonial_autor: string | null;
+  fotoUrl: string | null;
+  fotoAlt: string | null;
+  aufnahmeDatum?: string | null;
+  testimonialText: string | null;
+  testimonialAutor: string | null;
 }
 
-export interface TrainerPublic {
+export interface Mannschaft {
   id: string;
-  vorname: string;
-  nachname: string;
-  bio: string | null;
-  foto_url: string | null;
-  lizenzen: string[];
-  teams: string[];
+  name: string;
+  shortName: string | null;
+  color: string;
+  liga: string | null;
+  photoUrl: string | null;
+  photoAlt: string | null;
+  motto?: string | null;
+  description?: string | null;
+  alterVon?: number | null;
+  alterBis?: number | null;
+  trainer: Trainer[];
+  trainingSlots: TrainingSlot[];
+  galerie?: GalerieItem[];
+}
+
+export interface TeamProfile {
+  id: string;
+  slug?: string;
+  name: string;
+  shortName: string | null;
+  color: string;
+  liga: string | null;
+  photoUrl: string | null;
+  photoAlt: string | null;
+  motto: string | null;
+  description: string | null;
+  alterVon: number | null;
+  alterBis: number | null;
+  trainer: Trainer[];
+  trainingSlots: TrainingSlot[];
+  ergebnisse: Spielergebnis[];
+  spielplan: Spielplan[];
+  galerie: GalerieItem[];
 }
 
 export interface AbteilungProfile {
   id: string;
+  slug?: string;
   name: string;
   icon: string | null;
-  beschreibung: string | null;
+  description: string | null;
+  langbeschreibung?: string | null;
+  heroImageUrl: string | null;
+  heroImageAlt: string | null;
   leitung: Trainer | null;
-  trainer: TrainerPublic[];
-  mannschaften: Array<{
-    id: string;
-    name: string;
-    short_name: string | null;
-    color: string;
-    liga: string | null;
-    foto_url: string | null;
-    motto: string | null;
-    beschreibung: string | null;
-    alter_von: number | null;
-    alter_bis: number | null;
-    trainer: Trainer[];
-    galerie: GalerieItem[];
-    training_slots: TrainingSlot[];
-  }>;
-}
-
-// ─── Fetch-Helpers ──────────────────────────────────────────────────────────
-
-async function get<T>(endpoint: string, params: Record<string, string>): Promise<T> {
-  const url = new URL(`${API_BASE}/${endpoint}`);
-  Object.entries(params).forEach(([k, v]) => url.searchParams.set(k, v));
-  const res = await fetch(url.toString(), {
-    cache: process.env.NODE_ENV === "development" ? "no-store" : "force-cache",
-  });
-  if (!res.ok) throw new Error(`${endpoint} failed: ${res.status}`);
-  return res.json() as Promise<T>;
-}
-
-// ─── Public API ─────────────────────────────────────────────────────────────
-
-export async function fetchClubConfig(): Promise<ClubConfig> {
-  return get<ClubConfig>('public-config', { slug: CLUB_SLUG });
-}
-
-export async function fetchSponsors(operatorId: string): Promise<Sponsor[]> {
-  return get<Sponsor[]>('public-sponsors', { operator_id: operatorId });
-}
-
-export async function fetchAbteilung(departmentId: string): Promise<AbteilungProfile> {
-  return get<AbteilungProfile>('public-abteilung', { department_id: departmentId });
-}
-
-export async function fetchTeam(teamId: string): Promise<TeamProfile> {
-  return get<TeamProfile>('public-team', { team_id: teamId });
-}
-
-export async function fetchTrainers(operatorId: string): Promise<Trainer[]> {
-  return get<Trainer[]>('public-trainers', { operator_id: operatorId });
+  trainer: Trainer[];
+  mannschaften: Mannschaft[];
 }
 
 export interface VorstandEintrag {
@@ -192,90 +242,17 @@ export interface VorstandResponse {
   abteilungsleiter: VorstandEintrag[];
 }
 
-export async function fetchVorstand(clubId: string): Promise<VorstandResponse> {
-  return get<VorstandResponse>('public-vorstand', { club_id: clubId });
-}
-
 export interface NewsEintrag {
   id: string;
-  titel: string;
-  inhalt: string;
-  bildUrl: string | null;
-  erstelltAm: string;
-  ebene: 'verein' | 'abteilung' | 'team';
-  kontext: string | null;
-  autorName: string | null;
-}
-
-export interface NewsResponse {
-  news: NewsEintrag[];
-}
-
-export async function fetchPublicNews(params: {
-  operatorId?: string;
-  departmentId?: string;
-  teamId?: string;
-  ebene: 'verein' | 'abteilung' | 'team';
-}): Promise<NewsResponse> {
-  const p: Record<string, string> = { ebene: params.ebene };
-  if (params.operatorId)   p.operator_id   = params.operatorId;
-  if (params.departmentId) p.department_id = params.departmentId;
-  if (params.teamId)       p.team_id       = params.teamId;
-  return get<NewsResponse>('public-news', p);
-}
-
-// ─── Supabase REST (public tables) ──────────────────────────────────────────
-
-const SUPABASE_URL  = API_BASE.replace('/functions/v1', '')
-const SUPABASE_ANON = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-  ?? 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpxamhlZXdoZ3JtY3d6anVyamxnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA5MjQwNTIsImV4cCI6MjA4NjUwMDA1Mn0.9nIbptqMo6ot1FWrhaywFT8NJfgIL6oJInKP0R8AnZ0'
-
-async function restGet<T>(table: string, query: string): Promise<T> {
-  const res = await fetch(`${SUPABASE_URL}/rest/v1/${table}?${query}`, {
-    headers: { apikey: SUPABASE_ANON, Authorization: `Bearer ${SUPABASE_ANON}` },
-    cache: 'no-store',
-  })
-  if (!res.ok) throw new Error(`REST ${table} failed: ${res.status}`)
-  return res.json() as Promise<T>
-}
-
-export interface Fundsache {
-  id: string
-  beschreibung: string
-  status: string
-  erfasst_am: string | null
-  foto_pfad: string | null
-  kategorie_id: string | null
-  fundort_anlage_id: string | null
-}
-
-export interface FundsacheKategorie {
-  id: string
-  name: string
-  sort_order: number | null
-}
-
-export interface Facility {
-  id: string
-  name: string
-}
-
-export async function fetchFundsachen(): Promise<Fundsache[]> {
-  return restGet<Fundsache[]>(
-    'fundsachen',
-    'select=id,beschreibung,status,erfasst_am,foto_pfad,kategorie_id,fundort_anlage_id&status=eq.aktiv&order=erfasst_am.desc'
-  )
-}
-
-export async function fetchFundsachenKategorien(): Promise<FundsacheKategorie[]> {
-  return restGet<FundsacheKategorie[]>(
-    'fundsachen_kategorien',
-    'select=id,name,sort_order&ist_aktiv=eq.true&order=sort_order'
-  )
-}
-
-export async function fetchFacilities(): Promise<Facility[]> {
-  return restGet<Facility[]>('facilities', 'select=id,name&order=name')
+  slug?: string;
+  title: string;
+  body: string;
+  imageUrl: string | null;
+  imageAlt: string | null;
+  publishedAt: string;
+  scope: 'verein' | 'abteilung' | 'team';
+  context: string | null;
+  authorName: string | null;
 }
 
 export interface GeschichteMeilenstein {
@@ -284,14 +261,14 @@ export interface GeschichteMeilenstein {
   titel: string;
   beschreibung: string | null;
   fotoUrl: string | null;
-  sortOrder: number;
+  sortOrder?: number;
 }
 
 export interface GeschichteAera {
   id: string;
   titel: string;
   zeitraum: string | null;
-  sortOrder: number;
+  sortOrder?: number;
   meilensteine: GeschichteMeilenstein[];
 }
 
@@ -300,6 +277,89 @@ export interface GeschichteResponse {
   sonstige: GeschichteMeilenstein[];
 }
 
-export async function fetchGeschichte(clubId: string): Promise<GeschichteResponse> {
-  return get<GeschichteResponse>('public-geschichte', { club_id: clubId });
+export interface Fundsache {
+  id: string;
+  beschreibung: string;
+  status: string;
+  erfasstAm: string | null;
+  fotoUrl: string | null;
+  kategorieId: string | null;
+  kategorieName: string | null;
+  fundortId: string | null;
+  fundortName: string | null;
+}
+
+// ─── Public API ─────────────────────────────────────────────────────────────
+
+/** Bootstrap – vereinsweite Konfiguration (`?club=<slug>`). */
+export async function fetchClubConfig(): Promise<ClubConfig> {
+  const config = await getObject<ClubConfig>('public-config', { club: CLUB_SLUG });
+  if (!config) throw new Error('public-config: Verein nicht gefunden oder Website-Modul inaktiv');
+  return config;
+}
+
+/** Sponsoren des Vereins (`?club=<slug>`; Modul `sponsoren`). */
+export async function fetchSponsors(): Promise<Sponsor[]> {
+  const { data } = await getList<Sponsor>('public-sponsors', { club: CLUB_SLUG });
+  return data;
+}
+
+/** Abteilungs-Profil (`?id=<deptId>`). */
+export async function fetchAbteilung(departmentId: string): Promise<AbteilungProfile> {
+  const abteilung = await getObject<AbteilungProfile>('public-abteilung', { id: departmentId });
+  if (!abteilung) throw new Error(`public-abteilung: ${departmentId} nicht gefunden`);
+  return abteilung;
+}
+
+/** Mannschafts-Profil (`?id=<teamId>`). */
+export async function fetchTeam(teamId: string): Promise<TeamProfile> {
+  const team = await getObject<TeamProfile>('public-team', { id: teamId });
+  if (!team) throw new Error(`public-team: ${teamId} nicht gefunden`);
+  return team;
+}
+
+/** Trainerliste des Vereins (`?club=<slug>[&department=]`; Modul `trainer`). */
+export async function fetchTrainers(departmentId?: string): Promise<Trainer[]> {
+  const params: Record<string, string> = { club: CLUB_SLUG };
+  if (departmentId) params.department = departmentId;
+  const { data } = await getList<Trainer>('public-trainers', params);
+  return data;
+}
+
+/** Vorstand & Abteilungsleiter (`?club=<slug>`). */
+export async function fetchVorstand(): Promise<VorstandResponse> {
+  const vorstand = await getObject<VorstandResponse>('public-vorstand', { club: CLUB_SLUG });
+  return vorstand ?? { vorstand: [], abteilungsleiter: [] };
+}
+
+/** Vereinsgeschichte (`?club=<slug>`). */
+export async function fetchGeschichte(): Promise<GeschichteResponse> {
+  const geschichte = await getObject<GeschichteResponse>('public-geschichte', { club: CLUB_SLUG });
+  return geschichte ?? { aeren: [], sonstige: [] };
+}
+
+/**
+ * News (`?club=<slug>[&scope=][&department=][&team=][&limit&offset]`).
+ * Gibt `{ data, meta }` zurück (Pagination). `body` ist Markdown (S-407).
+ */
+export async function fetchPublicNews(params: {
+  scope?: 'verein' | 'abteilung' | 'team';
+  departmentId?: string;
+  teamId?: string;
+  limit?: number;
+  offset?: number;
+} = {}): Promise<{ data: NewsEintrag[]; meta: Meta | null }> {
+  const p: Record<string, string> = { club: CLUB_SLUG };
+  if (params.scope)        p.scope      = params.scope;
+  if (params.departmentId) p.department = params.departmentId;
+  if (params.teamId)       p.team       = params.teamId;
+  if (params.limit  != null) p.limit  = String(params.limit);
+  if (params.offset != null) p.offset = String(params.offset);
+  return getList<NewsEintrag>('public-news', p);
+}
+
+/** Fundgrube (`public-lostfound?club=<slug>`; ersetzt den früheren Direktzugriff). */
+export async function fetchFundsachen(): Promise<Fundsache[]> {
+  const { data } = await getList<Fundsache>('public-lostfound', { club: CLUB_SLUG });
+  return data;
 }

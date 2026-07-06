@@ -9,12 +9,12 @@ interface SponsorBandProps {
   variant?: 'dark' | 'grey'
 }
 
-const FALLBACK: Pick<Sponsor, 'id' | 'firmenname' | 'logo_web_url' | 'website_url'>[] = [
-  { id: '1', firmenname: 'BIOGRUND',   logo_web_url: null, website_url: null },
-  { id: '2', firmenname: 'ROSENBAUM',  logo_web_url: null, website_url: null },
-  { id: '3', firmenname: 'VOLKSBANK',  logo_web_url: null, website_url: null },
-  { id: '4', firmenname: 'SPARKASSE',  logo_web_url: null, website_url: null },
-  { id: '5', firmenname: 'SPORT-ECKE', logo_web_url: null, website_url: null },
+const FALLBACK: Pick<Sponsor, 'id' | 'firmenname' | 'logoWebUrl' | 'websiteUrl'>[] = [
+  { id: '1', firmenname: 'BIOGRUND',   logoWebUrl: null, websiteUrl: null },
+  { id: '2', firmenname: 'ROSENBAUM',  logoWebUrl: null, websiteUrl: null },
+  { id: '3', firmenname: 'VOLKSBANK',  logoWebUrl: null, websiteUrl: null },
+  { id: '4', firmenname: 'SPARKASSE',  logoWebUrl: null, websiteUrl: null },
+  { id: '5', firmenname: 'SPORT-ECKE', logoWebUrl: null, websiteUrl: null },
 ]
 
 export default function SponsorBand({ sponsors = [], variant = 'dark' }: SponsorBandProps) {
@@ -85,21 +85,21 @@ export default function SponsorBand({ sponsors = [], variant = 'dark' }: Sponsor
       <div className="overflow-hidden">
         <div ref={trackRef} className="marquee-track gap-8 px-8">
           {doubled.map((s, i) => {
-            const Tag = s.website_url ? 'a' : 'div'
-            const linkProps = s.website_url
-              ? { href: s.website_url, target: '_blank', rel: 'noopener noreferrer' }
+            const Tag = s.websiteUrl ? 'a' : 'div'
+            const linkProps = s.websiteUrl
+              ? { href: s.websiteUrl, target: '_blank', rel: 'noopener noreferrer' }
               : {}
             return (
               <Tag
                 key={`${s.id}-${i}`}
                 {...(linkProps as Record<string, string>)}
                 className={itemCls}
-                style={{ cursor: s.website_url ? 'pointer' : 'default' }}
+                style={{ cursor: s.websiteUrl ? 'pointer' : 'default' }}
               >
-                {s.logo_web_url ? (
+                {s.logoWebUrl ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
-                    src={s.logo_web_url}
+                    src={s.logoWebUrl}
                     alt={s.firmenname}
                     style={{ maxWidth: '171px', maxHeight: '96px', width: 'auto', height: 'auto' }}
                     className={imgCls}

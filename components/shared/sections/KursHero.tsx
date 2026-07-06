@@ -1,3 +1,5 @@
+import { renderMarkdownInline } from '@/lib/markdown'
+
 type KursHeroProps = {
   imageSrc: string
   imageAlt: string
@@ -20,7 +22,7 @@ export default function KursHero({ imageSrc, imageAlt, badge, title, subtitle, p
         <div className="max-w-2xl text-white">
           <span className="inline-block px-4 py-1 bg-secondary-container text-on-secondary-fixed rounded-full text-label-lg mb-6">{badge}</span>
           <h1 className="text-display-lg font-display-lg mb-4 text-white">{title}</h1>
-          <p className="text-body-lg mb-8 opacity-90">{subtitle}</p>
+          <p className="text-body-lg mb-8 opacity-90" dangerouslySetInnerHTML={{ __html: renderMarkdownInline(subtitle) }} />
           <div className="flex flex-wrap gap-4">
             <button className="bg-secondary-container text-on-secondary-fixed font-label-lg px-8 py-4 rounded-lg hover:brightness-110 transition-all">{primaryCta.label}</button>
             <button className="border border-white/40 backdrop-blur-sm text-white font-label-lg px-8 py-4 rounded-lg hover:bg-white/10 transition-all">{secondaryCta.label}</button>

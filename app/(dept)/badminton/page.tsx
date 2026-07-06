@@ -12,7 +12,7 @@ import type { ShopProduct } from '@/components/shared/sections/ShopGrid'
 // ─── Helpers ────────────────────────────────────────────────────────────────
 
 function formatTrainingSlot(slot: TrainingSlot): string {
-  return `${slot.wochentag.substring(0, 2)}. · ${slot.von.slice(0, 5)} – ${slot.bis.slice(0, 5)} · ${slot.ort}`
+  return `${slot.wochentag.substring(0, 2)}. · ${slot.startTime.slice(0, 5)} – ${slot.endTime.slice(0, 5)} · ${slot.ort}`
 }
 
 // ─── Static content ──────────────────────────────────────────────────────────
@@ -60,13 +60,11 @@ export default async function BadmintonPage() {
     ? await fetchAbteilung(badmintonDept.id).catch(() => null)
     : null
 
-  const sponsors = config?.operator_id
-    ? await fetchSponsors(config.operator_id).catch(() => [])
-    : []
+  const sponsors = await fetchSponsors().catch(() => [])
 
-  const vereinsNews: NewsEintrag[] = config?.operator_id
-    ? await fetchPublicNews({ operatorId: config.operator_id, ebene: 'verein' }).then(r => r.news).catch(() => [])
-    : []
+  const vereinsNews: NewsEintrag[] = await fetchPublicNews({ scope: 'verein' })
+    .then(r => r.data)
+    .catch(() => [])
 
   const erwachseneTeam = abteilung?.mannschaften.find(m =>
     m.name.toLowerCase().includes('erwachsene')
@@ -82,14 +80,14 @@ export default async function BadmintonPage() {
 
   return (
     <>
-      <BadmintonNav logoUrl={config?.logo_web_pfad ?? config?.logo_url} clubName={config?.short_name ?? config?.name} />
+      <BadmintonNav logoUrl={config?.logoWebUrl ?? config?.logoUrl} clubName={config?.shortName ?? config?.name} />
       <main>
-        <Hero trainingSlot={erwachseneTeam?.training_slots?.[0] ? formatTrainingSlot(erwachseneTeam.training_slots[0]) : undefined} />
+        <Hero trainingSlot={erwachseneTeam?.trainingSlots?.[0] ? formatTrainingSlot(erwachseneTeam.trainingSlots[0]) : undefined} />
         <AktuellesSection news={vereinsNews} />
         <div id="erwachsene">
           <ErwachseneSection
-            leitung={erwachseneTeam?.trainer.find(t => t.is_primary) ?? abteilung?.leitung}
-            teamFotoUrl={erwachseneTeam?.foto_url ?? null}
+            leitung={erwachseneTeam?.trainer.find(t => t.isPrimary) ?? abteilung?.leitung}
+            teamFotoUrl={erwachseneTeam?.photoUrl ?? null}
             motto={erwachseneTeam?.motto ?? null}
           />
         </div>
@@ -102,16 +100,16 @@ export default async function BadmintonPage() {
         <div id="jugend">
           <JugendSection
             trainers={jugendTeam?.trainer ?? []}
-            teamFotoUrl={jugendTeam?.foto_url ?? null}
-            alterVon={jugendTeam?.alter_von ?? null}
-            alterBis={jugendTeam?.alter_bis ?? null}
+            teamFotoUrl={jugendTeam?.photoUrl ?? null}
+            alterVon={jugendTeam?.alterVon ?? null}
+            alterBis={jugendTeam?.alterBis ?? null}
           />
         </div>
         <EngagementSection />
         <ShopGrid variant="md3" products={products} />
         <SponsorBand sponsors={sponsors} />
       </main>
-      <SiteFooter logoUrl={config?.logo_web_pfad ?? config?.logo_url} departmentLabel="Badminton" />
+      <SiteFooter logoUrl={config?.logoWebUrl ?? config?.logoUrl} departmentLabel="Badminton" />
     </>
   )
 }
@@ -196,7 +194,7 @@ function ErwachseneSection({
     vorname: 'Norman', nachname: 'Eby',
     email: 'eby@sg-huenstetten.de',
     bio: 'Über 20 Jahre Erfahrung im Leistungssport. Koordiniert das Training für alle Leistungsklassen.',
-    foto_url: null, telefon: null, id: '', is_primary: true,
+    fotoUrl: null, telefon: null, id: '', isPrimary: true,
   }
 
   return (

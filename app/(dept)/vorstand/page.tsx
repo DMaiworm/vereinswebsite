@@ -25,9 +25,9 @@ export default async function VorstandPage() {
 
  try {
    const config = await fetchClubConfig()
-   logoUrl = config.logo_web_pfad ?? config.logo_url ?? null
-   if (config.operator_id) sponsors = await fetchSponsors(config.operator_id).catch(() => [])
-   const vorstandData = await fetchVorstand(config.club_id).catch(() => ({ vorstand: [], abteilungsleiter: [] }))
+   logoUrl = config.logoWebUrl ?? config.logoUrl ?? null
+   sponsors = await fetchSponsors().catch(() => [])
+   const vorstandData = await fetchVorstand().catch(() => ({ vorstand: [], abteilungsleiter: [] }))
    vorstand = vorstandData.vorstand
    abteilungsleiter = vorstandData.abteilungsleiter
  } catch { /* fallback: empty lists */ }

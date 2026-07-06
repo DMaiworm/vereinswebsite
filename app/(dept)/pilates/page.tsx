@@ -28,12 +28,12 @@ export default async function PilatesPage() {
   let team: Awaited<ReturnType<typeof fetchAbteilung>>['mannschaften'][number] | undefined
   try {
     const config = await fetchClubConfig()
-    logoUrl = config.logo_web_pfad ?? config.logo_url ?? null
-    if (config.operator_id) sponsors = await fetchSponsors(config.operator_id).catch(() => [])
+    logoUrl = config.logoWebUrl ?? config.logoUrl ?? null
+    sponsors = await fetchSponsors().catch(() => [])
   } catch { /* fallback */ }
   try {
     const abteilung = await fetchAbteilung(GESUNDHEITSSPORT_ID)
-    team = abteilung.mannschaften.find(m => m.short_name === TEAM_SHORT_NAME)
+    team = abteilung.mannschaften.find(m => m.shortName === TEAM_SHORT_NAME)
   } catch { /* fallback */ }
 
   return (
@@ -45,7 +45,7 @@ export default async function PilatesPage() {
           imageAlt="Woman practicing mindful pilates movements in a bright airy studio with floor-to-ceiling windows and soft morning light"
           badge={team?.motto ?? 'MIND & BODY'}
           title={team?.name ?? 'Pilates & BodyART'}
-          subtitle={team?.beschreibung ?? 'Kraft, Flexibilität und innere Balance. Erleben Sie die Verbindung von funktionalem Training und bewusster Achtsamkeit.'}
+          subtitle={team?.description ?? 'Kraft, Flexibilität und innere Balance. Erleben Sie die Verbindung von funktionalem Training und bewusster Achtsamkeit.'}
           primaryCta={{ label: 'Jetzt Buchen' }}
           secondaryCta={{ label: 'Kursplan ansehen' }}
         />

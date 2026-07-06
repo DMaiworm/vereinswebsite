@@ -1,19 +1,10 @@
 'use client'
 
 import { useState, useEffect, useMemo } from 'react'
-import type { Fundsache, FundsacheKategorie, Facility } from '@/lib/api'
+import { fetchFundsachen } from '@/lib/api'
+import type { Fundsache } from '@/lib/api'
 
-// Public constants — safe to hardcode (Supabase anon/publishable key)
-const SUPA_URL  = 'https://zqjheewhgrmcwzjurjlg.supabase.co/rest/v1'
-const SUPA_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpxamhlZXdoZ3JtY3d6anVyamxnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA5MjQwNTIsImV4cCI6MjA4NjUwMDA1Mn0.9nIbptqMo6ot1FWrhaywFT8NJfgIL6oJInKP0R8AnZ0'
-
-async function supaFetch<T>(table: string, query: string): Promise<T> {
-  const res = await fetch(`${SUPA_URL}/${table}?${query}`, {
-    headers: { apikey: SUPA_ANON, Authorization: `Bearer ${SUPA_ANON}` },
-  })
-  if (!res.ok) throw new Error(`${table}: ${res.status}`)
-  return res.json()
-}
+interface FilterOption { id: string; name: string }
 
 const KATEGORIE_ICONS: Record<string, string> = {
   'Trikot / Sportbekleidung': 'shirt',
@@ -29,23 +20,29 @@ function formatDatum(iso: string | null) {
 }
 
 export default function FundgrubeClient() {
-  const [fundsachen,   setFundsachen]   = useState<Fundsache[]>([])
-  const [kategorien,   setKategorien]   = useState<FundsacheKategorie[]>([])
-  const [sportstätten, setSportstätten] = useState<Facility[]>([])
-  const [loading,      setLoading]      = useState(true)
+  const [fundsachen, setFundsachen] = useState<Fundsache[]>([])
+  const [loading,    setLoading]    = useState(true)
 
   useEffect(() => {
-    Promise.all([
-      supaFetch<Fundsache[]>('fundsachen',
-        'select=id,beschreibung,status,erfasst_am,foto_pfad,kategorie_id,fundort_anlage_id&status=eq.aktiv&order=erfasst_am.desc'),
-      supaFetch<FundsacheKategorie[]>('fundsachen_kategorien',
-        'select=id,name,sort_order&ist_aktiv=eq.true&order=sort_order'),
-      supaFetch<Facility[]>('facilities', 'select=id,name&order=name'),
-    ])
-      .then(([f, k, s]) => { setFundsachen(f); setKategorien(k); setSportstätten(s) })
+    fetchFundsachen()
+      .then(setFundsachen)
       .catch(console.error)
       .finally(() => setLoading(false))
   }, [])
+
+  // Kategorien & Sportstätten werden aus den gelieferten Fundsachen abgeleitet
+  // (public-lostfound liefert die Namen direkt mit; kein Direktzugriff mehr).
+  const kategorien = useMemo<FilterOption[]>(() => {
+    const map = new Map<string, string>()
+    fundsachen.forEach(f => { if (f.kategorieId) map.set(f.kategorieId, f.kategorieName ?? f.kategorieId) })
+    return [...map].map(([id, name]) => ({ id, name })).sort((a, b) => a.name.localeCompare(b.name))
+  }, [fundsachen])
+
+  const sportstätten = useMemo<FilterOption[]>(() => {
+    const map = new Map<string, string>()
+    fundsachen.forEach(f => { if (f.fundortId) map.set(f.fundortId, f.fundortName ?? f.fundortId) })
+    return [...map].map(([id, name]) => ({ id, name })).sort((a, b) => a.name.localeCompare(b.name))
+  }, [fundsachen])
 
   const katMap = useMemo(() => Object.fromEntries(kategorien.map(k => [k.id, k.name])),  [kategorien])
   const ortMap = useMemo(() => Object.fromEntries(sportstätten.map(s => [s.id, s.name])), [sportstätten])
@@ -66,13 +63,13 @@ export default function FundgrubeClient() {
 
   const items = useMemo(() => {
     let list = fundsachen.filter(f => {
-      if (filterKat && f.kategorie_id !== filterKat) return false
-      if (filterOrt && f.fundort_anlage_id !== filterOrt) return false
+      if (filterKat && f.kategorieId !== filterKat) return false
+      if (filterOrt && f.fundortId !== filterOrt) return false
       return true
     })
     return [...list].sort((a, b) => {
-      const ta = new Date(a.erfasst_am ?? 0).getTime()
-      const tb = new Date(b.erfasst_am ?? 0).getTime()
+      const ta = new Date(a.erfasstAm ?? 0).getTime()
+      const tb = new Date(b.erfasstAm ?? 0).getTime()
       return sortDir === 'desc' ? tb - ta : ta - tb
     })
   }, [fundsachen, filterKat, filterOrt, sortDir])
@@ -228,8 +225,8 @@ export default function FundgrubeClient() {
                 <FundItem
                   key={item.id}
                   item={item}
-                  kategorieName={katMap[item.kategorie_id ?? ''] ?? 'Sonstiges'}
-                  fundortName={item.fundort_anlage_id ? (ortMap[item.fundort_anlage_id] ?? null) : null}
+                  kategorieName={item.kategorieName ?? katMap[item.kategorieId ?? ''] ?? 'Sonstiges'}
+                  fundortName={item.fundortName ?? (item.fundortId ? (ortMap[item.fundortId] ?? null) : null)}
                   onClaim={() => { setClaimItem(item); setClaimSent(false); setClaimForm({ name: '', email: '', hinweis: '' }) }}
                 />
               ))}
@@ -306,9 +303,9 @@ function FundItem({ item, kategorieName, fundortName, onClaim }: {
   return (
     <div className="bg-white rounded-2xl border border-outline-variant/20 shadow-sm overflow-hidden flex flex-col group hover:shadow-md transition-shadow">
       <div className="h-48 bg-surface-container-low flex items-center justify-center relative overflow-hidden">
-        {item.foto_pfad ? (
+        {item.fotoUrl ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={item.foto_pfad} alt={item.beschreibung}
+          <img src={item.fotoUrl} alt={item.beschreibung}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
         ) : (
           <span className="material-symbols-outlined text-6xl text-on-surface-variant/20"
@@ -331,7 +328,7 @@ function FundItem({ item, kategorieName, fundortName, onClaim }: {
           )}
           <p className="text-xs text-on-surface-variant flex items-center gap-1.5">
             <span className="material-symbols-outlined text-sm">calendar_today</span>
-            Gefunden am {formatDatum(item.erfasst_am)}
+            Gefunden am {formatDatum(item.erfasstAm)}
           </p>
         </div>
         <button onClick={onClaim}

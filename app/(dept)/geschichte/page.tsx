@@ -68,9 +68,9 @@ export default async function GeschichtePage() {
 
  try {
    const config = await fetchClubConfig()
-   logoUrl = config.logo_web_pfad ?? config.logo_url ?? null
-   if (config.operator_id) sponsors = await fetchSponsors(config.operator_id).catch(() => [])
-   const geschichte = await fetchGeschichte(config.club_id)
+   logoUrl = config.logoWebUrl ?? config.logoUrl ?? null
+   sponsors = await fetchSponsors().catch(() => [])
+   const geschichte = await fetchGeschichte()
    aeren = geschichte.aeren
  } catch { /* fallback */ }
 

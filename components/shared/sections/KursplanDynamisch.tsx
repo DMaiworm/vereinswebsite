@@ -13,7 +13,7 @@ interface Row {
 function buildRows(mannschaften: Mannschaft[]): Row[] {
   const rows: Row[] = []
   for (const m of mannschaften) {
-    if (m.training_slots.length === 0) {
+    if (m.trainingSlots.length === 0) {
       // Mannschaft ohne Buchungen: zeige Zeile ohne Zeitangabe
       rows.push({
         mannschaft: m,
@@ -25,11 +25,11 @@ function buildRows(mannschaften: Mannschaft[]): Row[] {
           : '–',
       })
     } else {
-      for (const slot of m.training_slots) {
+      for (const slot of m.trainingSlots) {
         rows.push({
           mannschaft:  m,
           wochentag:   slot.wochentag,
-          zeit:        `${slot.von.slice(0, 5)} – ${slot.bis.slice(0, 5)} Uhr`,
+          zeit:        `${slot.startTime.slice(0, 5)} – ${slot.endTime.slice(0, 5)} Uhr`,
           ort:         slot.ort,
           trainerName: m.trainer[0]
             ? `${m.trainer[0].vorname} ${m.trainer[0].nachname}`
@@ -74,8 +74,8 @@ export default function KursplanDynamisch({ mannschaften }: Props) {
               </td>
               <td className="px-8 py-6">
                 <div className="font-bold text-lg text-primary">{row.mannschaft.name}</div>
-                {row.mannschaft.beschreibung && (
-                  <div className="text-xs text-on-surface-variant">{row.mannschaft.beschreibung}</div>
+                {row.mannschaft.description && (
+                  <div className="text-xs text-on-surface-variant">{row.mannschaft.description}</div>
                 )}
               </td>
               <td className="px-8 py-6">

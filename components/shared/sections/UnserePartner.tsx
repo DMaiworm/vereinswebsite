@@ -5,28 +5,28 @@ interface Props {
 }
 
 const FALLBACK_GOLD: Sponsor[] = [
-  { id: 'f1', firmenname: 'BIOGRUND',  logo_web_url: null, logo_druck_url: null, website_url: null, club_id: null, kategorie: 'gold' },
-  { id: 'f2', firmenname: 'ROSENBAUM', logo_web_url: null, logo_druck_url: null, website_url: null, club_id: null, kategorie: 'gold' },
-  { id: 'f3', firmenname: 'AREHA',     logo_web_url: null, logo_druck_url: null, website_url: null, club_id: null, kategorie: 'gold' },
+  { id: 'f1', firmenname: 'BIOGRUND',  logoWebUrl: null, logoDruckUrl: null, websiteUrl: null, logoAlt: null, kategorie: 'gold' },
+  { id: 'f2', firmenname: 'ROSENBAUM', logoWebUrl: null, logoDruckUrl: null, websiteUrl: null, logoAlt: null, kategorie: 'gold' },
+  { id: 'f3', firmenname: 'AREHA',     logoWebUrl: null, logoDruckUrl: null, websiteUrl: null, logoAlt: null, kategorie: 'gold' },
 ]
 const FALLBACK_SILBER: Sponsor[] = [
-  { id: 'f4', firmenname: 'VOLKSBANK',  logo_web_url: null, logo_druck_url: null, website_url: null, club_id: null, kategorie: 'silber' },
-  { id: 'f5', firmenname: 'SPARKASSE',  logo_web_url: null, logo_druck_url: null, website_url: null, club_id: null, kategorie: 'silber' },
-  { id: 'f6', firmenname: 'SPORT-ECKE', logo_web_url: null, logo_druck_url: null, website_url: null, club_id: null, kategorie: 'silber' },
-  { id: 'f7', firmenname: 'MAIN-REHA',  logo_web_url: null, logo_druck_url: null, website_url: null, club_id: null, kategorie: 'silber' },
+  { id: 'f4', firmenname: 'VOLKSBANK',  logoWebUrl: null, logoDruckUrl: null, websiteUrl: null, logoAlt: null, kategorie: 'silber' },
+  { id: 'f5', firmenname: 'SPARKASSE',  logoWebUrl: null, logoDruckUrl: null, websiteUrl: null, logoAlt: null, kategorie: 'silber' },
+  { id: 'f6', firmenname: 'SPORT-ECKE', logoWebUrl: null, logoDruckUrl: null, websiteUrl: null, logoAlt: null, kategorie: 'silber' },
+  { id: 'f7', firmenname: 'MAIN-REHA',  logoWebUrl: null, logoDruckUrl: null, websiteUrl: null, logoAlt: null, kategorie: 'silber' },
 ]
 const FALLBACK_BRONZE: Sponsor[] = [
-  { id: 'f8',  firmenname: 'Metzgerei Schmitt',   logo_web_url: null, logo_druck_url: null, website_url: null, club_id: null, kategorie: 'bronze' },
-  { id: 'f9',  firmenname: 'Auto-Haus Maier',     logo_web_url: null, logo_druck_url: null, website_url: null, club_id: null, kategorie: 'bronze' },
-  { id: 'f10', firmenname: 'Bäckerei Müller',     logo_web_url: null, logo_druck_url: null, website_url: null, club_id: null, kategorie: 'bronze' },
-  { id: 'f11', firmenname: 'Getränke Hoffmann',   logo_web_url: null, logo_druck_url: null, website_url: null, club_id: null, kategorie: 'bronze' },
-  { id: 'f12', firmenname: 'Apotheke Hünstetten', logo_web_url: null, logo_druck_url: null, website_url: null, club_id: null, kategorie: 'bronze' },
+  { id: 'f8',  firmenname: 'Metzgerei Schmitt',   logoWebUrl: null, logoDruckUrl: null, websiteUrl: null, logoAlt: null, kategorie: 'bronze' },
+  { id: 'f9',  firmenname: 'Auto-Haus Maier',     logoWebUrl: null, logoDruckUrl: null, websiteUrl: null, logoAlt: null, kategorie: 'bronze' },
+  { id: 'f10', firmenname: 'Bäckerei Müller',     logoWebUrl: null, logoDruckUrl: null, websiteUrl: null, logoAlt: null, kategorie: 'bronze' },
+  { id: 'f11', firmenname: 'Getränke Hoffmann',   logoWebUrl: null, logoDruckUrl: null, websiteUrl: null, logoAlt: null, kategorie: 'bronze' },
+  { id: 'f12', firmenname: 'Apotheke Hünstetten', logoWebUrl: null, logoDruckUrl: null, websiteUrl: null, logoAlt: null, kategorie: 'bronze' },
 ]
 
 function SponsorLogo({ sponsor, size }: { sponsor: Sponsor; size: 'lg' | 'md' | 'sm' }) {
-  const Wrapper = sponsor.website_url ? 'a' : 'div'
-  const linkProps = sponsor.website_url
-    ? { href: sponsor.website_url, target: '_blank', rel: 'noopener noreferrer' }
+  const Wrapper = sponsor.websiteUrl ? 'a' : 'div'
+  const linkProps = sponsor.websiteUrl
+    ? { href: sponsor.websiteUrl, target: '_blank', rel: 'noopener noreferrer' }
     : {}
 
   const containerClass = size === 'lg'
@@ -38,9 +38,9 @@ function SponsorLogo({ sponsor, size }: { sponsor: Sponsor; size: 'lg' | 'md' | 
   if (size === 'sm') {
     return (
       <Wrapper {...(linkProps as Record<string, string>)} className="hover:opacity-100 transition-opacity">
-        {sponsor.logo_web_url ? (
+        {sponsor.logoWebUrl ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={sponsor.logo_web_url} alt={sponsor.firmenname} className="h-16 w-auto object-contain grayscale hover:grayscale-0 transition-all" />
+          <img src={sponsor.logoWebUrl} alt={sponsor.firmenname} className="h-16 w-auto object-contain grayscale hover:grayscale-0 transition-all" />
         ) : (
           <span className="text-primary font-bold text-2xl">{sponsor.firmenname}</span>
         )}
@@ -50,10 +50,10 @@ function SponsorLogo({ sponsor, size }: { sponsor: Sponsor; size: 'lg' | 'md' | 
 
   return (
     <Wrapper {...(linkProps as Record<string, string>)} className={containerClass}>
-      {sponsor.logo_web_url ? (
+      {sponsor.logoWebUrl ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img
-          src={sponsor.logo_web_url}
+          src={sponsor.logoWebUrl}
           alt={sponsor.firmenname}
           className={`object-contain grayscale group-hover:grayscale-0 transition-all ${size === 'lg' ? 'max-h-24 max-w-[200px]' : 'max-h-16 max-w-[160px]'}`}
         />

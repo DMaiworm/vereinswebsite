@@ -39,12 +39,12 @@ export default function TeamsInAbteilung({ mannschaften }: Props) {
   const teams = mannschaften && mannschaften.length > 0
     ? mannschaften.map(m => ({
         id:          m.id,
-        imageUrl:    m.foto_url ?? FALLBACK_IMAGES[m.id]?.url ?? '',
+        imageUrl:    m.photoUrl ?? FALLBACK_IMAGES[m.id]?.url ?? '',
         imageAlt:    FALLBACK_IMAGES[m.id]?.alt ?? m.name,
         tag:         m.motto ?? '',
         title:       m.name,
-        description: m.beschreibung ?? '',
-        href:        SLUG_MAP[m.short_name ?? ''] ?? '#',
+        description: m.description ?? '',
+        href:        SLUG_MAP[m.shortName ?? ''] ?? '#',
       }))
     : HARDCODED_TEAMS
 

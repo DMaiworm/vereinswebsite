@@ -25,28 +25,28 @@ const FITNESS_CARD: Department = {
   id: 'fitness-static',
   name: 'Fitness',
   icon: '💪',
-  beschreibung: 'LadyFit, ManFit, Tanzfitness, Step-Aerobic und Workout – sieben Kurse für alle, die gemeinsam fit bleiben wollen.',
+  description: null,
 };
 
 const JFV_CARD: Department = {
   id: 'jfv-static',
   name: 'Jugendfußball',
   icon: '⚽',
-  beschreibung: 'Vom ersten Ballkontakt bis zur A-Jugend – der JFV Hünstetten fördert junge Talente.',
+  description: null,
 };
 
 const OUTDOOR_CARD: Department = {
   id: 'outdoor-static',
   name: 'Outdoor',
   icon: '🏕️',
-  beschreibung: 'Seite folgt in Kürze.',
+  description: null,
 };
 
 const GYMNASTIK_CARD: Department = {
   id: 'gymnastik-static',
   name: 'Gymnastik',
   icon: '🤸',
-  beschreibung: 'Seite folgt in Kürze.',
+  description: null,
 };
 
 // Fixed display order
@@ -105,7 +105,7 @@ export default function AbteilungenGrid({ departments }: AbteilungenGridProps) {
         {cards.map((dept) => {
           const slug = DEPT_SLUGS[dept.name];
           const label = DEPT_LABELS[dept.name] ?? dept.name;
-          const heroPfad = dept.hero_foto_pfad;
+          const heroPfad = dept.heroImageUrl;
 
           const cardContent = (
             <div

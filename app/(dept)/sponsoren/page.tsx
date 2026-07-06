@@ -18,8 +18,8 @@ export default async function SponsorenPage() {
  let sponsors: Awaited<ReturnType<typeof fetchSponsors>> = []
  try {
  const config = await fetchClubConfig()
- logoUrl = config.logo_web_pfad ?? config.logo_url
- if (config.operator_id) sponsors = await fetchSponsors(config.operator_id).catch(() => [])
+ logoUrl = config.logoWebUrl ?? config.logoUrl
+ sponsors = await fetchSponsors().catch(() => [])
  } catch { /* Fallback */ }
  return (
  <div className="bg-background font-body text-on-surface">

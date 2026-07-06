@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { renderMarkdownInline } from '@/lib/markdown'
 
 interface ZahlenTraditionSectionProps {
   aboutText?: string | null;
@@ -33,12 +34,14 @@ export default function ZahlenTraditionSection({
             <span style={{ WebkitTextStroke: '2px #052856', color: 'transparent' }}>1944</span>
             {' '}die Heimat des Sports
           </h2>
-          <p className="text-sm text-[#1b1c1c] font-bold mb-6">
-            {aboutText ?? 'Die SG Hünstetten vereint Menschen, die Sport lieben – von der ersten Turnstunde der Kleinsten bis zum Fußballabend der Veteranen. Über 80 Jahre Tradition, Gemeinschaft und Leidenschaft in einer Gemeinde.'}
-          </p>
-          <p className="text-sm text-[#44474f] italic">
-            {aboutText2 ?? 'Ob Gesundheitssport, Badminton, Fußball oder Kinderturnen – bei uns findet jeder den richtigen Platz. Wir sind kein Verein. Wir sind eine Gemeinschaft.'}
-          </p>
+          <p
+            className="text-sm text-[#1b1c1c] font-bold mb-6"
+            dangerouslySetInnerHTML={{ __html: renderMarkdownInline(aboutText ?? 'Die SG Hünstetten vereint Menschen, die Sport lieben – von der ersten Turnstunde der Kleinsten bis zum Fußballabend der Veteranen. Über 80 Jahre Tradition, Gemeinschaft und Leidenschaft in einer Gemeinde.') }}
+          />
+          <p
+            className="text-sm text-[#44474f] italic"
+            dangerouslySetInnerHTML={{ __html: renderMarkdownInline(aboutText2 ?? 'Ob Gesundheitssport, Badminton, Fußball oder Kinderturnen – bei uns findet jeder den richtigen Platz. Wir sind kein Verein. Wir sind eine Gemeinschaft.') }}
+          />
         </div>
 
         {/* Right: stat grid + buttons */}

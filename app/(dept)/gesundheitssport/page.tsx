@@ -32,8 +32,8 @@ export default async function GesundheitssportPage() {
   let abteilung: AbteilungProfile | null = null
   try {
     const config = await fetchClubConfig()
-    logoUrl = config.logo_web_pfad ?? config.logo_url ?? null
-    if (config.operator_id) sponsors = await fetchSponsors(config.operator_id).catch(() => [])
+    logoUrl = config.logoWebUrl ?? config.logoUrl ?? null
+    sponsors = await fetchSponsors().catch(() => [])
   } catch { /* render without logo */ }
   try {
     abteilung = await fetchAbteilung(GESUNDHEITSSPORT_ID)
@@ -55,7 +55,7 @@ export default async function GesundheitssportPage() {
           imageAlt="Atmospheric wellness hall"
           badge="SG Hünstetten"
           title="Gesundheitssport: Balance für Körper &amp; Geist"
-          subtitle={abteilung?.beschreibung ?? 'Erleben Sie ein ganzheitliches Wohlbefinden. Bei uns verbinden wir moderne Sportwissenschaft mit achtsamer Bewegung, um Ihre Lebensqualität nachhaltig zu steigern.'}
+          subtitle={abteilung?.description ?? 'Erleben Sie ein ganzheitliches Wohlbefinden. Bei uns verbinden wir moderne Sportwissenschaft mit achtsamer Bewegung, um Ihre Lebensqualität nachhaltig zu steigern.'}
           primaryCta={{ label: 'Jetzt Kurs buchen' }}
           secondaryCta={{ label: 'Unsere Philosophie' }}
         />

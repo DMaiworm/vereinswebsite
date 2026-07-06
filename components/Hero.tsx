@@ -113,10 +113,10 @@ export default function Hero({ tagline, ctaLabel, ctaHref, heroBildUrl, sponsors
           <div className="hero-marquee-track gap-12 px-8">
             {sponsorItems.map((s, i) => (
               <div key={`${s.id}-${i}`} className="shrink-0 flex items-center justify-center">
-                {s.logo_web_url ? (
+                {s.logoWebUrl ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
-                    src={s.logo_web_url}
+                    src={s.logoWebUrl}
                     alt={s.firmenname}
                     style={{ maxHeight: '28px', maxWidth: '100px', width: 'auto' }}
                     className="object-contain brightness-0 invert opacity-60"

@@ -22,8 +22,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
   try {
     const config = await fetchClubConfig();
-    primary   = config.primary_color;
-    secondary = config.secondary_color;
+    primary   = config.colors.primary;
+    secondary = config.colors.secondary;
   } catch {
     // Fallback-Farben bleiben aktiv
   }

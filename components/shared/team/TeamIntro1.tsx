@@ -18,7 +18,7 @@ export default function TeamIntro1({
   const t = trainers[0]
   if (!t) return null
   const isDark = theme === 'dark'
-  const role = t.is_primary ? rolePrimary : roleSecondary
+  const role = t.isPrimary ? rolePrimary : roleSecondary
 
   return (
     <div
@@ -33,12 +33,12 @@ export default function TeamIntro1({
           isDark ? 'bg-navy-mid' : 'bg-mist-mid'
         }`}
       >
-        {t.foto_url && (
+        {t.fotoUrl && (
           // eslint-disable-next-line @next/next/no-img-element
           <img
             alt={`${t.vorname} ${t.nachname}`}
             className="w-full h-full object-cover object-top"
-            src={t.foto_url}
+            src={t.fotoUrl}
           />
         )}
       </div>
