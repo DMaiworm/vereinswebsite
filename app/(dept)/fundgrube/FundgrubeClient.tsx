@@ -31,23 +31,20 @@ export default function FundgrubeClient() {
   }, [])
 
   // Kategorien & Sportstätten werden aus den gelieferten Fundsachen abgeleitet
-  // (public-lostfound liefert die Namen direkt mit; kein Direktzugriff mehr).
+  // (public-lostfound liefert bereits aufgelöste Namen mit, keine IDs → nach Namen filtern).
   const kategorien = useMemo<FilterOption[]>(() => {
-    const map = new Map<string, string>()
-    fundsachen.forEach(f => { if (f.kategorieId) map.set(f.kategorieId, f.kategorieName ?? f.kategorieId) })
-    return [...map].map(([id, name]) => ({ id, name })).sort((a, b) => a.name.localeCompare(b.name))
+    const names = new Set<string>()
+    fundsachen.forEach(f => { if (f.kategorieName) names.add(f.kategorieName) })
+    return [...names].sort((a, b) => a.localeCompare(b)).map(name => ({ id: name, name }))
   }, [fundsachen])
 
   const sportstätten = useMemo<FilterOption[]>(() => {
-    const map = new Map<string, string>()
-    fundsachen.forEach(f => { if (f.fundortId) map.set(f.fundortId, f.fundortName ?? f.fundortId) })
-    return [...map].map(([id, name]) => ({ id, name })).sort((a, b) => a.name.localeCompare(b.name))
+    const names = new Set<string>()
+    fundsachen.forEach(f => { if (f.fundortName) names.add(f.fundortName) })
+    return [...names].sort((a, b) => a.localeCompare(b)).map(name => ({ id: name, name }))
   }, [fundsachen])
 
-  const katMap = useMemo(() => Object.fromEntries(kategorien.map(k => [k.id, k.name])),  [kategorien])
-  const ortMap = useMemo(() => Object.fromEntries(sportstätten.map(s => [s.id, s.name])), [sportstätten])
-
-  // ── Filter state ──
+  // ── Filter state (nach Namen) ──
   const [filterKat, setFilterKat] = useState('')
   const [filterOrt, setFilterOrt] = useState('')
   const [sortDir,   setSortDir]   = useState<'desc' | 'asc'>('desc')
@@ -63,8 +60,8 @@ export default function FundgrubeClient() {
 
   const items = useMemo(() => {
     let list = fundsachen.filter(f => {
-      if (filterKat && f.kategorieId !== filterKat) return false
-      if (filterOrt && f.fundortId !== filterOrt) return false
+      if (filterKat && f.kategorieName !== filterKat) return false
+      if (filterOrt && f.fundortName !== filterOrt) return false
       return true
     })
     return [...list].sort((a, b) => {
@@ -225,8 +222,8 @@ export default function FundgrubeClient() {
                 <FundItem
                   key={item.id}
                   item={item}
-                  kategorieName={item.kategorieName ?? katMap[item.kategorieId ?? ''] ?? 'Sonstiges'}
-                  fundortName={item.fundortName ?? (item.fundortId ? (ortMap[item.fundortId] ?? null) : null)}
+                  kategorieName={item.kategorieName ?? 'Sonstiges'}
+                  fundortName={item.fundortName}
                   onClaim={() => { setClaimItem(item); setClaimSent(false); setClaimForm({ name: '', email: '', hinweis: '' }) }}
                 />
               ))}
@@ -303,9 +300,9 @@ function FundItem({ item, kategorieName, fundortName, onClaim }: {
   return (
     <div className="bg-white rounded-2xl border border-outline-variant/20 shadow-sm overflow-hidden flex flex-col group hover:shadow-md transition-shadow">
       <div className="h-48 bg-surface-container-low flex items-center justify-center relative overflow-hidden">
-        {item.fotoUrl ? (
+        {item.fotoUrls[0] ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={item.fotoUrl} alt={item.beschreibung}
+          <img src={item.fotoUrls[0]} alt={item.beschreibung}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
         ) : (
           <span className="material-symbols-outlined text-6xl text-on-surface-variant/20"

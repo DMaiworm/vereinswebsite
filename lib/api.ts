@@ -41,11 +41,11 @@ function isSoftError(code: string): boolean {
   return code === 'module_disabled' || code === 'not_found';
 }
 
-async function request<T>(endpoint: string, params: Record<string, string>): Promise<Envelope<T>> {
+async function request<T>(endpoint: string, params: Record<string, string>, cache?: RequestCache): Promise<Envelope<T>> {
   const url = new URL(`${API_BASE}/${endpoint}`);
   Object.entries(params).forEach(([k, v]) => url.searchParams.set(k, v));
   const res = await fetch(url.toString(), {
-    cache: process.env.NODE_ENV === 'development' ? 'no-store' : 'force-cache',
+    cache: cache ?? (process.env.NODE_ENV === 'development' ? 'no-store' : 'force-cache'),
   });
   // v1-Fehler (inkl. 404 module_disabled/not_found) tragen den Envelope im Body.
   const body = await res.json().catch(() => null);
@@ -66,8 +66,8 @@ async function getObject<T>(endpoint: string, params: Record<string, string>): P
 }
 
 /** Listen-Ressource: gibt `{ data, meta }` zurück; Soft-Error ⇒ leere Liste. */
-async function getList<T>(endpoint: string, params: Record<string, string>): Promise<{ data: T[]; meta: Meta | null }> {
-  const env = await request<T[]>(endpoint, params);
+async function getList<T>(endpoint: string, params: Record<string, string>, cache?: RequestCache): Promise<{ data: T[]; meta: Meta | null }> {
+  const env = await request<T[]>(endpoint, params, cache);
   if (env.error) {
     if (isSoftError(env.error.code)) return { data: [], meta: null };
     throw new Error(`${endpoint}: ${env.error.code} – ${env.error.message}`);
@@ -112,6 +112,9 @@ export interface ClubConfig {
   departments: Department[];
 }
 
+/** Sponsor-Tier (`public-sponsors`). `'keine'` bzw. fehlend ⇒ neutral/kein Tier. */
+export type SponsorTier = 'gold' | 'silber' | 'bronze' | 'partner' | 'keine';
+
 export interface Sponsor {
   id: string;
   firmenname: string;
@@ -119,13 +122,8 @@ export interface Sponsor {
   logoDruckUrl: string | null;
   logoAlt: string | null;
   websiteUrl: string | null;
-  /**
-   * NICHT Teil des v1-Contracts (`public-sponsors` liefert keine Kategorie).
-   * Nur optional, damit Tier-basierte Fallback-UIs (UnserePartner) kompilieren;
-   * bei Live-Daten immer `undefined` ⇒ Sponsor landet im neutralen/Bronze-Tier.
-   * TODO(Contract): Tiering ggf. additiv im Contract nachziehen.
-   */
-  kategorie?: 'gold' | 'silber' | 'bronze' | 'partner' | 'keine' | null;
+  /** Tier für die Sponsoren-Seite (Gold/Silber/Bronze). `public-sponsors` liefert dies mit. */
+  kategorie: SponsorTier;
 }
 
 export interface TrainingSlot {
@@ -277,16 +275,18 @@ export interface GeschichteResponse {
   sonstige: GeschichteMeilenstein[];
 }
 
+/**
+ * Fundgrube-Item (`public-lostfound`, = LostFoundItem des Contracts §15).
+ * `kategorieName`/`fundortName` sind bereits aufgelöste Namen (keine IDs).
+ * `fotoUrls` sind **signierte, kurzlebige** URLs (TTL ~1 h) — nicht cachen/persistieren.
+ */
 export interface Fundsache {
   id: string;
   beschreibung: string;
-  status: string;
-  erfasstAm: string | null;
-  fotoUrl: string | null;
-  kategorieId: string | null;
   kategorieName: string | null;
-  fundortId: string | null;
   fundortName: string | null;
+  erfasstAm: string;
+  fotoUrls: string[];
 }
 
 // ─── Public API ─────────────────────────────────────────────────────────────
@@ -358,8 +358,11 @@ export async function fetchPublicNews(params: {
   return getList<NewsEintrag>('public-news', p);
 }
 
-/** Fundgrube (`public-lostfound?club=<slug>`; ersetzt den früheren Direktzugriff). */
+/**
+ * Fundgrube (`public-lostfound?club=<slug>`; ersetzt den früheren Direktzugriff).
+ * `no-store`, da die `fotoUrls` signierte, kurzlebige URLs sind (nicht cachen).
+ */
 export async function fetchFundsachen(): Promise<Fundsache[]> {
-  const { data } = await getList<Fundsache>('public-lostfound', { club: CLUB_SLUG });
+  const { data } = await getList<Fundsache>('public-lostfound', { club: CLUB_SLUG }, 'no-store');
   return data;
 }

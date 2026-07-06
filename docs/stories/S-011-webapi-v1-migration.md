@@ -1,6 +1,6 @@
 # S-011 – Website-API-Migration auf `public-*` v1-Contract
 
-**Status:** review
+**Status:** done
 **Bereich:** `lib/api.ts`, `app/layout.tsx`, ~30× `app/**/page.tsx`, `app/(dept)/fundgrube/`, `package.json`
 **Referenz:** `website-publishing-api-guide.md` (Ziel-Contract v1, Stand 2026-06-21)
 
@@ -140,11 +140,16 @@ Team `foto_url→photoUrl`, `training_slots→trainingSlots`; News `titel/inhalt
 - **Markdown** (`lib/markdown.ts`): `renderMarkdown` (Block) + `renderMarkdownInline` (inline, kein `<p>`-Wrapper → kein Layout-Shift bei Plain-Text). Inline eingebunden für `aboutText`/`aboutText2` (ZahlenTradition) und Abteilungs-/Team-`description` (AbteilungHero/KursHero-Subtitle). Sanitizer-Allowlist per §1.8.
 - **Fundgrube:** `FundgrubeClient` lädt jetzt über `fetchFundsachen()` → `public-lostfound` (Client-`useEffect`); hardcodierter Anon-Key entfernt. Kategorie-/Sportstätten-Filter werden aus den gelieferten Items abgeleitet (Namen kommen laut Contract eingebettet mit).
 
-### ⚠️ Offene Punkte für QA/PM
+### Geklärt via `api/`-Doku (OpenAPI + `public-api.types.ts`, nachgereicht)
 
-1. **`public-lostfound`-Item-Shape unverifizierbar:** Endpunkt **und** die alten REST-Tabellen (`fundsachen`, `fundsachen_kategorien`) liefern aktuell **0 Datensätze** — die exakte `data`-Feldform (inkl. Kategorie-/Fundort-Joins) ließ sich nicht beobachten. Umsetzung ist **defensiv** gegen den **verifizierten Envelope** codiert (`Fundsache` mit `kategorieId/kategorieName/fundortId/fundortName/fotoUrl/erfasstAm`), **nicht** geraten über die Rich-Shape. Da beide Quellen leer sind, ist die sichtbare Ausgabe identisch (Leerzustand). **Sobald Testdaten existieren: Feldnamen gegen `public-lostfound` gegenprüfen.**
-2. **Sponsor-Tiering verloren:** Der v1-`public-sponsors`-Contract liefert **keine** `kategorie`/Tier-Info (Guide §10). `Sponsor.kategorie` ist nur noch optionales Consumer-Feld (immer `undefined` von der API) → Live-Sponsoren landen im Bronze/neutralen Tier auf der Sponsoren-Seite. Der Gold/Silber/Bronze-Fallback (ohne Live-Daten) bleibt unverändert. **Kandidat für additive Contract-Erweiterung** (Tiering in `public-sponsors`), falls die Tier-Darstellung erhalten bleiben soll.
-3. **News-`body` (Markdown) hat keinen Anzeigeort:** `AktuellesSection` rendert nur Titel/Bild/Datum, es gibt keine News-Detailseite. `renderMarkdown` steht für einen künftigen News-Detail bereit; für diese Story kein Render-Site für `body`.
+Alle Typen wurden final gegen die autoritative `api/public-api.types.ts` abgeglichen (Config, News, Team, Abteilung/Mannschaft, TrainingSlot, Galerie, Vorstand, Geschichte stimmen überein). Zwei zuvor offene Punkte damit **aufgelöst**:
+
+1. **`public-lostfound`-Shape (Contract §15 `LostFoundItem`):** `{ id, beschreibung, kategorieName, fundortName, erfasstAm, fotoUrls[] }` — **Namen statt IDs**, Fotos als **signierte, kurzlebige URLs** (TTL ~1 h). `Fundsache`-Typ + `FundgrubeClient` exakt darauf umgestellt: Filter nach Namen, Bild aus `fotoUrls[0]`, `fetchFundsachen` per **`no-store`** (Signaturen nicht cachen). Live weiter 0 Datensätze → Leerzustand unverändert, aber Shape jetzt vertragskonform.
+2. **Sponsor-Tiering vorhanden:** `public-sponsors` liefert `kategorie` (`gold|silber|bronze|partner|keine`) — **live verifiziert** (3×gold, 3×silber, 2×bronze, 1×keine). `Sponsor.kategorie` ist wieder reguläres Pflichtfeld; Gold/Silber/Bronze-Tiering auf der Sponsoren-Seite rendert korrekt. (Meine frühere „Tiering verloren"-Annahme war ein Fehlschluss aus einer abgeschnittenen Probe.)
+
+### Verbleibender Hinweis
+
+- **News-`body` (Markdown) hat keinen Anzeigeort:** `AktuellesSection` rendert nur Titel/Bild/Datum, es gibt keine News-Detailseite. `renderMarkdown` steht für einen künftigen News-Detail bereit; in dieser Story kein Render-Site für `body`.
 
 ## Definition of Done
 

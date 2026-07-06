@@ -1,0 +1,999 @@
+openapi: 3.1.0
+info:
+  title: KlubHaus – Öffentliche public-* API
+  version: "1.0.0"
+  license:
+    name: Proprietär (SG Hünstetten / KlubHaus)
+    url: https://sg-huenstetten-buchung-iota.vercel.app
+  description: >
+    Read-only, öffentliche API (`public-*` Supabase Edge Functions), über die eine Vereinswebsite
+    Inhalte aus KlubHaus abruft. Eine gemeinsame Instanz bedient alle Vereine; die Mandanten-Trennung
+    läuft ausschließlich über den `club`-Slug (serverseitig club-scoped).
+
+
+    Einheitliches Envelope `{ data, meta, error }`, camelCase-Felder, `Cache-Control` + `ETag`/304.
+    Verbindlicher Prosa-Contract: `docs/api/website-publishing-api-guide.md`. Typisierte Variante:
+    `docs/api/public-api.types.ts`.
+
+
+    PFLEGEREGEL: Ändert sich der Contract, ändert sich diese Datei **im selben Commit** (ebenso die
+    TS-Typen).
+servers:
+  - url: https://zqjheewhgrmcwzjurjlg.supabase.co/functions/v1
+    description: KlubHaus Produktions-Instanz (alle Vereine; via ?club=<slug> getrennt)
+
+security:
+  - apiKey: []
+
+tags:
+  - name: Bootstrap
+    description: Erste Calls einer Website — Branding, Struktur, Startseiten-Aggregat.
+  - name: News
+    description: Nachrichten (Liste + Detail) auf Vereins-/Abteilungs-/Team-Ebene.
+  - name: Teams & Abteilungen
+    description: Öffentliche Mannschafts- und Abteilungsprofile (Landingpages).
+  - name: Trainer
+    description: Öffentliche Trainerprofile (Opt-in, Kontakt consent-gated).
+  - name: Sponsoren
+    description: Sponsorenliste inkl. Tier.
+  - name: Verein
+    description: Vorstand/Funktionäre und Vereinsgeschichte.
+  - name: Spiele
+    description: Ergebnisse + Spielplan (JSON oder iCal).
+  - name: Events
+    description: Veranstaltungen und öffentliche Anmeldung (RSVP).
+  - name: SEO
+    description: Sitemap-URL-Liste.
+  - name: Fundgrube
+    description: Öffentliche Lost-&-Found-Objekte (signierte Foto-URLs).
+  - name: Tracking
+    description: DSGVO-konformer, aggregierter View-Zähler.
+
+paths:
+  /public-config:
+    get:
+      operationId: getPublicConfig
+      tags: [Bootstrap]
+      summary: Club-Bootstrap (Branding + Struktur + Startseiten-Komposition)
+      parameters:
+        - $ref: '#/components/parameters/Club'
+      responses:
+        '200':
+          description: Erfolg
+          headers: { ETag: { $ref: '#/components/headers/ETag' }, Cache-Control: { $ref: '#/components/headers/CacheControl' } }
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ObjectEnvelope'
+                  - properties: { data: { $ref: '#/components/schemas/PublicConfig' } }
+        '304': { $ref: '#/components/responses/NotModified' }
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '404': { $ref: '#/components/responses/NotFoundOrModuleDisabled' }
+
+  /public-home:
+    get:
+      operationId: getPublicHome
+      tags: [Bootstrap]
+      summary: Aggregat für die Startseite (config + news + sponsors + vorstandTeaser)
+      parameters:
+        - $ref: '#/components/parameters/Club'
+      responses:
+        '200':
+          description: Erfolg
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ObjectEnvelope'
+                  - properties: { data: { $ref: '#/components/schemas/PublicHome' } }
+        '304': { $ref: '#/components/responses/NotModified' }
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '404': { $ref: '#/components/responses/NotFoundOrModuleDisabled' }
+
+  /public-news:
+    get:
+      operationId: getPublicNews
+      tags: [News]
+      summary: News-Archiv (Liste) oder News-Detail (?id=)
+      description: >
+        Mit `?club=` (+ optional `scope`/`department`/`team`) Liste; mit `?id=<uuid|slug>` Detail
+        inkl. `og`. `?preview=<token>` (15 Min) zeigt zusätzlich Unveröffentlichtes (no-store, noindex).
+      parameters:
+        - $ref: '#/components/parameters/Club'
+        - $ref: '#/components/parameters/Id'
+        - $ref: '#/components/parameters/Scope'
+        - $ref: '#/components/parameters/Department'
+        - $ref: '#/components/parameters/Team'
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Offset'
+        - $ref: '#/components/parameters/Preview'
+      responses:
+        '200':
+          description: Liste (bei ?club=) oder Objekt (bei ?id=)
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - allOf:
+                      - $ref: '#/components/schemas/ListEnvelope'
+                      - properties: { data: { type: array, items: { $ref: '#/components/schemas/NewsListItem' } } }
+                  - allOf:
+                      - $ref: '#/components/schemas/ObjectEnvelope'
+                      - properties: { data: { $ref: '#/components/schemas/NewsDetail' } }
+        '304': { $ref: '#/components/responses/NotModified' }
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '404': { $ref: '#/components/responses/NotFoundOrModuleDisabled' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+
+  /public-team:
+    get:
+      operationId: getPublicTeam
+      tags: [Teams & Abteilungen]
+      summary: Öffentliches Mannschaftsprofil
+      parameters:
+        - $ref: '#/components/parameters/IdRequired'
+        - $ref: '#/components/parameters/Preview'
+      responses:
+        '200':
+          description: Erfolg
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ObjectEnvelope'
+                  - properties: { data: { $ref: '#/components/schemas/PublicTeam' } }
+        '304': { $ref: '#/components/responses/NotModified' }
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '404': { $ref: '#/components/responses/NotFoundOrModuleDisabled' }
+
+  /public-abteilung:
+    get:
+      operationId: getPublicAbteilung
+      tags: [Teams & Abteilungen]
+      summary: Öffentliches Abteilungsprofil (Landingpage)
+      parameters:
+        - $ref: '#/components/parameters/IdRequired'
+        - $ref: '#/components/parameters/Preview'
+      responses:
+        '200':
+          description: Erfolg
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ObjectEnvelope'
+                  - properties: { data: { $ref: '#/components/schemas/PublicAbteilung' } }
+        '304': { $ref: '#/components/responses/NotModified' }
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '404': { $ref: '#/components/responses/NotFoundOrModuleDisabled' }
+
+  /public-trainer:
+    get:
+      operationId: getPublicTrainer
+      tags: [Trainer]
+      summary: Einzelnes öffentliches Trainerprofil
+      parameters:
+        - $ref: '#/components/parameters/IdRequired'
+      responses:
+        '200':
+          description: Erfolg
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ObjectEnvelope'
+                  - properties: { data: { $ref: '#/components/schemas/TrainerDetail' } }
+        '304': { $ref: '#/components/responses/NotModified' }
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '404': { $ref: '#/components/responses/NotFoundOrModuleDisabled' }
+
+  /public-trainers:
+    get:
+      operationId: getPublicTrainers
+      tags: [Trainer]
+      summary: Öffentliche Trainer-Liste (Opt-in)
+      parameters:
+        - $ref: '#/components/parameters/Club'
+        - $ref: '#/components/parameters/Department'
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Offset'
+      responses:
+        '200':
+          description: Erfolg
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ListEnvelope'
+                  - properties: { data: { type: array, items: { $ref: '#/components/schemas/Trainer' } } }
+        '304': { $ref: '#/components/responses/NotModified' }
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '404': { $ref: '#/components/responses/NotFoundOrModuleDisabled' }
+
+  /public-sponsors:
+    get:
+      operationId: getPublicSponsors
+      tags: [Sponsoren]
+      summary: Öffentliche Sponsorenliste (mit Tier)
+      parameters:
+        - $ref: '#/components/parameters/Club'
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Offset'
+      responses:
+        '200':
+          description: Erfolg
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ListEnvelope'
+                  - properties: { data: { type: array, items: { $ref: '#/components/schemas/Sponsor' } } }
+        '304': { $ref: '#/components/responses/NotModified' }
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '404': { $ref: '#/components/responses/NotFoundOrModuleDisabled' }
+
+  /public-vorstand:
+    get:
+      operationId: getPublicVorstand
+      tags: [Verein]
+      summary: Vorstand & Abteilungsleiter (E-Mail consent-gated)
+      parameters:
+        - $ref: '#/components/parameters/Club'
+      responses:
+        '200':
+          description: Erfolg
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ObjectEnvelope'
+                  - properties: { data: { $ref: '#/components/schemas/PublicVorstand' } }
+        '304': { $ref: '#/components/responses/NotModified' }
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '404': { $ref: '#/components/responses/NotFoundOrModuleDisabled' }
+
+  /public-geschichte:
+    get:
+      operationId: getPublicGeschichte
+      tags: [Verein]
+      summary: Vereinsgeschichte (Ären + Meilensteine)
+      parameters:
+        - $ref: '#/components/parameters/Club'
+      responses:
+        '200':
+          description: Erfolg
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ObjectEnvelope'
+                  - properties: { data: { $ref: '#/components/schemas/PublicGeschichte' } }
+        '304': { $ref: '#/components/responses/NotModified' }
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '404': { $ref: '#/components/responses/NotFoundOrModuleDisabled' }
+
+  /public-spiele:
+    get:
+      operationId: getPublicSpiele
+      tags: [Spiele]
+      summary: Ergebnisse + Spielplan (JSON) oder iCal-Feed (?format=ical)
+      parameters:
+        - $ref: '#/components/parameters/Club'
+        - $ref: '#/components/parameters/Department'
+        - $ref: '#/components/parameters/Team'
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Offset'
+        - name: format
+          in: query
+          required: false
+          schema: { type: string, enum: [ical] }
+          description: "`ical` → text/calendar-Feed statt JSON."
+      responses:
+        '200':
+          description: JSON-Envelope oder (bei format=ical) text/calendar
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ListEnvelope'
+                  - properties: { data: { $ref: '#/components/schemas/PublicSpiele' } }
+            text/calendar:
+              schema: { type: string }
+        '304': { $ref: '#/components/responses/NotModified' }
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '404': { $ref: '#/components/responses/NotFoundOrModuleDisabled' }
+
+  /public-events:
+    get:
+      operationId: getPublicEvents
+      tags: [Events]
+      summary: Kommende öffentliche Veranstaltungen
+      parameters:
+        - $ref: '#/components/parameters/Club'
+        - $ref: '#/components/parameters/Scope'
+        - $ref: '#/components/parameters/Department'
+        - $ref: '#/components/parameters/Team'
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Offset'
+      responses:
+        '200':
+          description: Erfolg
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ListEnvelope'
+                  - properties: { data: { type: array, items: { $ref: '#/components/schemas/EventItem' } } }
+        '304': { $ref: '#/components/responses/NotModified' }
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '404': { $ref: '#/components/responses/NotFoundOrModuleDisabled' }
+
+  /public-event-rsvp:
+    post:
+      operationId: postPublicEventRsvp
+      tags: [Events]
+      summary: Event-Anmeldung (RSVP)
+      description: >
+        Consent Pflicht (`consent: true`). `captchaToken` erforderlich, wenn serverseitig Turnstile
+        aktiv ist. Doppelanmeldung liefert dieselbe generische Bestätigung (keine Enumeration).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/EventRsvpRequest' }
+      responses:
+        '200':
+          description: Anmeldung akzeptiert (oder bereits vorhanden)
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ObjectEnvelope'
+                  - properties: { data: { $ref: '#/components/schemas/EventRsvpResult' } }
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '404': { $ref: '#/components/responses/NotFoundOrModuleDisabled' }
+        '409':
+          description: Keine freien Plätze mehr (Kapazität erschöpft)
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorEnvelope' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+
+  /public-sitemap:
+    get:
+      operationId: getPublicSitemap
+      tags: [SEO]
+      summary: URL-Liste aller öffentlichen Entitäten für die Sitemap
+      parameters:
+        - $ref: '#/components/parameters/Club'
+      responses:
+        '200':
+          description: Erfolg
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ObjectEnvelope'
+                  - properties: { data: { $ref: '#/components/schemas/PublicSitemap' } }
+        '304': { $ref: '#/components/responses/NotModified' }
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '404': { $ref: '#/components/responses/NotFoundOrModuleDisabled' }
+
+  /public-lostfound:
+    get:
+      operationId: getPublicLostfound
+      tags: [Fundgrube]
+      summary: Öffentliche Fundgrube (signierte Foto-URLs)
+      parameters:
+        - $ref: '#/components/parameters/Club'
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Offset'
+      responses:
+        '200':
+          description: Erfolg
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ListEnvelope'
+                  - properties: { data: { type: array, items: { $ref: '#/components/schemas/LostFoundItem' } } }
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '404': { $ref: '#/components/responses/NotFoundOrModuleDisabled' }
+
+  /public-track-view:
+    post:
+      operationId: postPublicTrackView
+      tags: [Tracking]
+      summary: Aggregierter View-Zähler (SONDERFALL — nicht enveloped)
+      description: >
+        DSGVO-konform, aggregiert (keine PII). Antwort ist **kein** Envelope, sondern
+        `{ "ok": true }` bzw. `{ "error": "<code>" }`.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/TrackViewRequest' }
+      responses:
+        '200':
+          description: Gezählt
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: { ok: { type: boolean, const: true } }
+        '400':
+          description: Ungültiger Body
+          content:
+            application/json:
+              schema: { type: object, properties: { error: { type: string } } }
+        '404':
+          description: Entität nicht auflösbar
+          content:
+            application/json:
+              schema: { type: object, properties: { error: { type: string } } }
+
+components:
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      in: header
+      name: apikey
+      description: Supabase-Gateway-Pflicht — der öffentliche `SUPABASE_ANON_KEY`. Keine User-Auth.
+
+  headers:
+    ETag:
+      description: Schwacher Hash über den Body; für If-None-Match.
+      schema: { type: string }
+    CacheControl:
+      description: "public, max-age=…, s-maxage=…, stale-while-revalidate=…"
+      schema: { type: string }
+
+  parameters:
+    Club:
+      name: club
+      in: query
+      required: true
+      schema: { type: string }
+      description: Vereins-Slug, z.B. `sg-huenstetten`.
+      example: sg-huenstetten
+    Id:
+      name: id
+      in: query
+      required: false
+      schema: { type: string }
+      description: UUID **oder** sprechender Slug der Sub-Ressource.
+    IdRequired:
+      name: id
+      in: query
+      required: true
+      schema: { type: string }
+      description: UUID **oder** sprechender Slug der Ressource.
+    Scope:
+      name: scope
+      in: query
+      required: false
+      schema: { type: string, enum: [verein, abteilung, team] }
+    Department:
+      name: department
+      in: query
+      required: false
+      schema: { type: string, format: uuid }
+    Team:
+      name: team
+      in: query
+      required: false
+      schema: { type: string, format: uuid }
+    Limit:
+      name: limit
+      in: query
+      required: false
+      schema: { type: integer, default: 20, minimum: 1, maximum: 100 }
+    Offset:
+      name: offset
+      in: query
+      required: false
+      schema: { type: integer, default: 0, minimum: 0 }
+    Preview:
+      name: preview
+      in: query
+      required: false
+      schema: { type: string }
+      description: Signiertes Redaktions-Vorschau-Token (15 Min). Antwort dann no-store/noindex.
+
+  responses:
+    NotModified:
+      description: Ressource unverändert (ETag-Match). Leerer Body.
+    BadRequest:
+      description: Pflicht-Parameter fehlt/ungültig
+      content: { application/json: { schema: { $ref: '#/components/schemas/ErrorEnvelope' } } }
+    NotFoundOrModuleDisabled:
+      description: Ressource nicht gefunden/öffentlich (`not_found`) oder Modul inaktiv (`module_disabled`)
+      content: { application/json: { schema: { $ref: '#/components/schemas/ErrorEnvelope' } } }
+    RateLimited:
+      description: Per-IP-Burst-Limit überschritten
+      content: { application/json: { schema: { $ref: '#/components/schemas/ErrorEnvelope' } } }
+
+  schemas:
+    # ── Envelope ──────────────────────────────────────────────────────────────
+    PageMeta:
+      type: object
+      required: [total, limit, offset, next]
+      properties:
+        total: { type: integer }
+        limit: { type: integer }
+        offset: { type: integer }
+        next: { type: [integer, "null"] }
+    ApiError:
+      type: object
+      required: [code, message]
+      properties:
+        code: { type: string, enum: [bad_request, not_found, module_disabled, rate_limited, server_error] }
+        message: { type: string }
+        correlationId: { type: string, description: nur bei 5xx }
+    ObjectEnvelope:
+      type: object
+      required: [data, meta, error]
+      properties:
+        data: { type: object }
+        meta: { type: "null" }
+        error: { type: "null" }
+    ListEnvelope:
+      type: object
+      required: [data, meta, error]
+      properties:
+        data: { type: array, items: {} }
+        meta: { $ref: '#/components/schemas/PageMeta' }
+        error: { type: "null" }
+    ErrorEnvelope:
+      type: object
+      required: [data, meta, error]
+      properties:
+        data: { type: "null" }
+        meta: { type: "null" }
+        error: { $ref: '#/components/schemas/ApiError' }
+
+    # ── Gemeinsame Bausteine ──────────────────────────────────────────────────
+    OpenGraph:
+      type: object
+      required: [title, description, imageUrl]
+      properties:
+        title: { type: string }
+        description: { type: [string, "null"] }
+        imageUrl: { type: [string, "null"] }
+    TrainingSlot:
+      type: object
+      properties:
+        wochentag: { type: string }
+        wochentagNr: { type: integer, minimum: 0, maximum: 6 }
+        startTime: { type: string }
+        endTime: { type: string }
+        ort: { type: string }
+    Spielergebnis:
+      type: object
+      properties:
+        datum: { type: string, format: date }
+        gegner: { type: string }
+        toreHeimisch: { type: [integer, "null"] }
+        toreGegner: { type: [integer, "null"] }
+        istHeimspiel: { type: boolean }
+        wettbewerb: { type: [string, "null"] }
+    Spiel:
+      type: object
+      properties:
+        datum: { type: string, format: date }
+        uhrzeit: { type: [string, "null"] }
+        gegner: { type: string }
+        istHeimspiel: { type: boolean }
+        wettbewerb: { type: [string, "null"] }
+        ort: { type: [string, "null"] }
+    GalerieFoto:
+      type: object
+      properties:
+        titel: { type: [string, "null"] }
+        fotoUrl: { type: [string, "null"] }
+        fotoAlt: { type: [string, "null"] }
+        aufnahmeDatum: { type: [string, "null"] }
+        testimonialText: { type: [string, "null"] }
+        testimonialAutor: { type: [string, "null"] }
+    TeamLink:
+      type: object
+      properties: { name: { type: string }, url: { type: string } }
+
+    # ── Config / Home ─────────────────────────────────────────────────────────
+    HomepageSection:
+      type: object
+      required: [typ, sortOrder, config]
+      properties:
+        typ: { type: string, enum: [hero, about, abteilungen, news, sponsoren, events, vorstand, geschichte, spiele, cta, banner] }
+        sortOrder: { type: integer }
+        config:
+          type: object
+          description: >
+            Flaches String-Objekt; Schlüssel je typ — hero: titleOverride|tagline|ctaLabel|ctaUrl;
+            about: titleOverride|text; cta: title|text|ctaLabel|ctaUrl;
+            banner: text|imageUrl|ctaLabel|ctaUrl; alle übrigen: titleOverride. Leere Werte fehlen.
+          additionalProperties: { type: string }
+    DepartmentTeaser:
+      type: object
+      properties:
+        id: { type: string }
+        name: { type: string }
+        icon: { type: [string, "null"] }
+        description: { type: [string, "null"] }
+        heroImageUrl: { type: [string, "null"] }
+        heroImageAlt: { type: [string, "null"] }
+    ClubConfig:
+      type: object
+      properties:
+        clubId: { type: string, format: uuid }
+        slug: { type: [string, "null"] }
+        name: { type: string }
+        shortName: { type: [string, "null"] }
+        colors:
+          type: object
+          properties: { primary: { type: string }, secondary: { type: string } }
+        logoUrl: { type: [string, "null"] }
+        logoWebUrl: { type: [string, "null"] }
+        gruendungsjahr: { type: [integer, "null"] }
+        social:
+          type: object
+          properties: { instagram: { type: [string, "null"] }, facebook: { type: [string, "null"] } }
+        homepage:
+          type: object
+          properties:
+            tagline: { type: [string, "null"] }
+            heroImageUrl: { type: [string, "null"] }
+            heroImageAlt: { type: [string, "null"] }
+            ctaLabel: { type: [string, "null"] }
+            aboutText: { type: [string, "null"] }
+            aboutText2: { type: [string, "null"] }
+        stats:
+          type: object
+          properties:
+            mitglieder: { type: [string, "null"] }
+            kurseProWoche: { type: [string, "null"] }
+            lizenzierteTrainer: { type: [string, "null"] }
+        departments:
+          type: array
+          items: { $ref: '#/components/schemas/DepartmentTeaser' }
+    PublicConfig:
+      allOf:
+        - $ref: '#/components/schemas/ClubConfig'
+        - type: object
+          properties:
+            sections:
+              type: array
+              items: { $ref: '#/components/schemas/HomepageSection' }
+    VorstandTeaser:
+      type: object
+      properties:
+        id: { type: string }
+        name: { type: string }
+        bezeichnung: { type: string }
+        fotoUrl: { type: [string, "null"] }
+    PublicHome:
+      type: object
+      properties:
+        config: { $ref: '#/components/schemas/ClubConfig' }
+        sections: { type: array, items: { $ref: '#/components/schemas/HomepageSection' } }
+        news: { type: array, items: { $ref: '#/components/schemas/NewsListItem' } }
+        sponsors: { type: array, items: { $ref: '#/components/schemas/SponsorBase' } }
+        vorstandTeaser: { type: array, items: { $ref: '#/components/schemas/VorstandTeaser' } }
+
+    # ── News ──────────────────────────────────────────────────────────────────
+    NewsListItem:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        slug: { type: [string, "null"] }
+        title: { type: string }
+        body: { type: string, description: Markdown }
+        imageUrl: { type: [string, "null"] }
+        imageAlt: { type: [string, "null"] }
+        publishedAt: { type: string, format: date-time }
+        scope: { type: string, enum: [verein, abteilung, team] }
+        context: { type: [string, "null"] }
+        authorName: { type: [string, "null"] }
+    NewsDetail:
+      allOf:
+        - $ref: '#/components/schemas/NewsListItem'
+        - type: object
+          properties: { og: { $ref: '#/components/schemas/OpenGraph' } }
+
+    # ── Team ──────────────────────────────────────────────────────────────────
+    TeamTrainer:
+      type: object
+      properties:
+        id: { type: string }
+        vorname: { type: string }
+        nachname: { type: string }
+        email: { type: [string, "null"] }
+        telefon: { type: [string, "null"] }
+        bio: { type: [string, "null"] }
+        fotoUrl: { type: [string, "null"] }
+        isPrimary: { type: boolean }
+    PublicTeam:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        slug: { type: [string, "null"] }
+        name: { type: string }
+        shortName: { type: [string, "null"] }
+        color: { type: [string, "null"] }
+        liga: { type: [string, "null"] }
+        photoUrl: { type: [string, "null"] }
+        photoAlt: { type: [string, "null"] }
+        motto: { type: [string, "null"] }
+        description: { type: [string, "null"], description: Markdown }
+        warumWir: { type: [string, "null"] }
+        zielgruppe: { type: [string, "null"] }
+        alterVon: { type: [integer, "null"] }
+        alterBis: { type: [integer, "null"] }
+        trainer: { type: array, items: { $ref: '#/components/schemas/TeamTrainer' } }
+        trainingSlots: { type: array, items: { $ref: '#/components/schemas/TrainingSlot' } }
+        ergebnisse: { type: array, items: { $ref: '#/components/schemas/Spielergebnis' } }
+        spielplan: { type: array, items: { $ref: '#/components/schemas/Spiel' } }
+        galerie: { type: array, items: { $ref: '#/components/schemas/GalerieFoto' } }
+        links: { type: array, items: { $ref: '#/components/schemas/TeamLink' } }
+        og: { $ref: '#/components/schemas/OpenGraph' }
+
+    # ── Abteilung ─────────────────────────────────────────────────────────────
+    AbteilungLeitung:
+      type: object
+      properties:
+        id: { type: string }
+        vorname: { type: string }
+        nachname: { type: string }
+        email: { type: [string, "null"] }
+        fotoUrl: { type: [string, "null"] }
+    AbteilungTrainer:
+      type: object
+      properties:
+        id: { type: string }
+        vorname: { type: string }
+        nachname: { type: string }
+        bio: { type: [string, "null"] }
+        fotoUrl: { type: [string, "null"] }
+        lizenzen: { type: array, items: { type: string } }
+        teams: { type: array, items: { type: string } }
+    AbteilungMannschaftTrainer:
+      type: object
+      properties:
+        id: { type: string }
+        vorname: { type: string }
+        nachname: { type: string }
+        bio: { type: [string, "null"] }
+        fotoUrl: { type: [string, "null"] }
+        lizenzen: { type: array, items: { type: string } }
+        isPrimary: { type: boolean }
+    AbteilungMannschaft:
+      type: object
+      properties:
+        id: { type: string }
+        name: { type: string }
+        shortName: { type: [string, "null"] }
+        color: { type: [string, "null"] }
+        liga: { type: [string, "null"] }
+        photoUrl: { type: [string, "null"] }
+        photoAlt: { type: [string, "null"] }
+        trainer: { type: array, items: { $ref: '#/components/schemas/AbteilungMannschaftTrainer' } }
+        trainingSlots: { type: array, items: { $ref: '#/components/schemas/TrainingSlot' } }
+    PublicAbteilung:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        slug: { type: [string, "null"] }
+        name: { type: string }
+        icon: { type: [string, "null"] }
+        description: { type: [string, "null"], description: Markdown }
+        tagline: { type: [string, "null"] }
+        langbeschreibung: { type: [string, "null"], description: Markdown }
+        heroCta:
+          type: object
+          properties: { primaer: { type: [string, "null"] }, sekundaer: { type: [string, "null"] } }
+        stats:
+          type: array
+          items:
+            type: object
+            properties: { wert: { type: string }, label: { type: string } }
+        usps:
+          type: array
+          items:
+            type: object
+            properties: { titel: { type: string }, text: { type: string } }
+        praevention:
+          type: [object, "null"]
+          properties:
+            text: { type: [string, "null"] }
+            vorteile: { type: array, items: { type: string } }
+        heroImageUrl: { type: [string, "null"] }
+        heroImageAlt: { type: [string, "null"] }
+        leitung:
+          oneOf:
+            - { type: "null" }
+            - $ref: '#/components/schemas/AbteilungLeitung'
+        trainer: { type: array, items: { $ref: '#/components/schemas/AbteilungTrainer' } }
+        mannschaften: { type: array, items: { $ref: '#/components/schemas/AbteilungMannschaft' } }
+        og: { $ref: '#/components/schemas/OpenGraph' }
+
+    # ── Trainer ───────────────────────────────────────────────────────────────
+    TrainerLizenz:
+      type: object
+      properties:
+        bezeichnung: { type: string }
+        ausstellendeOrg: { type: [string, "null"] }
+        ausstellungsdatum: { type: [string, "null"] }
+        ablaufdatum: { type: [string, "null"] }
+    TrainerErfolg:
+      type: object
+      properties:
+        jahr: { type: [integer, "null"] }
+        mannschaft: { type: [string, "null"] }
+        titel: { type: string }
+    TrainerMannschaft:
+      type: object
+      properties:
+        teamId: { type: string }
+        teamName: { type: [string, "null"] }
+        isPrimary: { type: boolean }
+    Trainer:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        vorname: { type: string }
+        nachname: { type: string }
+        email: { type: [string, "null"] }
+        telefon: { type: [string, "null"] }
+        bio: { type: [string, "null"] }
+        fotoUrl: { type: [string, "null"] }
+        lizenzen: { type: array, items: { $ref: '#/components/schemas/TrainerLizenz' } }
+        erfolge: { type: array, items: { $ref: '#/components/schemas/TrainerErfolg' } }
+        mannschaften: { type: array, items: { $ref: '#/components/schemas/TrainerMannschaft' } }
+    TrainerDetail:
+      allOf:
+        - $ref: '#/components/schemas/Trainer'
+        - type: object
+          properties: { og: { $ref: '#/components/schemas/OpenGraph' } }
+
+    # ── Sponsoren ─────────────────────────────────────────────────────────────
+    SponsorBase:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        firmenname: { type: string }
+        logoWebUrl: { type: [string, "null"] }
+        logoDruckUrl: { type: [string, "null"] }
+        logoAlt: { type: [string, "null"] }
+        websiteUrl: { type: [string, "null"] }
+    Sponsor:
+      allOf:
+        - $ref: '#/components/schemas/SponsorBase'
+        - type: object
+          properties:
+            kategorie: { type: string, enum: [gold, silber, bronze, partner, keine] }
+
+    # ── Verein ────────────────────────────────────────────────────────────────
+    Funktionaer:
+      type: object
+      properties:
+        id: { type: string }
+        name: { type: string }
+        bezeichnung: { type: string }
+        gruppe: { type: string, enum: [vorstand, abteilungsleitung] }
+        fotoUrl: { type: [string, "null"] }
+        email: { type: [string, "null"] }
+        abteilung: { type: [string, "null"] }
+    PublicVorstand:
+      type: object
+      properties:
+        vorstand: { type: array, items: { $ref: '#/components/schemas/Funktionaer' } }
+        abteilungsleiter: { type: array, items: { $ref: '#/components/schemas/Funktionaer' } }
+    Meilenstein:
+      type: object
+      properties:
+        id: { type: string }
+        jahr: { type: integer }
+        titel: { type: string }
+        beschreibung: { type: [string, "null"] }
+        fotoUrl: { type: [string, "null"] }
+    Aera:
+      type: object
+      properties:
+        id: { type: string }
+        titel: { type: string }
+        zeitraum: { type: [string, "null"] }
+        meilensteine: { type: array, items: { $ref: '#/components/schemas/Meilenstein' } }
+    PublicGeschichte:
+      type: object
+      properties:
+        aeren: { type: array, items: { $ref: '#/components/schemas/Aera' } }
+        sonstige: { type: array, items: { $ref: '#/components/schemas/Meilenstein' } }
+
+    # ── Spiele ────────────────────────────────────────────────────────────────
+    ErgebnisMitTeam:
+      allOf:
+        - $ref: '#/components/schemas/Spielergebnis'
+        - type: object
+          properties:
+            id: { type: string }
+            teamId: { type: string }
+            teamName: { type: [string, "null"] }
+    SpielMitTeam:
+      allOf:
+        - $ref: '#/components/schemas/Spiel'
+        - type: object
+          properties:
+            id: { type: string }
+            teamId: { type: string }
+            teamName: { type: [string, "null"] }
+    PublicSpiele:
+      type: object
+      properties:
+        ergebnisse: { type: array, items: { $ref: '#/components/schemas/ErgebnisMitTeam' } }
+        spielplan: { type: array, items: { $ref: '#/components/schemas/SpielMitTeam' } }
+
+    # ── Events ────────────────────────────────────────────────────────────────
+    EventItem:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        scope: { type: string, enum: [verein, abteilung, team] }
+        departmentId: { type: [string, "null"] }
+        teamId: { type: [string, "null"] }
+        title: { type: string }
+        description: { type: [string, "null"] }
+        datum: { type: string, format: date }
+        uhrzeit: { type: [string, "null"] }
+        ort: { type: [string, "null"] }
+        anmeldungAktiv: { type: boolean }
+        maxTeilnehmer: { type: [integer, "null"] }
+        angemeldet: { type: integer }
+        freiePlaetze: { type: [integer, "null"] }
+    EventRsvpRequest:
+      type: object
+      required: [eventId, name, email, consent]
+      properties:
+        eventId: { type: string, format: uuid }
+        name: { type: string }
+        email: { type: string, format: email }
+        anzahl: { type: integer, minimum: 1, maximum: 20, default: 1 }
+        consent: { type: boolean, const: true }
+        captchaToken: { type: string }
+    EventRsvpResult:
+      type: object
+      properties: { ok: { type: boolean, const: true } }
+
+    # ── Sitemap ───────────────────────────────────────────────────────────────
+    SitemapUrl:
+      type: object
+      properties:
+        loc: { type: string }
+        lastmod: { type: [string, "null"] }
+        changefreq: { type: string }
+    PublicSitemap:
+      type: object
+      properties:
+        urls: { type: array, items: { $ref: '#/components/schemas/SitemapUrl' } }
+
+    # ── Fundgrube ─────────────────────────────────────────────────────────────
+    LostFoundItem:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        beschreibung: { type: string }
+        kategorieName: { type: [string, "null"] }
+        fundortName: { type: [string, "null"] }
+        erfasstAm: { type: string, format: date-time }
+        fotoUrls:
+          type: array
+          items: { type: string }
+          description: Signierte, kurzlebige URLs (TTL ~1 h). Nicht cachen.
+
+    # ── Track-View ────────────────────────────────────────────────────────────
+    TrackViewRequest:
+      type: object
+      required: [entityType, entityId]
+      properties:
+        entityType: { type: string, enum: [news, team, abteilung] }
+        entityId: { type: string, format: uuid }
