@@ -26,7 +26,6 @@ export default async function ShopPage() {
     <>
       <BaseNav
         logoUrl={logoUrl}
-        departmentLabel="Shop"
         navItems={SHOP_NAV}
         ctaLabel={null}
       />

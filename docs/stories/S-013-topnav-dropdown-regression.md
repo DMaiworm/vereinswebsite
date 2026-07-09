@@ -1,7 +1,13 @@
 # S-013 – TopNav-Regression: Dropdown-Merge & Wortmark-Kollision beheben
 
+> **Superseded durch [S-014](S-014-topnav-neuausrichtung.md).** Der hier gebaute Zwei-Dropdown-
+> Ansatz (Kurs-Kontext-Dropdown + separates Abteilungs-Dropdown) entsprach nicht dem tatsächlichen
+> Bedarf und wird in S-014 durch eine grundlegend andere TopNav-Struktur ersetzt (ein globales
+> Abteilungen-Dropdown, Kurse direkt inline in der Nav, keine Intrapage-Deko auf Kurs-Seiten).
+> Diese Story-Datei bleibt als Dokumentation der Vorgeschichte erhalten.
+
 ## Meta
-- **Status:** review
+- **Status:** superseded
 - **Bereich:** `components/shared/layout/BaseNav.tsx`
 - **Typ:** Bugfix (Regression aus S-012)
 
@@ -95,3 +101,27 @@ Reproduziert per Playwright-Screenshot auf `/pilates/` und `/achtsamkeit/`:
 
 **Nicht geändert:**
 - Alle `page.tsx`-Aufrufe von `BaseNav` (Props bleiben gleich, nur die interne Darstellung ändert sich)
+
+## Umsetzung (Dev-Notizen)
+
+- **AC-1/AC-2**: `departmentLabel`-Dropdown zeigt jetzt nur noch `parentDepartment`-Inhalte (Rücksprung +
+  Siblings) ODER — falls kein `parentDepartment` — die bisherige `dropdownList` direkt (unverändert für
+  Abteilungs-Übersichtsseiten). Ein zweiter, eigener Trigger (reines Icon `grid_view`, `aria-label="Abteilungen"`)
+  erscheint nur wenn `parentDepartment` gesetzt ist und zeigt ausschließlich die 8 Top-Level-Abteilungen.
+  Eigener State (`abtOpen`/`abtRef`) + eigener Click-outside-Handler, unabhängig vom bestehenden `deptOpen`.
+- **AC-3/AC-4**: `whitespace-nowrap` auf Wortmarke und `departmentLabel`-Trigger verhindert Umbrüche. Der volle
+  Desktop-Nav-Bereich (departmentLabel-Trigger, Abteilungs-Icon, navItems, CTA) ist jetzt einheitlich hinter dem
+  `xl`-Breakpoint (1280px) versteckt statt vorher inkonsistent bei `sm`/`md` — bei 6 Kurs-navItems + zwei Dropdown-
+  Triggern reicht der Platz unterhalb von 1280px nicht für eine Desktop-Darstellung ohne Überlappung. Zwischen
+  375–1279px greift durchgängig das Mobile-Flyout (bereits vorhandenes „Alle Abteilungen"-Muster, unverändert).
+  Playwright-Stichprobe bei 375/900/1024/1280/1440 auf `/pilates/`, `/qi-gong/` und `/gesundheitssport/` zeigt
+  keine Kollision mehr.
+- **Nebenbefund (behoben)**: Der CTA-Button hatte zusätzlich zur bedingten `hidden xl:block`-Klasse ein
+  unconditional `inline-block` im gemeinsamen `ctaButtonClass`-String. Da beide Utilities in derselben
+  Tailwind-Layer landen und `inline-block` im generierten CSS nach `hidden` steht, gewann `inline-block` immer
+  über `hidden` — der CTA war dadurch auf **allen** Breakpoints sichtbar (auch Mobile), unabhängig vom Wrapper.
+  Das hat die Wortmark-Kollision bei 375px zusätzlich verschärft. Fix: `inline-block` aus `ctaButtonClass`
+  entfernt, Display-Utility jetzt nur noch am jeweiligen Verwendungsort (`hidden xl:block` Desktop,
+  `block` im Mobile-Flyout).
+- Icon-Wahl: `apps` (Material Symbols) wurde durch `grid_view` ersetzt, da `apps` im geladenen Font-Subset
+  nicht sichtbar gerendert wurde (Ligatur ohne Glyph-Ausgabe).

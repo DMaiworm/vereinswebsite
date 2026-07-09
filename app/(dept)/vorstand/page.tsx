@@ -37,7 +37,6 @@ export default async function VorstandPage() {
  <BaseNav
    logoUrl={logoUrl}
    clubName="Hünstetten"
-   departmentLabel="Vorstand"
    navItems={VORSTAND_NAV}
    ctaLabel="Mitglied werden"
    ctaHref="#join"

@@ -46,8 +46,8 @@ export default async function FitnessPage() {
     <>
       <BaseNav
         logoUrl={logoUrl}
-        departmentLabel="Fitness"
         navItems={FITNESS_NAV}
+        groupCoursesIfOverflow
         ctaLabel="Jetzt Buchen"
         ctaHref="#cta"
       />

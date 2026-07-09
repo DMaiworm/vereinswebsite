@@ -8,22 +8,21 @@ export interface NavItem {
   active?: boolean
 }
 
-interface ParentDepartment {
-  label: string
-  href: string
-  siblings: NavItem[]
-}
-
 interface BaseNavProps {
   logoUrl?: string | null
   clubName?: string | null
-  departmentLabel?: string
-  navItems: NavItem[]
+  navItems?: NavItem[]
+  /** Ab mehr als COURSE_OVERFLOW_THRESHOLD Einträgen wandert navItems geschlossen in ein
+   *  eigenes "Kurse"-Dropdown statt einzeln inline zu erscheinen. Nur für Abteilungs-
+   *  Übersichtsseiten mit Kurslinks (Fitness, Gesundheitssport, Kinderturnen) relevant –
+   *  andere Seiten mit >4 navItems (z.B. Mannschaftsseiten) bleiben unverändert inline. */
+  groupCoursesIfOverflow?: boolean
   ctaLabel?: string | null
   ctaHref?: string
   homeHref?: string
-  parentDepartment?: ParentDepartment
 }
+
+const COURSE_OVERFLOW_THRESHOLD = 4
 
 const ABTEILUNGEN = [
   { label: 'Badminton',          href: '../badminton' },
@@ -35,18 +34,6 @@ const ABTEILUNGEN = [
   { label: 'Leichtathletik',     href: '../leichtathletik' },
   { label: 'Tischtennis',        href: '../tischtennis' },
 ]
-
-const VEREINSSEITEN = [
-  { label: 'Shop',            href: '../shop' },
-  { label: 'Fundgrube',       href: '../fundgrube' },
-  { label: 'Rechtliches',     href: '../impressum' },
-  { label: 'Chronik',         href: '../geschichte' },
-  { label: 'Mitgliedschaft',  href: '../mitgliedschaft' },
-  { label: 'Vorstand',        href: '../vorstand' },
-  { label: 'Sponsoring',      href: '../sponsoren' },
-]
-
-const VEREINSSEITEN_LABELS = new Set(VEREINSSEITEN.map(r => r.label))
 
 function composeWordmark(clubName?: string | null) {
   const full = (clubName ?? 'SG Hünstetten').trim() || 'SG Hünstetten'
@@ -60,27 +47,24 @@ function composeWordmark(clubName?: string | null) {
 export default function BaseNav({
   logoUrl,
   clubName,
-  departmentLabel,
-  navItems,
+  navItems = [],
+  groupCoursesIfOverflow = false,
   ctaLabel = 'Probetraining',
   ctaHref,
   homeHref = '../',
-  parentDepartment,
 }: BaseNavProps) {
   const [mobileOpen, setMobileOpen] = useState(false)
   const [deptOpen, setDeptOpen] = useState(false)
-  const [abtOpen, setAbtOpen] = useState(false)
+  const [coursesOpen, setCoursesOpen] = useState(false)
   const [mobileDeptOpen, setMobileDeptOpen] = useState(false)
+  const [mobileCoursesOpen, setMobileCoursesOpen] = useState(false)
   const deptRef = useRef<HTMLDivElement>(null)
-  const abtRef = useRef<HTMLDivElement>(null)
+  const coursesRef = useRef<HTMLDivElement>(null)
 
   const wordmark = composeWordmark(clubName)
 
-  const dropdownList = departmentLabel
-    ? VEREINSSEITEN_LABELS.has(departmentLabel)
-      ? VEREINSSEITEN.filter(a => a.label !== departmentLabel)
-      : ABTEILUNGEN.filter(a => a.label !== departmentLabel)
-    : []
+  const showCoursesDropdown = groupCoursesIfOverflow && navItems.length > COURSE_OVERFLOW_THRESHOLD
+  const inlineNavItems = showCoursesDropdown ? [] : navItems
 
   useEffect(() => {
     if (!deptOpen) return
@@ -94,15 +78,15 @@ export default function BaseNav({
   }, [deptOpen])
 
   useEffect(() => {
-    if (!abtOpen) return
+    if (!coursesOpen) return
     function handleClickOutside(e: MouseEvent) {
-      if (abtRef.current && !abtRef.current.contains(e.target as Node)) {
-        setAbtOpen(false)
+      if (coursesRef.current && !coursesRef.current.contains(e.target as Node)) {
+        setCoursesOpen(false)
       }
     }
     document.addEventListener('mousedown', handleClickOutside)
     return () => document.removeEventListener('mousedown', handleClickOutside)
-  }, [abtOpen])
+  }, [coursesOpen])
 
   const ctaButtonClass = 'label-cap text-navy bg-gold px-5 py-2 rounded-sm hover:bg-gold-dim active:scale-95 transition-all text-center whitespace-nowrap'
 
@@ -121,103 +105,42 @@ export default function BaseNav({
               <span className="font-semibold text-chalk ml-0.5">{wordmark.rest}</span>
             </span>
           </a>
-          {departmentLabel && (
-            <div className="relative hidden xl:block" ref={deptRef}>
-              <button
-                type="button"
-                onClick={() => setDeptOpen(v => !v)}
-                aria-haspopup="true"
-                aria-expanded={deptOpen}
-                className="flex items-center gap-1 font-display font-light text-chalk/40 text-base uppercase tracking-wide cursor-pointer hover:text-chalk/70 transition-colors bg-transparent border-0 p-0 whitespace-nowrap"
+          <div className="relative hidden xl:block" ref={deptRef}>
+            <button
+              type="button"
+              onClick={() => setDeptOpen(v => !v)}
+              aria-haspopup="true"
+              aria-expanded={deptOpen}
+              className="flex items-center gap-1 font-display font-light text-chalk/40 text-base uppercase tracking-wide cursor-pointer hover:text-chalk/70 transition-colors bg-transparent border-0 p-0 whitespace-nowrap"
+            >
+              Abteilungen
+              <span
+                className="material-symbols-outlined text-base transition-transform"
+                style={{ transform: deptOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}
               >
-                {departmentLabel}
-                <span
-                  className="material-symbols-outlined text-base transition-transform"
-                  style={{ transform: deptOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}
-                >
-                  expand_more
-                </span>
-              </button>
-              {deptOpen && (
-                <div className="absolute left-0 top-full pt-2 z-50">
-                  <div className="bg-[rgba(5,40,86,0.97)] backdrop-blur-xl border border-white/[0.08] py-1.5 min-w-[220px]">
-                    {parentDepartment ? (
-                      <>
-                        <a
-                          href={parentDepartment.href}
-                          className="flex items-center gap-1 px-4 py-2 text-[10px] font-bold uppercase tracking-widest text-gold/80 hover:text-gold hover:bg-white/5 transition-colors"
-                        >
-                          <span className="material-symbols-outlined text-sm">arrow_back</span>
-                          {parentDepartment.label}
-                        </a>
-                        {parentDepartment.siblings.map(s => (
-                          <a
-                            key={s.href}
-                            href={s.href}
-                            className="block px-4 py-2 pl-8 text-[10px] font-bold uppercase tracking-widest text-chalk/40 hover:text-chalk hover:bg-white/5 transition-colors"
-                          >
-                            {s.label}
-                          </a>
-                        ))}
-                      </>
-                    ) : (
-                      dropdownList.map(a => (
-                        <a
-                          key={a.href}
-                          href={a.href}
-                          className="block px-4 py-2 text-[10px] font-bold uppercase tracking-widest text-chalk/40 hover:text-chalk hover:bg-white/5 transition-colors"
-                        >
-                          {a.label}
-                        </a>
-                      ))
-                    )}
-                  </div>
+                expand_more
+              </span>
+            </button>
+            {deptOpen && (
+              <div className="absolute left-0 top-full pt-2 z-50">
+                <div className="bg-[rgba(5,40,86,0.97)] backdrop-blur-xl border border-white/[0.08] py-1.5 min-w-[220px]">
+                  {ABTEILUNGEN.map(a => (
+                    <a
+                      key={a.href}
+                      href={a.href}
+                      className="block px-4 py-2 text-[10px] font-bold uppercase tracking-widest text-chalk/40 hover:text-chalk hover:bg-white/5 transition-colors"
+                    >
+                      {a.label}
+                    </a>
+                  ))}
                 </div>
-              )}
-            </div>
-          )}
-          {parentDepartment && (
-            <div className="relative hidden xl:block" ref={abtRef}>
-              <button
-                type="button"
-                onClick={() => setAbtOpen(v => !v)}
-                aria-haspopup="true"
-                aria-expanded={abtOpen}
-                aria-label="Abteilungen"
-                title="Abteilungen"
-                className="flex items-center justify-center w-8 h-8 text-chalk/40 hover:text-chalk/70 transition-colors bg-transparent border-0 p-0 cursor-pointer"
-              >
-                <span
-                  className="material-symbols-outlined text-xl transition-transform"
-                  style={{ transform: abtOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}
-                >
-                  grid_view
-                </span>
-              </button>
-              {abtOpen && (
-                <div className="absolute left-0 top-full pt-2 z-50">
-                  <div className="bg-[rgba(5,40,86,0.97)] backdrop-blur-xl border border-white/[0.08] py-1.5 min-w-[220px]">
-                    <div className="px-4 py-2 text-[10px] font-bold uppercase tracking-widest text-gold/80">
-                      Abteilungen
-                    </div>
-                    {dropdownList.map(a => (
-                      <a
-                        key={a.href}
-                        href={a.href}
-                        className="block px-4 py-2 text-[10px] font-bold uppercase tracking-widest text-chalk/40 hover:text-chalk hover:bg-white/5 transition-colors"
-                      >
-                        {a.label}
-                      </a>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
+              </div>
+            )}
+          </div>
         </div>
 
         <div className="hidden xl:flex items-center gap-8">
-          {navItems.map((item) => (
+          {inlineNavItems.map((item) => (
             <a
               key={`${item.href}-${item.label}`}
               href={item.href}
@@ -229,6 +152,40 @@ export default function BaseNav({
               {item.label}
             </a>
           ))}
+          {showCoursesDropdown && (
+            <div className="relative" ref={coursesRef}>
+              <button
+                type="button"
+                onClick={() => setCoursesOpen(v => !v)}
+                aria-haspopup="true"
+                aria-expanded={coursesOpen}
+                className="flex items-center gap-1 label-cap text-chalk/60 hover:text-chalk transition-colors bg-transparent border-0 p-0 cursor-pointer whitespace-nowrap"
+              >
+                Kurse
+                <span
+                  className="material-symbols-outlined text-base transition-transform"
+                  style={{ transform: coursesOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}
+                >
+                  expand_more
+                </span>
+              </button>
+              {coursesOpen && (
+                <div className="absolute right-0 top-full pt-2 z-50">
+                  <div className="bg-[rgba(5,40,86,0.97)] backdrop-blur-xl border border-white/[0.08] py-1.5 min-w-[220px]">
+                    {navItems.map(item => (
+                      <a
+                        key={`${item.href}-${item.label}`}
+                        href={item.href}
+                        className="block px-4 py-2 text-[10px] font-bold uppercase tracking-widest text-chalk/40 hover:text-chalk hover:bg-white/5 transition-colors"
+                      >
+                        {item.label}
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
         </div>
 
         <div className="flex items-center gap-3">
@@ -249,7 +206,7 @@ export default function BaseNav({
 
       {mobileOpen && (
         <div className="xl:hidden bg-navy border-t border-white/10 px-6 py-5 flex flex-col gap-4">
-          {navItems.map((item) => (
+          {inlineNavItems.map((item) => (
             <a
               key={`mob-${item.href}-${item.label}`}
               href={item.href}
@@ -259,45 +216,59 @@ export default function BaseNav({
             </a>
           ))}
 
-          {departmentLabel && (
+          {showCoursesDropdown && (
             <div className="border-t border-white/10 pt-4">
               <button
                 type="button"
-                onClick={() => setMobileDeptOpen(v => !v)}
-                aria-expanded={mobileDeptOpen}
+                onClick={() => setMobileCoursesOpen(v => !v)}
+                aria-expanded={mobileCoursesOpen}
                 className="flex items-center justify-between w-full label-cap text-chalk/60 bg-transparent border-0 p-0"
               >
-                Alle Abteilungen
+                Kurse
                 <span
                   className="material-symbols-outlined text-base transition-transform"
-                  style={{ transform: mobileDeptOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}
+                  style={{ transform: mobileCoursesOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}
                 >
                   expand_more
                 </span>
               </button>
-              {mobileDeptOpen && (
+              {mobileCoursesOpen && (
                 <div className="mt-3 flex flex-col gap-3 pl-2">
-                  {parentDepartment && (
-                    <>
-                      <a href={parentDepartment.href} className="label-cap text-gold/80">
-                        ← {parentDepartment.label}
-                      </a>
-                      {parentDepartment.siblings.map(s => (
-                        <a key={s.href} href={s.href} className="label-cap text-chalk/50 pl-3">
-                          {s.label}
-                        </a>
-                      ))}
-                    </>
-                  )}
-                  {dropdownList.map(a => (
-                    <a key={a.href} href={a.href} className="label-cap text-chalk/50">
-                      {a.label}
+                  {navItems.map(item => (
+                    <a key={item.href} href={item.href} className="label-cap text-chalk/50">
+                      {item.label}
                     </a>
                   ))}
                 </div>
               )}
             </div>
           )}
+
+          <div className="border-t border-white/10 pt-4">
+            <button
+              type="button"
+              onClick={() => setMobileDeptOpen(v => !v)}
+              aria-expanded={mobileDeptOpen}
+              className="flex items-center justify-between w-full label-cap text-chalk/60 bg-transparent border-0 p-0"
+            >
+              Abteilungen
+              <span
+                className="material-symbols-outlined text-base transition-transform"
+                style={{ transform: mobileDeptOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}
+              >
+                expand_more
+              </span>
+            </button>
+            {mobileDeptOpen && (
+              <div className="mt-3 flex flex-col gap-3 pl-2">
+                {ABTEILUNGEN.map(a => (
+                  <a key={a.href} href={a.href} className="label-cap text-chalk/50">
+                    {a.label}
+                  </a>
+                ))}
+              </div>
+            )}
+          </div>
 
           {ctaLabel && ctaHref && (
             <a href={ctaHref} className={`block ${ctaButtonClass} mt-2`}>

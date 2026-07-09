@@ -44,7 +44,6 @@ export default async function FussballPage() {
     <>
       <BaseNav
         logoUrl={logoUrl}
-        departmentLabel="Fußball"
         navItems={FUSSBALL_NAV}
         ctaLabel="Probetraining"
         ctaHref="#kontakt"

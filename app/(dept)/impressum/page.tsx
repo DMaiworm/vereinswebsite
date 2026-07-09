@@ -24,7 +24,6 @@ export default async function ImpressumPage() {
  <BaseNav
  logoUrl={logoUrl}
  clubName="Hünstetten"
- departmentLabel="Rechtliches"
  navItems={IMPRESSUM_NAV}
  ctaLabel="Mitglied werden"
  ctaHref="#kontakt"

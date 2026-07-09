@@ -20,7 +20,6 @@ export default function AthleticsNav({ logoUrl, clubName }: AthleticsNavProps) {
     <BaseNav
       logoUrl={logoUrl}
       clubName={clubName}
-      departmentLabel="Leichtathletik"
       navItems={NAV_ITEMS}
       ctaHref="#lauftreff"
       homeHref="../"

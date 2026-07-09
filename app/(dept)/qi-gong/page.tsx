@@ -13,12 +13,6 @@ import KonzeptSection from '@/components/shared/sections/KonzeptSection'
 import TrainerCard from '@/components/shared/sections/TrainerCard'
 import KursCtaSection from '@/components/shared/sections/KursCtaSection'
 
-const QI_GONG_NAV = [
-  { label: 'Qi-Gong',        href: '#',              active: true },
-  { label: 'Trainingszeiten', href: '#trainingszeiten' },
-  { label: 'Ansprechpartner', href: '#ansprechpartner' },
-  { label: 'Gesundheitssport', href: '../gesundheitssport' },
-]
 
 export default async function QiGongPage() {
   let logoUrl: string | null = null
@@ -39,20 +33,9 @@ export default async function QiGongPage() {
       <BaseNav
         logoUrl={logoUrl}
         clubName="Hünstetten"
-        departmentLabel="Qi-Gong"
-        navItems={QI_GONG_NAV}
         ctaLabel="Jetzt Anmelden"
         ctaHref="#kontakt"
         homeHref="../"
-        parentDepartment={{
-          label: 'Gesundheitssport',
-          href: '../gesundheitssport',
-          siblings: [
-            { label: 'Achtsamkeit & Entspannung', href: '../achtsamkeit' },
-            { label: 'Pilates & BodyART', href: '../pilates' },
-            { label: 'Rücken-Fit', href: '../rueckenfit' },
-          ],
-        }}
       />
       <main className="pt-20">
         <KursHero

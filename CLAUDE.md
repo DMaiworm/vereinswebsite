@@ -116,6 +116,35 @@ bestehende Zielseite (z.B. `../mitgliedschaft`) statt eines toten Buttons.
 
 ---
 
+## TopNav-IA (BaseNav, seit S-014)
+
+S-014 hat die TopNav-Struktur grundlegend neu aufgesetzt (löst das Zwei-Dropdown-Muster aus
+S-012/S-013 ab). Aktuelle Struktur:
+
+- **Globales "Abteilungen"-Dropdown**: immer sichtbar, auf jeder Seite, unabhängig vom aktuellen
+  Kontext. Zeigt konstant die 8 Sport-Abteilungen (`ABTEILUNGEN`-Konstante in `BaseNav.tsx`),
+  keine Filterung des aktuellen Eintrags mehr. Vereinsseiten sind absichtlich **nicht** enthalten
+  (nur über den Footer erreichbar). `BaseNav` braucht dafür keine Props mehr — kein
+  `departmentLabel`, kein `parentDepartment` (beide Props wurden entfernt).
+- **Kurse inline vs. Overflow-Dropdown**: Abteilungs-Übersichtsseiten mit Kurslinks (Fitness,
+  Gesundheitssport, Kinderturnen) übergeben weiterhin ihre Kurse als `navItems`-Prop. Zusätzlich
+  das neue Flag `groupCoursesIfOverflow` setzen. Ab mehr als `COURSE_OVERFLOW_THRESHOLD` (aktuell
+  4) Einträgen wandert die komplette Liste automatisch in ein eigenes "Kurse"-Dropdown statt
+  einzeln inline zu erscheinen (aktuell nur Fitness mit 7 Kursen betroffen). Ohne das Flag bleiben
+  `navItems` immer inline, unabhängig von der Länge — wichtig für Mannschaftsseiten wie Fußball
+  (5 Anker-Links), die trotz `>4` **nicht** gruppiert werden sollen.
+- **Kurs-Unterseiten radikal einfach**: übergeben nur noch `logoUrl`, `clubName`, `ctaLabel`,
+  `ctaHref`, `homeHref` an `BaseNav` — keine `navItems`, kein `parentDepartment`. Intrapage-Anker
+  (`#kontakt`, `#kursplan`) bleiben als Buttons/Sections auf der Seite selbst bestehen, nur die
+  Duplizierung in der TopNav entfällt.
+- **Breakpoint**: Desktop-Nav (Dropdown, `navItems`, CTA) bleibt hinter `xl` (1280px) versteckt,
+  darunter greift durchgehend das Mobile-Flyout (inkl. "Abteilungen"-Sektion) — das global
+  reachable von 375px an ist. Ein niedrigerer Breakpoint (`lg`/1024px) wurde getestet und verworfen:
+  bei Seiten mit mehr `navItems` (z.B. Fußball mit 5 Ankern) kollidiert der Abteilungen-Trigger
+  dort mit dem ersten Nav-Item.
+
+---
+
 ## Visuelle Prüfung mit Playwright
 
 `playwright` ist **nicht** als npm-Package installiert. Nur der CLI via `npx` funktioniert.

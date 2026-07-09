@@ -13,14 +13,6 @@ import KonzeptSection from '@/components/shared/sections/KonzeptSection'
 import TrainerCard from '@/components/shared/sections/TrainerCard'
 import KursCtaSection from '@/components/shared/sections/KursCtaSection'
 
-const PILATES_NAV = [
-  { label: 'Pilates',   href: '#',           active: true },
-  { label: 'BodyART',   href: '#bodyart' },
-  { label: 'Yoga',      href: '#yoga' },
-  { label: 'Wellness',  href: '#wellness' },
-  { label: 'Kursplan',  href: '#kursplan' },
-  { label: 'Kontakt',   href: '#kontakt' },
-]
 
 export default async function PilatesPage() {
   let logoUrl: string | null = null
@@ -41,20 +33,9 @@ export default async function PilatesPage() {
       <BaseNav
         logoUrl={logoUrl}
         clubName="Hünstetten"
-        departmentLabel="Pilates & BodyART"
-        navItems={PILATES_NAV}
         ctaLabel="Jetzt Anmelden"
         ctaHref="#kontakt"
         homeHref="../"
-        parentDepartment={{
-          label: 'Gesundheitssport',
-          href: '../gesundheitssport',
-          siblings: [
-            { label: 'Achtsamkeit & Entspannung', href: '../achtsamkeit' },
-            { label: 'Rücken-Fit', href: '../rueckenfit' },
-            { label: 'Qi-Gong', href: '../qi-gong' },
-          ],
-        }}
       />
       <main className="pt-20">
         <KursHero

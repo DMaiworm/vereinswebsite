@@ -13,12 +13,6 @@ import KonzeptSection from '@/components/shared/sections/KonzeptSection'
 import TrainerCard from '@/components/shared/sections/TrainerCard'
 import KursCtaSection from '@/components/shared/sections/KursCtaSection'
 
-const RUECKENFIT_NAV = [
-  { label: 'Rücken-Fit',    href: '#',              active: true },
-  { label: 'Trainingszeiten', href: '#trainingszeiten' },
-  { label: 'Ansprechpartner', href: '#ansprechpartner' },
-  { label: 'Gesundheitssport', href: '../gesundheitssport' },
-]
 
 export default async function RueckenfitPage() {
   let logoUrl: string | null = null
@@ -39,20 +33,9 @@ export default async function RueckenfitPage() {
       <BaseNav
         logoUrl={logoUrl}
         clubName="Hünstetten"
-        departmentLabel="Rücken-Fit"
-        navItems={RUECKENFIT_NAV}
         ctaLabel="Jetzt Anmelden"
         ctaHref="#kontakt"
         homeHref="../"
-        parentDepartment={{
-          label: 'Gesundheitssport',
-          href: '../gesundheitssport',
-          siblings: [
-            { label: 'Achtsamkeit & Entspannung', href: '../achtsamkeit' },
-            { label: 'Pilates & BodyART', href: '../pilates' },
-            { label: 'Qi-Gong', href: '../qi-gong' },
-          ],
-        }}
       />
       <main className="pt-20">
         <KursHero

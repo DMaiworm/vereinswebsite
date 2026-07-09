@@ -10,12 +10,6 @@ import KonzeptSection from '@/components/shared/sections/KonzeptSection'
 import TrainerCard from '@/components/shared/sections/TrainerCard'
 import KursCtaSection from '@/components/shared/sections/KursCtaSection'
 
-const FRUEH2_NAV = [
-  { label: 'Früh übt sich II', href: '#',               active: true },
-  { label: 'Früh übt sich I',  href: '../fruehuebtsich-1' },
-  { label: 'Kids in Bewegung', href: '../kids-in-bewegung' },
-  { label: 'Kinderturnen',     href: '../kinderturnen' },
-]
 
 export default async function FruehUebtSich2Page() {
   let logoUrl: string | null = null
@@ -31,20 +25,9 @@ export default async function FruehUebtSich2Page() {
       <BaseNav
         logoUrl={logoUrl}
         clubName="Hünstetten"
-        departmentLabel="Früh übt sich (II)"
-        navItems={FRUEH2_NAV}
         ctaLabel="Jetzt Anmelden"
         ctaHref="#kontakt"
         homeHref="../"
-        parentDepartment={{
-          label: 'Kinderturnen',
-          href: '../kinderturnen',
-          siblings: [
-            { label: 'Früh übt sich (I)', href: '../fruehuebtsich-1' },
-            { label: 'Kids in Bewegung', href: '../kids-in-bewegung' },
-            { label: 'Grundschulturnen', href: '../grundschulturnen' },
-          ],
-        }}
       />
       <main className="pt-20">
         <KursHero

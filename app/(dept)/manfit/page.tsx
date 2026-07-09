@@ -10,12 +10,6 @@ import KonzeptSection from '@/components/shared/sections/KonzeptSection'
 import TrainerCard from '@/components/shared/sections/TrainerCard'
 import KursCtaSection from '@/components/shared/sections/KursCtaSection'
 
-const MANFIT_NAV = [
-  { label: 'ManFit',         href: '#',              active: true },
-  { label: 'Trainingszeiten', href: '#trainingszeiten' },
-  { label: 'Ansprechpartner', href: '#ansprechpartner' },
-  { label: 'Fitness',         href: '../fitness' },
-]
 
 export default async function ManFitPage() {
   let logoUrl: string | null = null
@@ -31,23 +25,9 @@ export default async function ManFitPage() {
       <BaseNav
         logoUrl={logoUrl}
         clubName="Hünstetten"
-        departmentLabel="ManFit"
-        navItems={MANFIT_NAV}
         ctaLabel="Jetzt Anmelden"
         ctaHref="#kontakt"
         homeHref="../"
-        parentDepartment={{
-          label: 'Fitness',
-          href: '../fitness',
-          siblings: [
-            { label: 'LadyFit', href: '../ladyfit' },
-            { label: 'Step-Aerobic', href: '../step-aerobic' },
-            { label: 'Tanzfitness', href: '../tanzfitness' },
-            { label: 'Workout', href: '../workout' },
-            { label: 'Fit-durchs-Jahr', href: '../fitdurchsjahr' },
-            { label: 'SkiGym', href: '../skigym' },
-          ],
-        }}
       />
       <main className="pt-20">
         <KursHero

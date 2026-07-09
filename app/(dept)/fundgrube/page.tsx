@@ -23,7 +23,6 @@ export default async function FundgrubePage() {
       <BaseNav
         logoUrl={logoUrl}
         clubName="Hünstetten"
-        departmentLabel="Fundgrube"
         navItems={FUNDGRUBE_NAV}
         ctaLabel={null}
         homeHref="../"
