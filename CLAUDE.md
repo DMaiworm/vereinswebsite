@@ -187,14 +187,28 @@ S-012/S-013 ab). Aktuelle Struktur:
   `navItems` immer inline, unabhängig von der Länge — wichtig für Mannschaftsseiten wie Fußball
   (5 Anker-Links), die trotz `>4` **nicht** gruppiert werden sollen.
 - **Kurs-Unterseiten radikal einfach**: übergeben nur noch `logoUrl`, `clubName`,
-  `departmentLabel`, `ctaLabel`, `ctaHref`, `homeHref` an `BaseNav` — keine `navItems`, kein
-  `parentDepartment`. Intrapage-Anker (`#kontakt`, `#kursplan`) bleiben als Buttons/Sections auf
-  der Seite selbst bestehen, nur die Duplizierung in der TopNav entfällt.
-- **Breakpoint**: Desktop-Nav (Dropdown, `navItems`, CTA) bleibt hinter `xl` (1280px) versteckt,
-  darunter greift durchgehend das Mobile-Flyout (inkl. "Abteilungen"-Sektion) — das global
-  reachable von 375px an ist. Ein niedrigerer Breakpoint (`lg`/1024px) wurde getestet und verworfen:
-  bei Seiten mit mehr `navItems` (z.B. Fußball mit 5 Ankern) kollidiert der Abteilungen-Trigger
-  dort mit dem ersten Nav-Item.
+  `departmentLabel`, `ctaLabel`, `ctaHref` an `BaseNav` — keine `navItems`, kein
+  `parentDepartment` (`homeHref` gibt es nicht mehr, siehe unten). Intrapage-Anker (`#kontakt`,
+  `#kursplan`) bleiben als Buttons/Sections auf der Seite selbst bestehen, nur die Duplizierung in
+  der TopNav entfällt.
+- **`homeHref`-Prop entfernt**: Das Logo verlinkt jetzt immer fest über `internalHref('/')` zur
+  Startseite. Kein Callsite muss (und darf) mehr eine eigene `homeHref` übergeben.
+- **Das Abteilungen-Dropdown ist NIE im Hamburger versteckt** (Lehre aus einer Regression: die
+  komplette Desktop-Nav inkl. Dropdown wurde versehentlich hinter `xl` verbannt — ein User auf
+  Mobile konnte dann nicht mehr sehen, welche Abteilungen es überhaupt gibt, ohne erst das
+  Hamburger-Menü zu öffnen). Logo + Abteilungen-Dropdown stehen **immer** direkt in der Top-Bar,
+  bei jeder Viewport-Breite ab 375px, ungeachtet vom Breakpoint. Nur `navItems` (Seiten-Anker /
+  Kurse), das optionale "Kurse"-Overflow-Dropdown und der CTA-Button verschwinden unterhalb von
+  `xl` (1280px) hinter dem Hamburger — das sind sekundäre, seitenspezifische Elemente, keine
+  globale Navigation.
+- **Platz auf sehr schmalen Screens (375px)**: Logo + Wortmarke + Dropdown-Trigger + Hamburger
+  müssen gleichzeitig passen, auch bei langen `departmentLabel`-Werten wie „Jugendfußball (JFV)"
+  oder „Pilates & BodyART". Lösung: Wortmarke ab `420px` ausblenden (`hidden min-[420px]:inline`),
+  Logo auf Mobile kleiner (`h-10`, ab `md` wieder `h-16`), und der Dropdown-Trigger-Text selbst
+  truncatet auf sehr schmalen Screens (`truncate max-w-[38vw] sm:max-w-none`) statt zu umbrechen
+  oder den Hamburger zu überlappen. Bei jeder Änderung an `BaseNav` **zwingend** bei 375px mit
+  einem langen `departmentLabel` (JFV oder Pilates) gegenprüfen, nicht nur bei kurzen Labels wie
+  "Fitness" — genau das hat die Kollision beim letzten Mal durchrutschen lassen.
 
 ---
 

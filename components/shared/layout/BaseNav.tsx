@@ -75,7 +75,6 @@ export default function BaseNav({
   const [mobileOpen, setMobileOpen] = useState(false)
   const [deptOpen, setDeptOpen] = useState(false)
   const [coursesOpen, setCoursesOpen] = useState(false)
-  const [mobileDeptOpen, setMobileDeptOpen] = useState(false)
   const [mobileCoursesOpen, setMobileCoursesOpen] = useState(false)
   const deptRef = useRef<HTMLDivElement>(null)
   const coursesRef = useRef<HTMLDivElement>(null)
@@ -111,30 +110,30 @@ export default function BaseNav({
 
   return (
     <nav className="fixed top-0 w-full z-50 bg-navy/95 backdrop-blur-xl border-b border-white/[0.08]">
-      <div className="flex items-center justify-between px-6 md:px-10 py-1.5 max-w-screen-2xl mx-auto">
+      <div className="flex items-center justify-between px-4 md:px-10 py-1.5 max-w-screen-2xl mx-auto gap-2">
 
-        <div className="flex items-center gap-4 min-w-0">
-          <a href={internalHref('/')} className="flex items-center gap-4 no-underline shrink-0">
+        <div className="flex items-center gap-2 sm:gap-4 min-w-0">
+          <a href={internalHref('/')} className="flex items-center gap-2 sm:gap-4 no-underline shrink-0">
             {logoUrl && (
               // eslint-disable-next-line @next/next/no-img-element
-              <img src={logoUrl} alt={clubName ?? 'Vereinslogo'} className="h-16 w-auto object-contain shrink-0" />
+              <img src={logoUrl} alt={clubName ?? 'Vereinslogo'} className="h-10 md:h-16 w-auto object-contain shrink-0" />
             )}
-            <span className="font-display text-base leading-none uppercase whitespace-nowrap">
+            <span className="hidden min-[420px]:inline font-display text-base leading-none uppercase whitespace-nowrap">
               <span className="font-black text-gold">{wordmark.prefix}</span>
               <span className="font-semibold text-chalk ml-0.5">{wordmark.rest}</span>
             </span>
           </a>
-          <div className="relative hidden xl:block" ref={deptRef}>
+          <div className="relative min-w-0" ref={deptRef}>
             <button
               type="button"
               onClick={() => setDeptOpen(v => !v)}
               aria-haspopup="true"
               aria-expanded={deptOpen}
-              className="flex items-center gap-1 font-display font-light text-chalk/40 text-base uppercase tracking-wide cursor-pointer hover:text-chalk/70 transition-colors bg-transparent border-0 p-0 whitespace-nowrap"
+              className="flex items-center gap-1 font-display font-light text-chalk/40 text-sm md:text-base uppercase tracking-wide cursor-pointer hover:text-chalk/70 transition-colors bg-transparent border-0 p-0 min-w-0"
             >
-              {departmentLabel ?? 'Abteilungen'}
+              <span className="truncate max-w-[38vw] sm:max-w-none">{departmentLabel ?? 'Abteilungen'}</span>
               <span
-                className="material-symbols-outlined text-base transition-transform"
+                className="material-symbols-outlined text-base transition-transform shrink-0"
                 style={{ transform: deptOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}
               >
                 expand_more
@@ -262,32 +261,6 @@ export default function BaseNav({
               )}
             </div>
           )}
-
-          <div className="border-t border-white/10 pt-4">
-            <button
-              type="button"
-              onClick={() => setMobileDeptOpen(v => !v)}
-              aria-expanded={mobileDeptOpen}
-              className="flex items-center justify-between w-full label-cap text-chalk/60 bg-transparent border-0 p-0"
-            >
-              {departmentLabel ?? 'Abteilungen'}
-              <span
-                className="material-symbols-outlined text-base transition-transform"
-                style={{ transform: mobileDeptOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}
-              >
-                expand_more
-              </span>
-            </button>
-            {mobileDeptOpen && (
-              <div className="mt-3 flex flex-col gap-3 pl-2">
-                {ABTEILUNGEN.map(a => (
-                  <a key={a.href} href={resolveHref(a.href)} className="label-cap text-chalk/50">
-                    {a.label}
-                  </a>
-                ))}
-              </div>
-            )}
-          </div>
 
           {ctaLabel && ctaHref && (
             <a href={ctaHref && resolveHref(ctaHref)} className={`block ${ctaButtonClass} mt-2`}>
