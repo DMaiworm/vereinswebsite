@@ -43,13 +43,13 @@ export default function NewsGrid({ title = 'NEWS', departmentLabel, posts, socia
   return (
     <section className="py-12 bg-surface">
       <div className="max-w-screen-2xl mx-auto px-8">
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-5xl font-headline tracking-tighter uppercase">
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
+          <h2 className="text-4xl sm:text-5xl font-headline tracking-tighter uppercase break-words">
             <span className="font-black text-gold" style={{ fontWeight: 900, WebkitTextStroke: '1.5px #052856' }}>SG</span>
             <span className="font-bold text-primary ml-[3px]" style={{ fontWeight: 600, WebkitTextStroke: '1.5px #052856' }}>{title}</span>
-            {departmentLabel && <span className="font-light text-primary ml-4 text-4xl">{departmentLabel.toUpperCase()}</span>}
+            {departmentLabel && <span className="font-light text-primary ml-4 text-3xl sm:text-4xl">{departmentLabel.toUpperCase()}</span>}
           </h2>
-          <a className="bg-primary text-white px-6 py-2 rounded-lg font-headline font-bold uppercase tracking-wider text-xs hover:bg-primary-container transition-all flex items-center gap-2" href="#">
+          <a className="bg-primary text-white px-6 py-2 rounded-lg font-headline font-bold uppercase tracking-wider text-xs hover:bg-primary-container transition-all flex items-center gap-2 w-fit" href="#">
             Zur News-Übersicht <span className="material-symbols-outlined text-sm">open_in_new</span>
           </a>
         </div>

@@ -51,16 +51,16 @@ export default async function JFVPage() {
             <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(83,136,175,0.4) 0%, rgba(5,40,86,0.6) 100%)' }} />
           </div>
           <div className="max-w-screen-xl mx-auto px-6 md:px-16 relative z-10 w-full">
-            <div className="flex flex-row items-center gap-10">
-              <div className="flex-1">
-                <h1 className="text-white font-body font-black uppercase tracking-tighter leading-none mb-6">
+            <div className="flex flex-col md:flex-row items-center gap-10">
+              <div className="flex-1 w-full">
+                <h1 className="text-white font-body font-black uppercase tracking-tighter leading-none mb-6 break-words">
                   <span className="block" style={{ fontSize: 'clamp(1.8rem,4vw,2.8rem)' }}>JUGENDFUSSBALL BEIM</span>
                   <span className="block" style={{ fontSize: 'clamp(2.5rem,8vw,4.5rem)', color: '#FDE000' }}>JFV HÜNSTETTEN</span>
                 </h1>
-                <p className="text-lg md:text-xl leading-relaxed mb-10" style={{ color: 'rgba(255,255,255,0.9)' }}>
+                <p className="text-lg md:text-xl leading-relaxed mb-10 break-words" style={{ color: 'rgba(255,255,255,0.9)' }}>
                   Vom ersten Ballkontakt bis zur Meisterschaft — Bambinis bis A{'‑'}Jugend.<br />Wir formen echte Teamplayer auf und neben dem Platz.
                 </p>
-                <div className="flex flex-row gap-4">
+                <div className="flex flex-col sm:flex-row gap-4">
                   <button className="px-6 py-4 rounded-xl font-body font-black italic text-lg uppercase shadow-2xl hover:scale-105 transition-transform" style={{ backgroundColor: '#5388AF', color: '#ffffff' }}>
                     Probetraining vereinbaren
                   </button>

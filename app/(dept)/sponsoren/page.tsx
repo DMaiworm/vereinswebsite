@@ -39,7 +39,7 @@ export default async function SponsorenPage() {
  <span className="inline-block bg-secondary-container text-on-secondary-container font-headline font-black uppercase px-4 py-1 tracking-widest mb-6 ">
  SG HÜNSTETTEN PARTNERSHIP
  </span>
- <h1 className="text-white font-headline font-black uppercase text-6xl md:text-8xl leading-[0.9] tracking-tighter mb-8">
+ <h1 className="text-white font-headline font-black uppercase text-4xl sm:text-6xl md:text-8xl leading-[0.9] tracking-tighter mb-8 break-words">
  GEMEINSAM ZUM <span className="text-secondary-container">ERFOLG</span>
  </h1>
  <p className="text-white/90 text-xl md:text-2xl font-body max-w-2xl leading-relaxed">

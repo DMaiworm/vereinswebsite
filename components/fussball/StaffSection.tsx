@@ -32,7 +32,7 @@ export default function StaffSection() {
           </div>
 
           {/* Additional Staff 2×2 */}
-          <div className="lg:col-span-5 grid grid-cols-2 gap-4">
+          <div className="lg:col-span-5 grid grid-cols-1 sm:grid-cols-2 gap-4">
             {[
               { role: 'Co-Trainer',    name: 'Nikolaij Melcher', desc: 'Spielende Unterstützung', src: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAedbn3SHC539gw2MCq4odTyjIiR3FQNhBbnAdzBRODDJI9VKQRnpkbevE8B031iGcVOvn4EeRh0fZfRLTxPWi96rpYNylzDdWkuUWMBoCrNZmwJJEBxo7CkycgUj55Uu8Eo62R0XPTR14iKC8va4L2I8x_ougR_rGJK7aSWc8382HBcVbx8bvZiRr1iIByhuFkVBq0Yp_xE-Yg7qamYWJ0NK2_pu2JiZm2aPbvXbhvt20HpWcmwszU1R2JGblp_1SKVQT3FVQPBLg' },
               { role: 'Torwart-Trainer', name: 'Arno Grosmann',   desc: 'Torwartspiel & Reflexe',   src: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCgNKSFNoWCARbYt6ThP0e4r9n8IieNXTyZxbFVsho_zyX67lFEIHgt5Ml0wdQRfxIeFtX-W9n58zQe3fef3aBRb3jN0RX2dx9HJxwtD-aDjvnUNyHL7HnNL7HnML-aDjvnUNyHL7Hn' },

@@ -23,7 +23,7 @@ export default function AbteilungHero({ imageSrc, imageAlt, badge, title, subtit
       <div className="relative z-10 max-w-[1200px] mx-auto px-6 w-full">
         <div className="max-w-2xl text-white">
           <span className="inline-block px-4 py-1 bg-secondary-container text-on-secondary-container rounded-full text-label-lg mb-6 uppercase tracking-widest">{badge}</span>
-          <h1 className="text-display-lg font-display-lg mb-4 text-white">{title}</h1>
+          <h1 className="text-display-lg font-display-lg mb-4 text-white break-words hyphens-auto">{title}</h1>
           <p className="text-body-lg mb-8 opacity-90" dangerouslySetInnerHTML={{ __html: renderMarkdownInline(subtitle) }} />
           <div className="flex flex-wrap gap-4">
             <button className="bg-[#FDE000] text-[#222222] font-label-lg px-8 py-4 rounded-lg hover:brightness-110 transition-all font-bold">{primaryCta.label}</button>

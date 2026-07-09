@@ -113,7 +113,7 @@ export default async function VorstandPage() {
      <section className="py-12 px-8 md:px-16 lg:px-24 bg-surface-container-low">
        <div className="text-center mb-16">
          <span className="font-label text-xs font-bold uppercase tracking-[0.2em] text-primary mb-4 block">Kompetenz am Spielfeldrand</span>
-         <h2 className="font-headline font-black text-4xl md:text-5xl text-primary tracking-tight uppercase">Unsere Abteilungsleiter</h2>
+         <h2 className="font-headline font-black text-4xl md:text-5xl text-primary tracking-tight uppercase break-words">Unsere Abteilungsleiter</h2>
        </div>
        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-10">
          {abteilungsleiter.map((person) => (

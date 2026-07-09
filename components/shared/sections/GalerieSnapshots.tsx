@@ -21,7 +21,7 @@ export default function GalerieSnapshots({
   return (
     <section id="galerie" className="py-12 bg-surface">
       <div className="max-w-[1440px] mx-auto px-8">
-        <h2 className="text-4xl font-headline font-black text-primary mb-16 uppercase tracking-widest text-center">
+        <h2 className="text-2xl sm:text-4xl font-headline font-black text-primary mb-16 uppercase tracking-wide sm:tracking-widest text-center break-words">
           {title}
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">

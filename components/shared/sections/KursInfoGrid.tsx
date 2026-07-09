@@ -8,7 +8,7 @@ type KursInfoGridProps = {
 
 export default function KursInfoGrid({ kurszeit, ort, mitzubringen, mitzubringenIcon = 'shopping_bag', groupLabel }: KursInfoGridProps) {
   return (
-    <section className="relative z-20 -mt-12 px-6">
+    <section className={`relative z-20 px-6 ${groupLabel ? 'py-12' : '-mt-12'}`}>
       {groupLabel && (
         <h3 className="text-2xl font-black text-primary text-center mb-4">{groupLabel}</h3>
       )}

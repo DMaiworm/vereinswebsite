@@ -82,7 +82,7 @@ export default async function TischtennisPage() {
         <TrainerSection />
 
         {/* Senioren I Section */}
-        <section className="py-12 bg-primary text-white relative">
+        <section className="py-12 bg-primary text-white relative overflow-hidden">
           <div className="absolute top-0 right-0 w-1/3 h-full bg-primary-container opacity-30 transform skew-x-12" />
           <div className="max-w-[1440px] mx-auto px-8 relative z-10">
             <div className="flex flex-col md:flex-row justify-between items-end mb-6 gap-8">
@@ -97,7 +97,7 @@ export default async function TischtennisPage() {
             <div className="relative rounded-[3rem] overflow-hidden group shadow-2xl">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img alt="Seniors team photo" className="w-full aspect-[21/9] object-cover group-hover:scale-105 transition-transform duration-1000" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDCUUGbyb0MLFOOByEPT1Dhn2ZaFxjP3Ql_dWFSaBGMLF6gj9WHXQ2Nqw5WCDl5-O686ZDOAFeHrxnBF0QW3zNFTwHhYp8_tRbCYjaZfveFmr2CsprMAXIZRYX1iem5s2quopDHG2Dosqb5req5p_bXAt7SHCpo4YFdRKuVeH31_E45GQAJsND27iMgvf9F6Ffq2VATdaBFsTW7vvrt185uP9pZ9Q1XO2Hmo6rUFotQLFY3Rm2VaD-e9QI7xfqm1Zakp0Bz5Pwcl4A" />
-              <div className="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent flex items-end p-12">
+              <div className="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent flex items-end p-6 md:p-12">
                 <div className="flex flex-wrap items-center gap-6">
                   <div className="flex -space-x-4">
                     <div className="w-16 h-16 rounded-full border-4 border-white overflow-hidden shadow-lg">
@@ -114,10 +114,10 @@ export default async function TischtennisPage() {
                     </div>
                   </div>
                   <p className="text-lg font-bold text-white">12 Aktive Mitglieder &amp; Wachsend</p>
-                  <div className="flex items-center gap-4 ml-8 border-l border-white/20 pl-8">
+                  <div className="flex items-center gap-4 sm:ml-8 sm:border-l sm:border-white/20 sm:pl-8">
                     <div className="flex flex-col gap-2">
                       <span className="text-[10px] font-black uppercase tracking-widest text-secondary-container/80">Mannschaftspaten &amp; Partner</span>
-                      <div className="flex gap-3">
+                      <div className="flex flex-wrap gap-3">
                         <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center p-2 shadow-lg">
                           <span className="text-[8px] font-black text-primary text-center leading-tight">LOGO SPONSOR 1</span>
                         </div>

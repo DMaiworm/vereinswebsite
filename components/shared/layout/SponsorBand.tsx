@@ -78,38 +78,50 @@ export default function SponsorBand({ sponsors = [], variant = 'dark' }: Sponsor
   const textCls = grey
     ? 'whitespace-nowrap text-sm font-semibold text-[#44474f]/70'
     : 'whitespace-nowrap text-sm font-semibold text-white/60'
+  const textClsWrap = grey
+    ? 'text-sm font-semibold text-[#44474f]/70 text-center'
+    : 'text-sm font-semibold text-white/60 text-center'
+
+  const renderSponsor = (s: typeof doubled[number], i: number, opts: { wrap?: boolean } = {}) => {
+    const Tag = s.websiteUrl ? 'a' : 'div'
+    const linkProps = s.websiteUrl
+      ? { href: s.websiteUrl, target: '_blank', rel: 'noopener noreferrer' }
+      : {}
+    return (
+      <Tag
+        key={`${s.id}-${i}`}
+        {...(linkProps as Record<string, string>)}
+        className={itemCls}
+        style={{ cursor: s.websiteUrl ? 'pointer' : 'default' }}
+      >
+        {s.logoWebUrl ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={s.logoWebUrl}
+            alt={s.firmenname}
+            style={{ maxWidth: opts.wrap ? '120px' : '171px', maxHeight: opts.wrap ? '64px' : '96px', width: 'auto', height: 'auto' }}
+            className={imgCls}
+          />
+        ) : (
+          <span className={opts.wrap ? textClsWrap : textCls}>{s.firmenname}</span>
+        )}
+      </Tag>
+    )
+  }
 
   return (
     <section ref={sectionRef} className={sectionCls}>
       <p className={labelCls}>Starke Partner für den Erfolg</p>
-      <div className="overflow-hidden">
+
+      {/* Mobile: statisches, umbrechendes Grid — kein Marquee-Clipping am Bildschirmrand */}
+      <div className="sm:hidden flex flex-wrap items-center justify-center gap-6 px-6">
+        {items.map((s, i) => renderSponsor(s, i, { wrap: true }))}
+      </div>
+
+      {/* Tablet/Desktop: scrollende Marquee-Animation */}
+      <div className="hidden sm:block overflow-hidden">
         <div ref={trackRef} className="marquee-track gap-8 px-8">
-          {doubled.map((s, i) => {
-            const Tag = s.websiteUrl ? 'a' : 'div'
-            const linkProps = s.websiteUrl
-              ? { href: s.websiteUrl, target: '_blank', rel: 'noopener noreferrer' }
-              : {}
-            return (
-              <Tag
-                key={`${s.id}-${i}`}
-                {...(linkProps as Record<string, string>)}
-                className={itemCls}
-                style={{ cursor: s.websiteUrl ? 'pointer' : 'default' }}
-              >
-                {s.logoWebUrl ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src={s.logoWebUrl}
-                    alt={s.firmenname}
-                    style={{ maxWidth: '171px', maxHeight: '96px', width: 'auto', height: 'auto' }}
-                    className={imgCls}
-                  />
-                ) : (
-                  <span className={textCls}>{s.firmenname}</span>
-                )}
-              </Tag>
-            )
-          })}
+          {doubled.map((s, i) => renderSponsor(s, i))}
         </div>
       </div>
     </section>

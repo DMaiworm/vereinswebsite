@@ -16,6 +16,39 @@ const KINDERTURNEN_NAV = [
   { label: 'Grundschulturnen', href: '../grundschulturnen' },
 ]
 
+const KURSPLAN = [
+  {
+    tag: 'Montag', zeit: '15:15 – 16:15',
+    name: 'Früh übt sich (II)', untertitel: 'Eltern-Kind-Turnen',
+    altersgruppe: '1,5 – 3 Jahre', badgeClass: 'bg-secondary-fixed text-on-secondary-fixed-variant',
+    trainerin: 'Carina Faust', href: '/fruehuebtsich-2',
+  },
+  {
+    tag: 'Dienstag', zeit: '15:30 – 16:15',
+    name: 'Kids in Bewegung (Gr. 1)', untertitel: 'Turnen & Spielen',
+    altersgruppe: '3,5 – 5 Jahre', badgeClass: 'bg-primary-fixed text-on-primary-fixed-variant',
+    trainerin: 'Friederike Frömel', href: '/kids-in-bewegung',
+  },
+  {
+    tag: 'Mittwoch', zeit: '15:15 – 16:00',
+    name: 'Früh übt sich (I)', untertitel: 'Eltern-Kind-Turnen',
+    altersgruppe: '6M – 1,5 Jahre', badgeClass: 'bg-tertiary-fixed text-on-tertiary-fixed-variant',
+    trainerin: 'Carina Faust', href: '/fruehuebtsich-1',
+  },
+  {
+    tag: 'Mittwoch', zeit: '16:45 – 17:30',
+    name: 'Kids in Bewegung (Gr. 2)', untertitel: 'Turnen & Spielen',
+    altersgruppe: '5 – 7 Jahre', badgeClass: 'bg-primary-fixed text-on-primary-fixed-variant',
+    trainerin: 'Stefanie Specht', href: '/kids-in-bewegung',
+  },
+  {
+    tag: 'Freitag', zeit: '17:30 – 18:30',
+    name: 'Kinder stärken', untertitel: 'Sport, Spiel & Spaß',
+    altersgruppe: '6 – 10 Jahre', badgeClass: 'bg-secondary-fixed text-on-secondary-fixed-variant',
+    trainerin: 'Hanna Stein', href: '/grundschulturnen',
+  },
+] as const
+
 const KINDERTURNEN_STATS: StatsBarItem[] = [
   { value: '4',    label: 'Altersgruppen',     accent: 'primary' },
   { value: '6M+',  label: 'Ab Säuglingsalter', accent: 'secondary' },
@@ -61,7 +94,7 @@ export default async function KinderturnenPage() {
         <section className="py-12 bg-surface max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <div className="space-y-6">
-              <h2 className="font-headline text-4xl font-black text-primary leading-tight">Bewegungsförderung für alle Altersgruppen</h2>
+              <h2 className="font-headline text-4xl font-black text-primary leading-tight break-words">Bewegungsförderung für alle Altersgruppen</h2>
               <p className="text-on-surface-variant text-lg leading-relaxed">Unsere Abteilung „Kinderturnen" begleitet Kinder von den ersten Lebensmonaten bis ins Grundschulalter mit einem altersgerechten und vielseitigen Bewegungsangebot. Dabei orientieren wir uns am individuellen Entwicklungsstand und schaffen einen Raum, in dem sich Kinder spielerisch ausprobieren und entwickeln können.</p>
               <p className="text-on-surface-variant leading-relaxed">Ab etwa 3 Jahren erweitern wir das Angebot um Bewegungslandschaften, Turnstationen und kreative Spiele. Im Grundschulalter können sich die Kinder auspowern und wichtige Koordinations- und Ausdauer-Grundlagen entwickeln – ganz ohne Leistungsdruck, aber mit viel Spaß.</p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-4">
@@ -96,7 +129,8 @@ export default async function KinderturnenPage() {
                 <p className="text-on-surface-variant max-w-md">Alle Kurse finden in der Turnhalle Hünstetten oder der Mehrzweckhalle Görsroth statt.</p>
               </div>
             </div>
-            <div className="overflow-x-auto">
+            {/* Desktop: Tabelle */}
+            <div className="hidden md:block overflow-x-auto">
               <table className="w-full text-left border-separate border-spacing-y-4">
                 <thead className="bg-surface-container-low">
                   <tr>
@@ -108,93 +142,48 @@ export default async function KinderturnenPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr className="bg-surface-container-lowest hover:scale-[1.01] transition-transform duration-200">
-                    <td className="px-8 py-6 rounded-l-2xl">
-                      <div className="font-headline font-black text-primary">Montag</div>
-                      <div className="text-xs font-bold text-on-surface-variant">15:15 – 16:15</div>
-                    </td>
-                    <td className="px-8 py-6">
-                      <div className="font-bold text-lg text-primary">Früh übt sich (II)</div>
-                      <div className="text-xs text-on-surface-variant">Eltern-Kind-Turnen</div>
-                    </td>
-                    <td className="px-8 py-6">
-                      <span className="px-3 py-1 bg-secondary-fixed text-on-secondary-fixed-variant rounded-full text-[10px] font-black uppercase tracking-widest">1,5 – 3 Jahre</span>
-                    </td>
-                    <td className="px-8 py-6"><span className="font-medium text-on-surface">Carina Faust</span></td>
-                    <td className="px-8 py-6 rounded-r-2xl">
-                      <a href={internalHref('/fruehuebtsich-2')} className="text-primary font-black text-xs uppercase tracking-widest border-b-2 border-secondary hover:text-secondary transition-colors">Mehr erfahren</a>
-                    </td>
-                  </tr>
-                  <tr className="bg-surface-container-lowest hover:scale-[1.01] transition-transform duration-200">
-                    <td className="px-8 py-6 rounded-l-2xl">
-                      <div className="font-headline font-black text-primary">Dienstag</div>
-                      <div className="text-xs font-bold text-on-surface-variant">15:30 – 16:15</div>
-                    </td>
-                    <td className="px-8 py-6">
-                      <div className="font-bold text-lg text-primary">Kids in Bewegung (Gr. 1)</div>
-                      <div className="text-xs text-on-surface-variant">Turnen & Spielen</div>
-                    </td>
-                    <td className="px-8 py-6">
-                      <span className="px-3 py-1 bg-primary-fixed text-on-primary-fixed-variant rounded-full text-[10px] font-black uppercase tracking-widest">3,5 – 5 Jahre</span>
-                    </td>
-                    <td className="px-8 py-6"><span className="font-medium text-on-surface">Friederike Frömel</span></td>
-                    <td className="px-8 py-6 rounded-r-2xl">
-                      <a href={internalHref('/kids-in-bewegung')} className="text-primary font-black text-xs uppercase tracking-widest border-b-2 border-secondary hover:text-secondary transition-colors">Mehr erfahren</a>
-                    </td>
-                  </tr>
-                  <tr className="bg-surface-container-lowest hover:scale-[1.01] transition-transform duration-200">
-                    <td className="px-8 py-6 rounded-l-2xl">
-                      <div className="font-headline font-black text-primary">Mittwoch</div>
-                      <div className="text-xs font-bold text-on-surface-variant">15:15 – 16:00</div>
-                    </td>
-                    <td className="px-8 py-6">
-                      <div className="font-bold text-lg text-primary">Früh übt sich (I)</div>
-                      <div className="text-xs text-on-surface-variant">Eltern-Kind-Turnen</div>
-                    </td>
-                    <td className="px-8 py-6">
-                      <span className="px-3 py-1 bg-tertiary-fixed text-on-tertiary-fixed-variant rounded-full text-[10px] font-black uppercase tracking-widest">6M – 1,5 Jahre</span>
-                    </td>
-                    <td className="px-8 py-6"><span className="font-medium text-on-surface">Carina Faust</span></td>
-                    <td className="px-8 py-6 rounded-r-2xl">
-                      <a href={internalHref('/fruehuebtsich-1')} className="text-primary font-black text-xs uppercase tracking-widest border-b-2 border-secondary hover:text-secondary transition-colors">Mehr erfahren</a>
-                    </td>
-                  </tr>
-                  <tr className="bg-surface-container-lowest hover:scale-[1.01] transition-transform duration-200">
-                    <td className="px-8 py-6 rounded-l-2xl">
-                      <div className="font-headline font-black text-primary">Mittwoch</div>
-                      <div className="text-xs font-bold text-on-surface-variant">16:45 – 17:30</div>
-                    </td>
-                    <td className="px-8 py-6">
-                      <div className="font-bold text-lg text-primary">Kids in Bewegung (Gr. 2)</div>
-                      <div className="text-xs text-on-surface-variant">Turnen & Spielen</div>
-                    </td>
-                    <td className="px-8 py-6">
-                      <span className="px-3 py-1 bg-primary-fixed text-on-primary-fixed-variant rounded-full text-[10px] font-black uppercase tracking-widest">5 – 7 Jahre</span>
-                    </td>
-                    <td className="px-8 py-6"><span className="font-medium text-on-surface">Stefanie Specht</span></td>
-                    <td className="px-8 py-6 rounded-r-2xl">
-                      <a href={internalHref('/kids-in-bewegung')} className="text-primary font-black text-xs uppercase tracking-widest border-b-2 border-secondary hover:text-secondary transition-colors">Mehr erfahren</a>
-                    </td>
-                  </tr>
-                  <tr className="bg-surface-container-lowest hover:scale-[1.01] transition-transform duration-200">
-                    <td className="px-8 py-6 rounded-l-2xl">
-                      <div className="font-headline font-black text-primary">Freitag</div>
-                      <div className="text-xs font-bold text-on-surface-variant">17:30 – 18:30</div>
-                    </td>
-                    <td className="px-8 py-6">
-                      <div className="font-bold text-lg text-primary">Kinder stärken</div>
-                      <div className="text-xs text-on-surface-variant">Sport, Spiel &amp; Spaß</div>
-                    </td>
-                    <td className="px-8 py-6">
-                      <span className="px-3 py-1 bg-secondary-fixed text-on-secondary-fixed-variant rounded-full text-[10px] font-black uppercase tracking-widest">6 – 10 Jahre</span>
-                    </td>
-                    <td className="px-8 py-6"><span className="font-medium text-on-surface">Hanna Stein</span></td>
-                    <td className="px-8 py-6 rounded-r-2xl">
-                      <a href={internalHref('/grundschulturnen')} className="text-primary font-black text-xs uppercase tracking-widest border-b-2 border-secondary hover:text-secondary transition-colors">Mehr erfahren</a>
-                    </td>
-                  </tr>
+                  {KURSPLAN.map((kurs) => (
+                    <tr key={`${kurs.tag}-${kurs.zeit}`} className="bg-surface-container-lowest hover:scale-[1.01] transition-transform duration-200">
+                      <td className="px-8 py-6 rounded-l-2xl">
+                        <div className="font-headline font-black text-primary">{kurs.tag}</div>
+                        <div className="text-xs font-bold text-on-surface-variant">{kurs.zeit}</div>
+                      </td>
+                      <td className="px-8 py-6">
+                        <div className="font-bold text-lg text-primary">{kurs.name}</div>
+                        <div className="text-xs text-on-surface-variant">{kurs.untertitel}</div>
+                      </td>
+                      <td className="px-8 py-6">
+                        <span className={`px-3 py-1 ${kurs.badgeClass} rounded-full text-[10px] font-black uppercase tracking-widest whitespace-nowrap`}>{kurs.altersgruppe}</span>
+                      </td>
+                      <td className="px-8 py-6"><span className="font-medium text-on-surface">{kurs.trainerin}</span></td>
+                      <td className="px-8 py-6 rounded-r-2xl">
+                        <a href={internalHref(kurs.href)} className="text-primary font-black text-xs uppercase tracking-widest border-b-2 border-secondary hover:text-secondary transition-colors">Mehr erfahren</a>
+                      </td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
+            </div>
+
+            {/* Mobile: gestapelte Karten */}
+            <div className="md:hidden space-y-4">
+              {KURSPLAN.map((kurs) => (
+                <div key={`${kurs.tag}-${kurs.zeit}`} className="bg-surface-container-lowest rounded-2xl p-6">
+                  <div className="flex items-start justify-between gap-4 mb-4">
+                    <div>
+                      <div className="font-headline font-black text-primary">{kurs.tag}</div>
+                      <div className="text-xs font-bold text-on-surface-variant">{kurs.zeit}</div>
+                    </div>
+                    <span className={`px-3 py-1 ${kurs.badgeClass} rounded-full text-[10px] font-black uppercase tracking-widest whitespace-nowrap shrink-0`}>{kurs.altersgruppe}</span>
+                  </div>
+                  <div className="font-bold text-lg text-primary">{kurs.name}</div>
+                  <div className="text-xs text-on-surface-variant mb-4">{kurs.untertitel}</div>
+                  <div className="flex items-center justify-between gap-4">
+                    <span className="font-medium text-on-surface text-sm">{kurs.trainerin}</span>
+                    <a href={internalHref(kurs.href)} className="text-primary font-black text-xs uppercase tracking-widest border-b-2 border-secondary hover:text-secondary transition-colors">Mehr erfahren</a>
+                  </div>
+                </div>
+              ))}
             </div>
             <KursInfoBox
               title="Du weißt nicht, welcher Kurs zu deinem Kind passt?"
