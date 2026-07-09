@@ -13,4 +13,5 @@
 | [S-009](S-009-abteilungen-bereich-klubhaus.md) | Abteilungen-Bereich in der Klubhaus-App: CRUD für Abteilung, Teams & Trainer mit RLS | ready | Klubhaus-App, Supabase Auth, RLS |
 | [S-010](S-010-db-schema-audit-erweiterung.md) | DB-Schema-Audit & Erweiterung: fehlende Verein/Team/Trainer-Felder in Supabase + api.ts | ready | Supabase DB, Edge Functions, lib/api.ts |
 | [S-011](S-011-webapi-v1-migration.md) | Website-API-Migration auf `public-*` v1-Contract: Envelope, camelCase, `?club=`/`?id=`, Markdown, Fundgrube → public-lostfound | ready | lib/api.ts, app/layout.tsx, ~30× page.tsx, app/(dept)/fundgrube/ |
-| [S-012](S-012-topnav-konsolidierung.md) | TopNav-Konsolidierung: toter CTA-Button, falsches Kurs-Dropdown, fehlende Mobile-Nav, toter Code (JFVNav) | ready | components/shared/layout/BaseNav.tsx, ~27× page.tsx |
+| [S-012](S-012-topnav-konsolidierung.md) | TopNav-Konsolidierung: toter CTA-Button, falsches Kurs-Dropdown, fehlende Mobile-Nav, toter Code (JFVNav) | done | components/shared/layout/BaseNav.tsx, ~27× page.tsx |
+| [S-013](S-013-topnav-dropdown-regression.md) | TopNav-Regression: Abteilungs- und Kurs-Dropdown vermischt statt getrennt, Wortmarke kollidiert mit umbrechendem departmentLabel | ready | components/shared/layout/BaseNav.tsx |
