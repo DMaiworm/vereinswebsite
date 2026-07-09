@@ -25,6 +25,7 @@ export default async function TanzfitnessPage() {
       <BaseNav
         logoUrl={logoUrl}
         clubName="Hünstetten"
+        departmentLabel="Tanzfitness"
         ctaLabel="Jetzt Anmelden"
         ctaHref="#kontakt"
         homeHref="../"

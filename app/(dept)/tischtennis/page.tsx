@@ -44,7 +44,7 @@ export default async function TischtennisPage() {
   return (
     <div className="bg-surface text-on-surface font-body selection:bg-secondary-container selection:text-on-secondary-container">
 
-      <BaseNav logoUrl={logoSrc} clubName="Hünstetten" navItems={TT_NAV} ctaLabel="Probetraining" ctaHref="#kontakt" homeHref="../" />
+      <BaseNav logoUrl={logoSrc} clubName="Hünstetten" departmentLabel="Tischtennis" navItems={TT_NAV} ctaLabel="Probetraining" ctaHref="#kontakt" homeHref="../" />
 
       <main className="pt-16">
 

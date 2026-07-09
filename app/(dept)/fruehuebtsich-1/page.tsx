@@ -25,6 +25,7 @@ export default async function FruehUebtSich1Page() {
       <BaseNav
         logoUrl={logoUrl}
         clubName="Hünstetten"
+        departmentLabel="Früh übt sich (I)"
         ctaLabel="Jetzt Anmelden"
         ctaHref="#kontakt"
         homeHref="../"

@@ -25,6 +25,7 @@ export default async function SkiGymPage() {
       <BaseNav
         logoUrl={logoUrl}
         clubName="Hünstetten"
+        departmentLabel="SkiGym"
         ctaLabel="Jetzt Anmelden"
         ctaHref="#kontakt"
         homeHref="../"

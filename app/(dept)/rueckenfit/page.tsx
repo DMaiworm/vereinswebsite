@@ -33,6 +33,7 @@ export default async function RueckenfitPage() {
       <BaseNav
         logoUrl={logoUrl}
         clubName="Hünstetten"
+        departmentLabel="Rücken-Fit"
         ctaLabel="Jetzt Anmelden"
         ctaHref="#kontakt"
         homeHref="../"

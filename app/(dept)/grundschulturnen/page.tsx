@@ -25,6 +25,7 @@ export default async function GrundschulturnenPage() {
       <BaseNav
         logoUrl={logoUrl}
         clubName="Hünstetten"
+        departmentLabel="Grundschulturnen"
         ctaLabel="Jetzt Anmelden"
         ctaHref="#kontakt"
         homeHref="../"

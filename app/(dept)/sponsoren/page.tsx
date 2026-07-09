@@ -24,7 +24,7 @@ export default async function SponsorenPage() {
  return (
  <div className="bg-background font-body text-on-surface">
 
- <BaseNav logoUrl={logoUrl} clubName="Hünstetten" navItems={SPONSOREN_NAV} ctaLabel="Partner werden" ctaHref="#kontakt" homeHref="../" />
+ <BaseNav logoUrl={logoUrl} clubName="Hünstetten" departmentLabel="Sponsoring" navItems={SPONSOREN_NAV} ctaLabel="Partner werden" ctaHref="#kontakt" homeHref="../" />
 
  <main className="pt-16">
 

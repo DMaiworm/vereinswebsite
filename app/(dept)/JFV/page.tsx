@@ -31,6 +31,7 @@ export default async function JFVPage() {
       <BaseNav
         logoUrl={logoUrl}
         clubName="Hünstetten"
+        departmentLabel="Jugendfußball (JFV)"
         navItems={[
           { label: 'Altersklassen', href: '#altersklassen', active: true },
           { label: 'Highlights',    href: '#highlights' },

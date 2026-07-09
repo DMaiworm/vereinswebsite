@@ -35,6 +35,7 @@ export default async function KinderturnenPage() {
     <>
       <BaseNav
         logoUrl={logoUrl}
+        departmentLabel="Kinderturnen"
         navItems={KINDERTURNEN_NAV}
         groupCoursesIfOverflow
         ctaLabel="Probetraining"

@@ -11,6 +11,11 @@ export interface NavItem {
 interface BaseNavProps {
   logoUrl?: string | null
   clubName?: string | null
+  /** Zeigt den Namen der aktuellen Abteilung als Trigger-Label statt des generischen
+   *  "Abteilungen"-Texts. Rein kosmetisch — filtert NICHT den aktuellen Eintrag aus der
+   *  Dropdown-Liste heraus (die bleibt immer die vollständigen 8 Abteilungen, siehe S-014).
+   *  Auf Kurs-Unterseiten und Vereinsseiten bewusst weglassen (kein Kontext-Hinweis dort). */
+  departmentLabel?: string
   navItems?: NavItem[]
   /** Ab mehr als COURSE_OVERFLOW_THRESHOLD Einträgen wandert navItems geschlossen in ein
    *  eigenes "Kurse"-Dropdown statt einzeln inline zu erscheinen. Nur für Abteilungs-
@@ -47,6 +52,7 @@ function composeWordmark(clubName?: string | null) {
 export default function BaseNav({
   logoUrl,
   clubName,
+  departmentLabel,
   navItems = [],
   groupCoursesIfOverflow = false,
   ctaLabel = 'Probetraining',
@@ -113,7 +119,7 @@ export default function BaseNav({
               aria-expanded={deptOpen}
               className="flex items-center gap-1 font-display font-light text-chalk/40 text-base uppercase tracking-wide cursor-pointer hover:text-chalk/70 transition-colors bg-transparent border-0 p-0 whitespace-nowrap"
             >
-              Abteilungen
+              {departmentLabel ?? 'Abteilungen'}
               <span
                 className="material-symbols-outlined text-base transition-transform"
                 style={{ transform: deptOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}
@@ -251,7 +257,7 @@ export default function BaseNav({
               aria-expanded={mobileDeptOpen}
               className="flex items-center justify-between w-full label-cap text-chalk/60 bg-transparent border-0 p-0"
             >
-              Abteilungen
+              {departmentLabel ?? 'Abteilungen'}
               <span
                 className="material-symbols-outlined text-base transition-transform"
                 style={{ transform: mobileDeptOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}

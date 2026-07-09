@@ -33,6 +33,7 @@ export default async function AchtsamkeitPage() {
       <BaseNav
         logoUrl={logoUrl}
         clubName="Hünstetten"
+        departmentLabel="Achtsamkeit & Entspannung"
         ctaLabel="Jetzt Anmelden"
         ctaHref="#kontakt"
         homeHref="../"

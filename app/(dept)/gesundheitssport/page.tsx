@@ -43,6 +43,7 @@ export default async function GesundheitssportPage() {
     <>
       <BaseNav
         logoUrl={logoUrl}
+        departmentLabel="Gesundheitssport"
         navItems={GESUNDHEITSSPORT_NAV}
         groupCoursesIfOverflow
         ctaLabel="Jetzt Buchen"

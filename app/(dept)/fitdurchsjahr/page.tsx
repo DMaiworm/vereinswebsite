@@ -25,6 +25,7 @@ export default async function FitDurchsJahrPage() {
       <BaseNav
         logoUrl={logoUrl}
         clubName="Hünstetten"
+        departmentLabel="Fit-durchs-Jahr"
         ctaLabel="Jetzt Anmelden"
         ctaHref="#kontakt"
         homeHref="../"

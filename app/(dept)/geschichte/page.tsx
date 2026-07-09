@@ -79,6 +79,7 @@ export default async function GeschichtePage() {
  <BaseNav
  logoUrl={logoUrl}
  clubName="Hünstetten"
+ departmentLabel="Chronik"
  navItems={GESCHICHTE_NAV}
  ctaLabel="Mitglied werden"
  ctaHref="../mitgliedschaft"

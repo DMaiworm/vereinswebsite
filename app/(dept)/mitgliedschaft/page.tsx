@@ -31,6 +31,7 @@ export default async function MitgliedschaftPage() {
  <BaseNav
  logoUrl={logoUrl}
  clubName="Hünstetten"
+ departmentLabel="Mitgliedschaft"
  navItems={MITGLIEDSCHAFT_NAV}
  ctaLabel="Mitglied werden"
  ctaHref="#anmeldung"
