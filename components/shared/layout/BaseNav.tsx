@@ -77,6 +77,7 @@ export default function BaseNav({
   const [coursesOpen, setCoursesOpen] = useState(false)
   const [mobileCoursesOpen, setMobileCoursesOpen] = useState(false)
   const deptRef = useRef<HTMLDivElement>(null)
+  const deptRefMobile = useRef<HTMLDivElement>(null)
   const coursesRef = useRef<HTMLDivElement>(null)
 
   const wordmark = composeWordmark(clubName)
@@ -87,7 +88,10 @@ export default function BaseNav({
   useEffect(() => {
     if (!deptOpen) return
     function handleClickOutside(e: MouseEvent) {
-      if (deptRef.current && !deptRef.current.contains(e.target as Node)) {
+      const target = e.target as Node
+      const insideDesktop = deptRef.current?.contains(target)
+      const insideMobile = deptRefMobile.current?.contains(target)
+      if (!insideDesktop && !insideMobile) {
         setDeptOpen(false)
       }
     }
@@ -108,9 +112,70 @@ export default function BaseNav({
 
   const ctaButtonClass = 'label-cap text-navy bg-gold px-5 py-2 rounded-sm hover:bg-gold-dim active:scale-95 transition-all text-center whitespace-nowrap'
 
+  const deptPanel = (
+    <div className="absolute left-0 top-full pt-2 z-50">
+      <div className="bg-[rgba(5,40,86,0.97)] backdrop-blur-xl border border-white/[0.08] py-1.5 min-w-[220px]">
+        {ABTEILUNGEN.map(a => (
+          <a
+            key={a.href}
+            href={resolveHref(a.href)}
+            className="block px-4 py-2 text-[10px] font-bold uppercase tracking-widest text-chalk/40 hover:text-chalk hover:bg-white/5 transition-colors"
+          >
+            {a.label}
+          </a>
+        ))}
+      </div>
+    </div>
+  )
+
   return (
     <nav className="fixed top-0 w-full z-50 bg-navy/95 backdrop-blur-xl border-b border-white/[0.08]">
-      <div className="flex items-center justify-between px-4 md:px-10 py-1.5 max-w-screen-2xl mx-auto gap-2">
+      {/* Mobile (<sm): 2-zeilig — Logo groß über beide Zeilen, Wortmarke + Hamburger in Zeile 1,
+          Abteilungen-Dropdown in Zeile 2 (löst Kollision Wortmarke/Hamburger bei 375-419px). */}
+      <div className="flex sm:hidden items-center gap-3 px-4 py-2">
+        <a href={internalHref('/')} className="shrink-0 self-stretch flex items-center no-underline">
+          {logoUrl && (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={logoUrl} alt={clubName ?? 'Vereinslogo'} className="h-14 w-auto object-contain" />
+          )}
+        </a>
+        <div className="flex-1 min-w-0 flex flex-col gap-1">
+          <div className="flex items-center justify-between gap-2">
+            <span className="font-display text-base leading-none uppercase truncate">
+              <span className="font-black text-gold">{wordmark.prefix}</span>
+              <span className="font-semibold text-chalk ml-0.5">{wordmark.rest}</span>
+            </span>
+            <button
+              className="text-chalk/70 p-1 shrink-0"
+              onClick={() => setMobileOpen(v => !v)}
+              aria-label="Menü öffnen"
+            >
+              <span className="material-symbols-outlined text-xl">menu</span>
+            </button>
+          </div>
+          <div className="relative min-w-0" ref={deptRefMobile}>
+            <button
+              type="button"
+              onClick={() => setDeptOpen(v => !v)}
+              aria-haspopup="true"
+              aria-expanded={deptOpen}
+              className="flex items-center gap-1 font-display font-light text-chalk/40 text-sm uppercase tracking-wide cursor-pointer hover:text-chalk/70 transition-colors bg-transparent border-0 p-0 min-w-0 max-w-full"
+            >
+              <span className="truncate">{departmentLabel ?? 'Abteilungen'}</span>
+              <span
+                className="material-symbols-outlined text-base transition-transform shrink-0"
+                style={{ transform: deptOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}
+              >
+                expand_more
+              </span>
+            </button>
+            {deptOpen && deptPanel}
+          </div>
+        </div>
+      </div>
+
+      {/* Tablet/Desktop (>=sm): einzeilig, unverändert */}
+      <div className="hidden sm:flex items-center justify-between px-4 md:px-10 py-1.5 max-w-screen-2xl mx-auto gap-2">
 
         <div className="flex items-center gap-2 sm:gap-4 min-w-0 flex-1">
           <a href={internalHref('/')} className="flex items-center gap-2 sm:gap-4 no-underline min-w-0">
@@ -139,21 +204,7 @@ export default function BaseNav({
                 expand_more
               </span>
             </button>
-            {deptOpen && (
-              <div className="absolute left-0 top-full pt-2 z-50">
-                <div className="bg-[rgba(5,40,86,0.97)] backdrop-blur-xl border border-white/[0.08] py-1.5 min-w-[220px]">
-                  {ABTEILUNGEN.map(a => (
-                    <a
-                      key={a.href}
-                      href={resolveHref(a.href)}
-                      className="block px-4 py-2 text-[10px] font-bold uppercase tracking-widest text-chalk/40 hover:text-chalk hover:bg-white/5 transition-colors"
-                    >
-                      {a.label}
-                    </a>
-                  ))}
-                </div>
-              </div>
-            )}
+            {deptOpen && deptPanel}
           </div>
         </div>
 
