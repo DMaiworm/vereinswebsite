@@ -34,7 +34,7 @@ const ABTEILUNGEN = [
   { label: 'Fitness',            href: '../fitness' },
   { label: 'Fußball',            href: '../fussball' },
   { label: 'Gesundheitssport',   href: '../gesundheitssport' },
-  { label: 'Jugendfußball (JFV)',href: '../JFV' },
+  { label: 'Jugendfußball',      href: '../JFV' },
   { label: 'Kinderturnen',       href: '../kinderturnen' },
   { label: 'Leichtathletik',     href: '../leichtathletik' },
   { label: 'Tischtennis',        href: '../tischtennis' },
@@ -112,13 +112,13 @@ export default function BaseNav({
     <nav className="fixed top-0 w-full z-50 bg-navy/95 backdrop-blur-xl border-b border-white/[0.08]">
       <div className="flex items-center justify-between px-4 md:px-10 py-1.5 max-w-screen-2xl mx-auto gap-2">
 
-        <div className="flex items-center gap-2 sm:gap-4 min-w-0">
-          <a href={internalHref('/')} className="flex items-center gap-2 sm:gap-4 no-underline shrink-0">
+        <div className="flex items-center gap-2 sm:gap-4 min-w-0 flex-1">
+          <a href={internalHref('/')} className="flex items-center gap-2 sm:gap-4 no-underline min-w-0">
             {logoUrl && (
               // eslint-disable-next-line @next/next/no-img-element
               <img src={logoUrl} alt={clubName ?? 'Vereinslogo'} className="h-10 md:h-16 w-auto object-contain shrink-0" />
             )}
-            <span className="hidden min-[420px]:inline font-display text-base leading-none uppercase whitespace-nowrap">
+            <span className="font-display text-base leading-none uppercase truncate max-w-[30vw] sm:max-w-none">
               <span className="font-black text-gold">{wordmark.prefix}</span>
               <span className="font-semibold text-chalk ml-0.5">{wordmark.rest}</span>
             </span>
@@ -131,7 +131,7 @@ export default function BaseNav({
               aria-expanded={deptOpen}
               className="flex items-center gap-1 font-display font-light text-chalk/40 text-sm md:text-base uppercase tracking-wide cursor-pointer hover:text-chalk/70 transition-colors bg-transparent border-0 p-0 min-w-0"
             >
-              <span className="truncate max-w-[38vw] sm:max-w-none">{departmentLabel ?? 'Abteilungen'}</span>
+              <span className="truncate max-w-[28vw] sm:max-w-none">{departmentLabel ?? 'Abteilungen'}</span>
               <span
                 className="material-symbols-outlined text-base transition-transform shrink-0"
                 style={{ transform: deptOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}
@@ -206,7 +206,7 @@ export default function BaseNav({
           )}
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 shrink-0">
           {ctaLabel && ctaHref && (
             <a href={ctaHref && resolveHref(ctaHref)} className={`hidden xl:block ${ctaButtonClass}`}>
               {ctaLabel}
