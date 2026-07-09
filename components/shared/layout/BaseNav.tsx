@@ -60,7 +60,13 @@ function composeWordmark(clubName?: string | null) {
   if (words.length > 1) {
     return { prefix: words[0].toUpperCase(), rest: words.slice(1).join(' ').toUpperCase() }
   }
-  return { prefix: 'SG', rest: full.toUpperCase() }
+  const single = words[0]
+  // Einzelwort-Eingaben wie Kürzel "SGH" beginnen selbst schon mit "SG" — sonst würde das
+  // hartkodierte "SG"-Präfix davor dupliziert werden ("SG" + "SGH" = "SGSGH").
+  if (/^sg/i.test(single)) {
+    return { prefix: 'SG', rest: single.slice(2).toUpperCase() }
+  }
+  return { prefix: 'SG', rest: single.toUpperCase() }
 }
 
 export default function BaseNav({
