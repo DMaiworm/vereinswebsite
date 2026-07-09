@@ -59,13 +59,13 @@ export default function ZahlenTraditionSection({
           </div>
           <div className="flex gap-3">
             <Link
-              href="./geschichte"
+              href="/geschichte"
               className="label-cap flex-1 text-center px-6 py-3 bg-[#052856] text-white rounded-sm hover:bg-[#0a3568] transition-colors"
             >
               Unsere Geschichte
             </Link>
             <Link
-              href="./vorstand"
+              href="/vorstand"
               className="label-cap flex-1 text-center px-6 py-3 border-2 border-[#052856] text-[#052856] rounded-sm hover:bg-[#052856] hover:text-white transition-colors"
             >
               Das Team im Hintergrund

@@ -83,7 +83,6 @@ export default async function GeschichtePage() {
  navItems={GESCHICHTE_NAV}
  ctaLabel="Mitglied werden"
  ctaHref="../mitgliedschaft"
- homeHref="../"
  />
 
  <main className="pt-20">

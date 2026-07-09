@@ -28,7 +28,6 @@ export default async function SkiGymPage() {
         departmentLabel="SkiGym"
         ctaLabel="Jetzt Anmelden"
         ctaHref="#kontakt"
-        homeHref="../"
       />
       <main className="pt-20">
         <KursHero

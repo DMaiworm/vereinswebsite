@@ -36,7 +36,6 @@ export default async function AchtsamkeitPage() {
         departmentLabel="Achtsamkeit & Entspannung"
         ctaLabel="Jetzt Anmelden"
         ctaHref="#kontakt"
-        homeHref="../"
       />
       <main className="pt-20">
         <KursHero

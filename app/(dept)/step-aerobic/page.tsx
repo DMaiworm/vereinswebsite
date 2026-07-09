@@ -28,7 +28,6 @@ export default async function StepAerobicPage() {
         departmentLabel="Step-Aerobic"
         ctaLabel="Jetzt Anmelden"
         ctaHref="#kontakt"
-        homeHref="../"
       />
       <main className="pt-20">
         <KursHero

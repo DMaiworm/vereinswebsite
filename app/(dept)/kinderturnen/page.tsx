@@ -1,4 +1,5 @@
 import { fetchClubConfig, fetchSponsors } from '@/lib/api'
+import { internalHref } from '@/lib/assetPath'
 import BaseNav from '@/components/shared/layout/BaseNav'
 import SiteFooter from '@/components/shared/layout/SiteFooter'
 import SponsorBand from '@/components/shared/layout/SponsorBand'
@@ -121,7 +122,7 @@ export default async function KinderturnenPage() {
                     </td>
                     <td className="px-8 py-6"><span className="font-medium text-on-surface">Carina Faust</span></td>
                     <td className="px-8 py-6 rounded-r-2xl">
-                      <a href="../fruehuebtsich-2" className="text-primary font-black text-xs uppercase tracking-widest border-b-2 border-secondary hover:text-secondary transition-colors">Mehr erfahren</a>
+                      <a href={internalHref('/fruehuebtsich-2')} className="text-primary font-black text-xs uppercase tracking-widest border-b-2 border-secondary hover:text-secondary transition-colors">Mehr erfahren</a>
                     </td>
                   </tr>
                   <tr className="bg-surface-container-lowest hover:scale-[1.01] transition-transform duration-200">
@@ -138,7 +139,7 @@ export default async function KinderturnenPage() {
                     </td>
                     <td className="px-8 py-6"><span className="font-medium text-on-surface">Friederike Frömel</span></td>
                     <td className="px-8 py-6 rounded-r-2xl">
-                      <a href="../kids-in-bewegung" className="text-primary font-black text-xs uppercase tracking-widest border-b-2 border-secondary hover:text-secondary transition-colors">Mehr erfahren</a>
+                      <a href={internalHref('/kids-in-bewegung')} className="text-primary font-black text-xs uppercase tracking-widest border-b-2 border-secondary hover:text-secondary transition-colors">Mehr erfahren</a>
                     </td>
                   </tr>
                   <tr className="bg-surface-container-lowest hover:scale-[1.01] transition-transform duration-200">
@@ -155,7 +156,7 @@ export default async function KinderturnenPage() {
                     </td>
                     <td className="px-8 py-6"><span className="font-medium text-on-surface">Carina Faust</span></td>
                     <td className="px-8 py-6 rounded-r-2xl">
-                      <a href="../fruehuebtsich-1" className="text-primary font-black text-xs uppercase tracking-widest border-b-2 border-secondary hover:text-secondary transition-colors">Mehr erfahren</a>
+                      <a href={internalHref('/fruehuebtsich-1')} className="text-primary font-black text-xs uppercase tracking-widest border-b-2 border-secondary hover:text-secondary transition-colors">Mehr erfahren</a>
                     </td>
                   </tr>
                   <tr className="bg-surface-container-lowest hover:scale-[1.01] transition-transform duration-200">
@@ -172,7 +173,7 @@ export default async function KinderturnenPage() {
                     </td>
                     <td className="px-8 py-6"><span className="font-medium text-on-surface">Stefanie Specht</span></td>
                     <td className="px-8 py-6 rounded-r-2xl">
-                      <a href="../kids-in-bewegung" className="text-primary font-black text-xs uppercase tracking-widest border-b-2 border-secondary hover:text-secondary transition-colors">Mehr erfahren</a>
+                      <a href={internalHref('/kids-in-bewegung')} className="text-primary font-black text-xs uppercase tracking-widest border-b-2 border-secondary hover:text-secondary transition-colors">Mehr erfahren</a>
                     </td>
                   </tr>
                   <tr className="bg-surface-container-lowest hover:scale-[1.01] transition-transform duration-200">
@@ -189,7 +190,7 @@ export default async function KinderturnenPage() {
                     </td>
                     <td className="px-8 py-6"><span className="font-medium text-on-surface">Hanna Stein</span></td>
                     <td className="px-8 py-6 rounded-r-2xl">
-                      <a href="../grundschulturnen" className="text-primary font-black text-xs uppercase tracking-widest border-b-2 border-secondary hover:text-secondary transition-colors">Mehr erfahren</a>
+                      <a href={internalHref('/grundschulturnen')} className="text-primary font-black text-xs uppercase tracking-widest border-b-2 border-secondary hover:text-secondary transition-colors">Mehr erfahren</a>
                     </td>
                   </tr>
                 </tbody>

@@ -36,7 +36,6 @@ export default async function PilatesPage() {
         departmentLabel="Pilates & BodyART"
         ctaLabel="Jetzt Anmelden"
         ctaHref="#kontakt"
-        homeHref="../"
       />
       <main className="pt-20">
         <KursHero

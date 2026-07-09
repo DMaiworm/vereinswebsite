@@ -21,7 +21,6 @@ export default function BadmintonNav({ logoUrl, clubName }: BadmintonNavProps) {
       departmentLabel="Badminton"
       navItems={NAV_ITEMS}
       ctaHref="#jugend"
-      homeHref="../"
     />
   )
 }

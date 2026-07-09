@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import { internalHref } from '@/lib/assetPath'
 
 export interface NavItem {
   label: string
@@ -24,7 +25,6 @@ interface BaseNavProps {
   groupCoursesIfOverflow?: boolean
   ctaLabel?: string | null
   ctaHref?: string
-  homeHref?: string
 }
 
 const COURSE_OVERFLOW_THRESHOLD = 4
@@ -39,6 +39,20 @@ const ABTEILUNGEN = [
   { label: 'Leichtathletik',     href: '../leichtathletik' },
   { label: 'Tischtennis',        href: '../tischtennis' },
 ]
+
+/**
+ * Normalisiert jeden internen Link auf einen basePath-sicheren, absoluten Pfad.
+ * Anker (#kontakt), externe URLs, mailto:/tel: bleiben unverändert. Alles andere
+ * (egal ob als '../fitness', './fitness' oder 'fitness' geschrieben) wird auf den
+ * bloßen Slug reduziert und über internalHref() mit dem korrekten basePath versehen.
+ * Siehe CLAUDE.md: rohe <a>-Tags dürfen NIE '../'/'./' für Seiten-Wechsel nutzen,
+ * weil das bricht, sobald die aktuelle URL ohne trailing slash aufgelöst wird.
+ */
+function resolveHref(href: string): string {
+  if (/^(#|https?:|mailto:|tel:)/.test(href)) return href
+  const slug = href.replace(/^(\.\.\/|\.\/|\/)+/, '').replace(/\/+$/, '')
+  return internalHref(slug ? `/${slug}` : '/')
+}
 
 function composeWordmark(clubName?: string | null) {
   const full = (clubName ?? 'SG Hünstetten').trim() || 'SG Hünstetten'
@@ -57,7 +71,6 @@ export default function BaseNav({
   groupCoursesIfOverflow = false,
   ctaLabel = 'Probetraining',
   ctaHref,
-  homeHref = '../',
 }: BaseNavProps) {
   const [mobileOpen, setMobileOpen] = useState(false)
   const [deptOpen, setDeptOpen] = useState(false)
@@ -101,7 +114,7 @@ export default function BaseNav({
       <div className="flex items-center justify-between px-6 md:px-10 py-1.5 max-w-screen-2xl mx-auto">
 
         <div className="flex items-center gap-4 min-w-0">
-          <a href={homeHref} className="flex items-center gap-4 no-underline shrink-0">
+          <a href={internalHref('/')} className="flex items-center gap-4 no-underline shrink-0">
             {logoUrl && (
               // eslint-disable-next-line @next/next/no-img-element
               <img src={logoUrl} alt={clubName ?? 'Vereinslogo'} className="h-16 w-auto object-contain shrink-0" />
@@ -133,7 +146,7 @@ export default function BaseNav({
                   {ABTEILUNGEN.map(a => (
                     <a
                       key={a.href}
-                      href={a.href}
+                      href={resolveHref(a.href)}
                       className="block px-4 py-2 text-[10px] font-bold uppercase tracking-widest text-chalk/40 hover:text-chalk hover:bg-white/5 transition-colors"
                     >
                       {a.label}
@@ -149,7 +162,7 @@ export default function BaseNav({
           {inlineNavItems.map((item) => (
             <a
               key={`${item.href}-${item.label}`}
-              href={item.href}
+              href={resolveHref(item.href)}
               className={item.active
                 ? 'label-cap text-gold border-b border-gold pb-0.5 hover:opacity-80 transition-opacity whitespace-nowrap'
                 : 'label-cap text-chalk/60 hover:text-chalk transition-colors whitespace-nowrap'
@@ -181,7 +194,7 @@ export default function BaseNav({
                     {navItems.map(item => (
                       <a
                         key={`${item.href}-${item.label}`}
-                        href={item.href}
+                        href={resolveHref(item.href)}
                         className="block px-4 py-2 text-[10px] font-bold uppercase tracking-widest text-chalk/40 hover:text-chalk hover:bg-white/5 transition-colors"
                       >
                         {item.label}
@@ -196,7 +209,7 @@ export default function BaseNav({
 
         <div className="flex items-center gap-3">
           {ctaLabel && ctaHref && (
-            <a href={ctaHref} className={`hidden xl:block ${ctaButtonClass}`}>
+            <a href={ctaHref && resolveHref(ctaHref)} className={`hidden xl:block ${ctaButtonClass}`}>
               {ctaLabel}
             </a>
           )}
@@ -215,7 +228,7 @@ export default function BaseNav({
           {inlineNavItems.map((item) => (
             <a
               key={`mob-${item.href}-${item.label}`}
-              href={item.href}
+              href={resolveHref(item.href)}
               className={item.active ? 'label-cap text-gold' : 'label-cap text-chalk/60'}
             >
               {item.label}
@@ -241,7 +254,7 @@ export default function BaseNav({
               {mobileCoursesOpen && (
                 <div className="mt-3 flex flex-col gap-3 pl-2">
                   {navItems.map(item => (
-                    <a key={item.href} href={item.href} className="label-cap text-chalk/50">
+                    <a key={item.href} href={resolveHref(item.href)} className="label-cap text-chalk/50">
                       {item.label}
                     </a>
                   ))}
@@ -268,7 +281,7 @@ export default function BaseNav({
             {mobileDeptOpen && (
               <div className="mt-3 flex flex-col gap-3 pl-2">
                 {ABTEILUNGEN.map(a => (
-                  <a key={a.href} href={a.href} className="label-cap text-chalk/50">
+                  <a key={a.href} href={resolveHref(a.href)} className="label-cap text-chalk/50">
                     {a.label}
                   </a>
                 ))}
@@ -277,7 +290,7 @@ export default function BaseNav({
           </div>
 
           {ctaLabel && ctaHref && (
-            <a href={ctaHref} className={`block ${ctaButtonClass} mt-2`}>
+            <a href={ctaHref && resolveHref(ctaHref)} className={`block ${ctaButtonClass} mt-2`}>
               {ctaLabel}
             </a>
           )}

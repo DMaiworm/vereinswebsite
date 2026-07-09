@@ -36,7 +36,6 @@ export default async function RueckenfitPage() {
         departmentLabel="Rücken-Fit"
         ctaLabel="Jetzt Anmelden"
         ctaHref="#kontakt"
-        homeHref="../"
       />
       <main className="pt-20">
         <KursHero

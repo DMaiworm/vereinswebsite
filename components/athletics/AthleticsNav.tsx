@@ -23,7 +23,6 @@ export default function AthleticsNav({ logoUrl, clubName }: AthleticsNavProps) {
       departmentLabel="Leichtathletik"
       navItems={NAV_ITEMS}
       ctaHref="#lauftreff"
-      homeHref="../"
     />
   )
 }

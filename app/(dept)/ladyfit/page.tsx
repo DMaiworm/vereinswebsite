@@ -28,7 +28,6 @@ export default async function LadyFitPage() {
         departmentLabel="LadyFit"
         ctaLabel="Jetzt Anmelden"
         ctaHref="#kontakt"
-        homeHref="../"
       />
       <main className="pt-20">
         <KursHero

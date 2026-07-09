@@ -39,7 +39,6 @@ export default async function JFVPage() {
         ]}
         ctaLabel="Probetraining"
         ctaHref="#faq"
-        homeHref="../"
       />
 
       <main className="pt-20">

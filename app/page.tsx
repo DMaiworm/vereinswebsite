@@ -1,6 +1,6 @@
 import { fetchClubConfig, fetchSponsors, fetchPublicNews } from '@/lib/api';
 import type { NewsEintrag } from '@/lib/api';
-import { asset } from '@/lib/assetPath';
+import { asset, internalHref } from '@/lib/assetPath';
 import BaseNav from '@/components/shared/layout/BaseNav';
 import Hero from '@/components/Hero';
 import AbteilungenGrid from '@/components/AbteilungenGrid';
@@ -42,7 +42,6 @@ export default async function HomePage() {
         navItems={HOME_NAV}
         ctaLabel="Mitglied werden"
         ctaHref="./mitgliedschaft"
-        homeHref="."
       />
 
       <main>
@@ -94,7 +93,7 @@ export default async function HomePage() {
                 Wir formen echte Teamplayer auf und neben dem Platz.
               </p>
               <div className="flex flex-row gap-4">
-                <a href="./JFV" className="px-6 py-3 rounded-xl font-display font-black italic uppercase text-sm shadow-xl hover:scale-105 transition-transform" style={{ backgroundColor: '#5388AF', color: '#fff' }}>
+                <a href={internalHref('/JFV')} className="px-6 py-3 rounded-xl font-display font-black italic uppercase text-sm shadow-xl hover:scale-105 transition-transform" style={{ backgroundColor: '#5388AF', color: '#fff' }}>
                   Mehr Informationen...
                 </a>
                 </div>
@@ -120,7 +119,7 @@ export default async function HomePage() {
         <SponsorBand sponsors={sponsors} />
       </main>
 
-      <SiteFooter logoUrl={logoUrl} linkPrefix="./" />
+      <SiteFooter logoUrl={logoUrl} />
     </>
   );
 }

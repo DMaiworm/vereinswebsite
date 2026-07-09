@@ -1,3 +1,5 @@
+import { internalHref } from '@/lib/assetPath'
+
 export default function JfvSection() {
   return (
     <section className="py-12 bg-navy noise relative overflow-hidden">
@@ -42,7 +44,7 @@ export default function JfvSection() {
                 <span className="material-symbols-outlined text-sm">open_in_new</span>
               </a>
               <a
-                href="/fussball"
+                href={internalHref('/fussball')}
                 className="label-cap inline-flex items-center gap-2 rounded-sm px-8 py-3 border border-white/20 text-chalk hover:bg-white/10 transition-all"
               >
                 Fußball bei der SG

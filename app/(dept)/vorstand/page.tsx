@@ -41,7 +41,6 @@ export default async function VorstandPage() {
    navItems={VORSTAND_NAV}
    ctaLabel="Mitglied werden"
    ctaHref="#join"
-   homeHref="../"
  />
 
  <main className="pt-20">

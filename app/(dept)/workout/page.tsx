@@ -28,7 +28,6 @@ export default async function WorkoutPage() {
         departmentLabel="Workout"
         ctaLabel="Jetzt Anmelden"
         ctaHref="#kontakt"
-        homeHref="../"
       />
       <main className="pt-20">
         <KursHero

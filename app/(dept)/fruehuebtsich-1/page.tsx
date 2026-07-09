@@ -28,7 +28,6 @@ export default async function FruehUebtSich1Page() {
         departmentLabel="Früh übt sich (I)"
         ctaLabel="Jetzt Anmelden"
         ctaHref="#kontakt"
-        homeHref="../"
       />
       <main className="pt-20">
         <KursHero

@@ -28,7 +28,6 @@ export default async function ImpressumPage() {
  navItems={IMPRESSUM_NAV}
  ctaLabel="Mitglied werden"
  ctaHref="#kontakt"
- homeHref="../"
  />
 
  <main className="pt-20">

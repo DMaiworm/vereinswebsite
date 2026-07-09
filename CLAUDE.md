@@ -1,5 +1,51 @@
 # Claude Code – Projektregeln & Lessons Learned
 
+## ⚠️ GitHub Pages läuft in einem Subfolder — Regeln für interne Links (Pflichtlektüre)
+
+Die Seite wird auf GitHub Pages unter `https://dmaiworm.github.io/vereinswebsite/` deployt,
+**nicht** unter der Domain-Root. `next.config.ts` setzt deshalb im Produktions-Build:
+
+```ts
+basePath: isProd ? "/vereinswebsite" : "",
+assetPrefix: isProd ? "/vereinswebsite/" : "",
+```
+
+**Zwei verschiedene Bugs sind hier schon passiert, beide auf so gut wie jeder Seite:**
+
+1. Rohes `<a href="/fussball">` (absolut von der Domain-Root) → landet in Produktion auf
+   `https://dmaiworm.github.io/fussball` statt `.../vereinswebsite/fussball/` (fehlender `basePath`).
+2. Rohes `<a href="../fussball">` bzw. `href="./fussball"` (relativ) → sieht auf den ersten Blick
+   nach einem Fix für (1) aus, ist aber **genauso kaputt**: sobald der Browser die aktuelle
+   Seiten-URL *ohne* trailing slash auflöst (z.B. `.../vereinswebsite/fussball` statt
+   `.../vereinswebsite/fussball/` — kann durch direkte URL-Eingabe, Redirects oder Hosting-
+   Eigenheiten passieren), rechnet `../fitness` von `.../vereinswebsite/` aus und landet bei
+   `/fitness` statt `/vereinswebsite/fitness`. Da praktisch jede Seite dasselbe `BaseNav`/
+   `SiteFooter` mit genau diesem relativen Pattern verwendet, betraf der Bug **die gesamte
+   Seite**, nicht nur eine einzelne Komponente.
+
+**Deshalb gilt jetzt ausnahmslos:**
+- **`<Link href="/xxx">` (next/link)**: sicher, Next.js hängt `basePath` automatisch an. Immer
+  **root-relativ** schreiben (`/fussball`, nicht `./fussball` oder `../fussball`) — Next erwartet
+  Routen-Pfade ab Site-Root, keine relativen Dateisystem-Pfade.
+- **Rohes `<a href="...">`** (z.B. in `BaseNav.tsx`, wo `next/link` aus Gründen der
+  Wiederverwendbarkeit über Client-Components hinweg bewusst vermieden wird): **niemals**
+  `href="/xxx"` und **niemals** `href="../xxx"`/`href="./xxx"`. Immer den `internalHref()`-Helper
+  aus `lib/assetPath.ts` verwenden: `href={internalHref('/fussball')}`. Der Helper baut einen
+  absoluten, `basePath`-sicheren Pfad, der unabhängig von der aktuellen URL-Tiefe und unabhängig
+  von trailing slashes immer korrekt auflöst.
+- **Statische Assets aus `/public`** (`<img src="...">` ohne `next/image`): `asset()`-Helper aus
+  `lib/assetPath.ts` (`src={asset('/jfv-logo.png')}`) — technisch identisch zu `internalHref()`,
+  nur semantisch für Assets statt Seiten benannt.
+- `BaseNav.tsx` hat dafür intern eine `resolveHref()`-Funktion, die jeden übergebenen `navItems`-/
+  `ctaHref`-Wert automatisch normalisiert (Anker wie `#kontakt` bleiben unverändert, alles andere
+  wird auf `internalHref()` gemappt) — einzelne Seiten müssen ihre `navItems`-Arrays deshalb
+  **nicht** anpassen, auch wenn sie dort noch `../xxx`-Strings stehen haben.
+- Vor jedem Merge mit neuen internen Links: `grep -rnE 'href=\{?["'"'"'\`](\.\.?/|/)[a-zA-Z]' app
+  components` — jeder Treffer in einem rohen `<a>`-Tag (statt `next/link` oder `internalHref()`)
+  ist ein Bug.
+
+---
+
 ## Claude Design Entwurf übernehmen (1:1 Port)
 
 ### Grundregel

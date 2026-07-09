@@ -1,12 +1,12 @@
+import { internalHref } from '@/lib/assetPath'
+
 interface SiteFooterProps {
   logoUrl?: string | null
   departmentLabel?: string
   variant?: 'dark' | 'light'
-  /** Präfix für interne Links. Standard '../' für Dept-Seiten, './' für Homepage */
-  linkPrefix?: string
 }
 
-export default function SiteFooter({ logoUrl, departmentLabel, variant = 'dark', linkPrefix = '../' }: SiteFooterProps) {
+export default function SiteFooter({ logoUrl, departmentLabel, variant = 'dark' }: SiteFooterProps) {
   const dark = variant === 'dark'
 
   const bg         = dark ? 'bg-navy'              : 'bg-surface-container-low font-body'
@@ -53,7 +53,7 @@ export default function SiteFooter({ logoUrl, departmentLabel, variant = 'dark',
                     'badminton', 'fitness', 'fussball',
                     'gesundheitssport', 'kinderturnen', 'leichtathletik', 'tischtennis',
                   ].map((slug) => (
-                  <li key={slug}><a className={`${link} transition-colors`} href={`${linkPrefix}${slug}`}>
+                  <li key={slug}><a className={`${link} transition-colors`} href={internalHref(`/${slug}`)}>
                     {{ badminton: 'Badminton', fitness: 'Fitness', fussball: 'Fußball',
                        gesundheitssport: 'Gesundheitssport', kinderturnen: 'Kinderturnen',
                        leichtathletik: 'Leichtathletik', tischtennis: 'Tischtennis' }[slug]}
@@ -68,7 +68,7 @@ export default function SiteFooter({ logoUrl, departmentLabel, variant = 'dark',
                   'shop', 'fundgrube', 'impressum', 'geschichte',
                   'mitgliedschaft', 'vorstand', 'sponsoren',
                 ].map((slug) => (
-                  <li key={slug}><a className={`${link} transition-colors`} href={`${linkPrefix}${slug}`}>
+                  <li key={slug}><a className={`${link} transition-colors`} href={internalHref(`/${slug}`)}>
                     {{ shop: 'Shop', fundgrube: 'Fundgrube', impressum: 'Impressum', geschichte: 'Geschichte',
                        mitgliedschaft: 'Mitgliedschaft', vorstand: 'Vorstand', sponsoren: 'Sponsoren' }[slug]}
                   </a></li>
