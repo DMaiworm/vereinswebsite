@@ -38,6 +38,7 @@ export default async function JFVPage() {
           { label: 'FAQ',           href: '#faq' },
         ]}
         ctaLabel="Probetraining"
+        ctaHref="#faq"
         homeHref="../"
       />
 

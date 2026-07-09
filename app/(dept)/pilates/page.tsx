@@ -38,7 +38,24 @@ export default async function PilatesPage() {
 
   return (
     <div className="bg-background font-body-md text-on-background">
-      <BaseNav logoUrl={logoUrl} clubName="Hünstetten" departmentLabel="Pilates & BodyART" navItems={PILATES_NAV} ctaLabel="Jetzt Buchen" homeHref="../" />
+      <BaseNav
+        logoUrl={logoUrl}
+        clubName="Hünstetten"
+        departmentLabel="Pilates & BodyART"
+        navItems={PILATES_NAV}
+        ctaLabel="Jetzt Anmelden"
+        ctaHref="#kontakt"
+        homeHref="../"
+        parentDepartment={{
+          label: 'Gesundheitssport',
+          href: '../gesundheitssport',
+          siblings: [
+            { label: 'Achtsamkeit & Entspannung', href: '../achtsamkeit' },
+            { label: 'Rücken-Fit', href: '../rueckenfit' },
+            { label: 'Qi-Gong', href: '../qi-gong' },
+          ],
+        }}
+      />
       <main className="pt-20">
         <KursHero
           imageSrc="https://upload.wikimedia.org/wikipedia/commons/9/91/Pilates_01.jpg"

@@ -184,6 +184,7 @@ export interface Mannschaft {
   photoAlt: string | null;
   motto?: string | null;
   description?: string | null;
+  zielgruppe?: string | null;
   alterVon?: number | null;
   alterBis?: number | null;
   trainer: Trainer[];

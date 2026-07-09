@@ -40,6 +40,7 @@ export default async function VorstandPage() {
    departmentLabel="Vorstand"
    navItems={VORSTAND_NAV}
    ctaLabel="Mitglied werden"
+   ctaHref="#join"
    homeHref="../"
  />
 

@@ -47,6 +47,7 @@ export default async function FussballPage() {
         departmentLabel="Fußball"
         navItems={FUSSBALL_NAV}
         ctaLabel="Probetraining"
+        ctaHref="#kontakt"
       />
 
       <main className="pt-20">

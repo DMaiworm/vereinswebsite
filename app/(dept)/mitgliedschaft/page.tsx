@@ -34,6 +34,7 @@ export default async function MitgliedschaftPage() {
  departmentLabel="Mitgliedschaft"
  navItems={MITGLIEDSCHAFT_NAV}
  ctaLabel="Mitglied werden"
+ ctaHref="#anmeldung"
  homeHref="../"
  />
 

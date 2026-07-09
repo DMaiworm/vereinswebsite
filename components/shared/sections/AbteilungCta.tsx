@@ -7,7 +7,7 @@ type AbteilungCtaProps = {
 
 export default function AbteilungCta({ title, subtitle, primaryLabel, secondaryLabel }: AbteilungCtaProps) {
   return (
-    <section className="max-w-[1200px] mx-auto px-6 py-12">
+    <section id="cta" className="max-w-[1200px] mx-auto px-6 py-12">
       <div className="bg-primary-container rounded-2xl p-lg text-center text-white relative overflow-hidden">
         <div className="relative z-10 py-6">
           <h2 className="font-headline text-3xl font-bold mb-6">{title}</h2>

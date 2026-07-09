@@ -28,7 +28,24 @@ export default async function FruehUebtSich1Page() {
 
   return (
     <div className="bg-background font-body-md text-on-background">
-      <BaseNav logoUrl={logoUrl} clubName="Hünstetten" departmentLabel="Früh übt sich (I)" navItems={FRUEH1_NAV} ctaLabel="Jetzt Anmelden" homeHref="../" />
+      <BaseNav
+        logoUrl={logoUrl}
+        clubName="Hünstetten"
+        departmentLabel="Früh übt sich (I)"
+        navItems={FRUEH1_NAV}
+        ctaLabel="Jetzt Anmelden"
+        ctaHref="#kontakt"
+        homeHref="../"
+        parentDepartment={{
+          label: 'Kinderturnen',
+          href: '../kinderturnen',
+          siblings: [
+            { label: 'Früh übt sich (II)', href: '../fruehuebtsich-2' },
+            { label: 'Kids in Bewegung', href: '../kids-in-bewegung' },
+            { label: 'Grundschulturnen', href: '../grundschulturnen' },
+          ],
+        }}
+      />
       <main className="pt-20">
         <KursHero
           imageSrc="https://lh3.googleusercontent.com/aida-public/AB6AXuARiRyM77AztjpXLCGf3Bc2uOodrNjsyCD4vPuMFSuJ5fJlchxilf5pzTOg1U_DmiGB12aA_GfeheJ5S0zRHjPP1PNOm2iTWuIpvg48JkLgoNpbLuUcsFoiKwe37vyoBRpHMs8djYuCP4mUnr572PWkR23VZD_YEAGxYgQ5cOGDBkNJYM0eu4OdJejxDafBtVhiyJvyHOHMtqqF1IwhPc5RtVq9Mhvt-mOEYHd1FNK96B8fO8qUqUfVKpYUFiv1M94adXJFxh_DQn0"

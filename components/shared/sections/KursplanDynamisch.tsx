@@ -10,6 +10,14 @@ interface Row {
   trainerName: string
 }
 
+function formatZielgruppe(m: Mannschaft): string | null {
+  if (m.zielgruppe) return m.zielgruppe
+  if (m.alterVon != null && m.alterBis != null) return `${m.alterVon} – ${m.alterBis} Jahre`
+  if (m.alterVon != null) return `ab ${m.alterVon} Jahre`
+  if (m.alterBis != null) return `bis ${m.alterBis} Jahre`
+  return null
+}
+
 function buildRows(mannschaften: Mannschaft[]): Row[] {
   const rows: Row[] = []
   for (const m of mannschaften) {
@@ -58,12 +66,15 @@ export default function KursplanDynamisch({ mannschaften }: Props) {
           <tr>
             <th className="px-8 py-4 font-headline font-bold text-primary rounded-l-2xl">Zeit</th>
             <th className="px-8 py-4 font-headline font-bold text-primary">Kursname</th>
+            <th className="px-8 py-4 font-headline font-bold text-primary">Zielgruppe</th>
             <th className="px-8 py-4 font-headline font-bold text-primary">Trainer</th>
             <th className="px-8 py-4 font-headline font-bold text-primary rounded-r-2xl">Ort</th>
           </tr>
         </thead>
         <tbody>
-          {rows.map((row, i) => (
+          {rows.map((row, i) => {
+            const zielgruppe = formatZielgruppe(row.mannschaft)
+            return (
             <tr
               key={`${row.mannschaft.id}-${i}`}
               className="bg-surface-container-lowest hover:scale-[1.01] transition-transform duration-200"
@@ -79,13 +90,24 @@ export default function KursplanDynamisch({ mannschaften }: Props) {
                 )}
               </td>
               <td className="px-8 py-6">
-                <span className="font-medium">{row.trainerName}</span>
+                {zielgruppe
+                  ? (
+                    <span className={`px-3 py-1 ${i % 2 === 0 ? 'bg-secondary-fixed text-on-secondary-fixed-variant' : 'bg-primary-fixed text-on-primary-fixed-variant'} rounded-full text-[10px] font-black uppercase tracking-widest`}>
+                      {zielgruppe}
+                    </span>
+                  )
+                  : <span className="text-sm text-on-surface-variant">–</span>
+                }
+              </td>
+              <td className="px-8 py-6">
+                <span className="font-medium text-on-surface">{row.trainerName}</span>
               </td>
               <td className="px-8 py-6 rounded-r-2xl">
                 <span className="text-sm text-on-surface-variant">{row.ort}</span>
               </td>
             </tr>
-          ))}
+            )
+          })}
         </tbody>
       </table>
     </div>

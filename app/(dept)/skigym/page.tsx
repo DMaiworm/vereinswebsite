@@ -28,7 +28,27 @@ export default async function SkiGymPage() {
 
   return (
     <div className="bg-background font-body-md text-on-background">
-      <BaseNav logoUrl={logoUrl} clubName="Hünstetten" departmentLabel="SkiGym" navItems={SKIGYM_NAV} ctaLabel="Jetzt Anmelden" homeHref="../" />
+      <BaseNav
+        logoUrl={logoUrl}
+        clubName="Hünstetten"
+        departmentLabel="SkiGym"
+        navItems={SKIGYM_NAV}
+        ctaLabel="Jetzt Anmelden"
+        ctaHref="#kontakt"
+        homeHref="../"
+        parentDepartment={{
+          label: 'Fitness',
+          href: '../fitness',
+          siblings: [
+            { label: 'LadyFit', href: '../ladyfit' },
+            { label: 'ManFit', href: '../manfit' },
+            { label: 'Step-Aerobic', href: '../step-aerobic' },
+            { label: 'Tanzfitness', href: '../tanzfitness' },
+            { label: 'Workout', href: '../workout' },
+            { label: 'Fit-durchs-Jahr', href: '../fitdurchsjahr' },
+          ],
+        }}
+      />
       <main className="pt-20">
         <KursHero
           imageSrc="https://lh3.googleusercontent.com/aida-public/AB6AXuBYjUo"

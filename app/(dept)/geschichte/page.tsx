@@ -82,6 +82,7 @@ export default async function GeschichtePage() {
  departmentLabel="Chronik"
  navItems={GESCHICHTE_NAV}
  ctaLabel="Mitglied werden"
+ ctaHref="../mitgliedschaft"
  homeHref="../"
  />
 

@@ -1,6 +1,6 @@
 export default function StaffSection() {
   return (
-    <section className="py-12 bg-surface">
+    <section id="kontakt" className="py-12 bg-surface">
       <div className="max-w-screen-2xl mx-auto px-8">
         <h2 className="text-3xl font-headline font-black tracking-tighter text-primary uppercase mb-6 border-b-2 border-primary pb-4 inline-block">STAFF</h2>
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">

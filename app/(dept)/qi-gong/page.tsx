@@ -36,7 +36,24 @@ export default async function QiGongPage() {
 
   return (
     <div className="bg-background font-body-md text-on-background">
-      <BaseNav logoUrl={logoUrl} clubName="Hünstetten" departmentLabel="Qi-Gong" navItems={QI_GONG_NAV} ctaLabel="Jetzt Anmelden" homeHref="../" />
+      <BaseNav
+        logoUrl={logoUrl}
+        clubName="Hünstetten"
+        departmentLabel="Qi-Gong"
+        navItems={QI_GONG_NAV}
+        ctaLabel="Jetzt Anmelden"
+        ctaHref="#kontakt"
+        homeHref="../"
+        parentDepartment={{
+          label: 'Gesundheitssport',
+          href: '../gesundheitssport',
+          siblings: [
+            { label: 'Achtsamkeit & Entspannung', href: '../achtsamkeit' },
+            { label: 'Pilates & BodyART', href: '../pilates' },
+            { label: 'Rücken-Fit', href: '../rueckenfit' },
+          ],
+        }}
+      />
       <main className="pt-20">
         <KursHero
           imageSrc="https://lh3.googleusercontent.com/aida-public/AB6AXuBYjUo112Wi-WgPDDK7PADQgcZV3q89r7aad0btl-KJkrzoKZZ5iabaffXVsMRKUc3bRt5mMz1aVEzQQWm0litBpcHQ03eFDUaXtqAPnPOgjYWUgjKshEnW-aKnSY1nYFahGx9YwJQ_UnzmWqtPgsRR6zGfNZyLHA8deTVHOL_iDtz18uv60DUukH_-nIprBpL7RY6xOcrRfoD9qtucerAcwfNEEL2Jhgo0krkVz0ndcUTxqDDnIoMGrPRofTvtJfsp6Mx7gYttDXE"

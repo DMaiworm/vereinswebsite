@@ -5,10 +5,9 @@ import type { NavItem } from '@/components/shared/layout/BaseNav'
 
 const NAV_ITEMS: NavItem[] = [
   { label: 'KiLa Kids', href: '#kila', active: true },
-  { label: 'Lauftreff', href: '#lauftreff' },
-  { label: 'Early Birds', href: '#lauftreff' },
-  { label: 'News', href: '#' },
-  { label: 'Fan-Shop', href: '#' },
+  { label: 'Lauftreff & Early Birds', href: '#lauftreff' },
+  { label: 'News', href: '#news' },
+  { label: 'Fan-Shop', href: '#shop' },
 ]
 
 interface AthleticsNavProps {
@@ -23,6 +22,7 @@ export default function AthleticsNav({ logoUrl, clubName }: AthleticsNavProps) {
       clubName={clubName}
       departmentLabel="Leichtathletik"
       navItems={NAV_ITEMS}
+      ctaHref="#lauftreff"
       homeHref="../"
     />
   )

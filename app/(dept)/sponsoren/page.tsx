@@ -24,7 +24,7 @@ export default async function SponsorenPage() {
  return (
  <div className="bg-background font-body text-on-surface">
 
- <BaseNav logoUrl={logoUrl} clubName="Hünstetten" departmentLabel="Sponsoring" navItems={SPONSOREN_NAV} ctaLabel="Partner werden" homeHref="../" />
+ <BaseNav logoUrl={logoUrl} clubName="Hünstetten" departmentLabel="Sponsoring" navItems={SPONSOREN_NAV} ctaLabel="Partner werden" ctaHref="#kontakt" homeHref="../" />
 
  <main className="pt-16">
 
@@ -83,7 +83,7 @@ export default async function SponsorenPage() {
  </section>
 
  {/* Integrated CTA Section */}
- <section className="py-12 bg-surface-container-highest relative overflow-hidden">
+ <section id="kontakt" className="py-12 bg-surface-container-highest relative overflow-hidden">
  <div className="max-w-7xl mx-auto px-8 grid md:grid-cols-2 gap-16 items-center">
  <div>
  <h2 className="font-headline text-4xl md:text-5xl font-black text-primary leading-tight mb-6">

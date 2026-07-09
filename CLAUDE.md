@@ -95,6 +95,27 @@ const logoSrc = config.logoWebUrl ?? config.logoUrl ?? '/fallback-logo.png'
 
 ---
 
+## TopNav CTA-Label-Konvention (BaseNav, seit S-012)
+
+Der CTA-Button in `BaseNav` (`ctaLabel` + `ctaHref`) folgt einer festen Konvention je Seitentyp
+— kein freies Texten pro Seite:
+
+| Seitentyp | `ctaLabel` | Beispiel |
+|-----------|-----------|----------|
+| Kurs-Unterseiten (14 Kurse unter Fitness/Gesundheitssport/Kinderturnen) | `"Jetzt Anmelden"` | Pilates, LadyFit, Früh übt sich I |
+| Abteilungs-Übersichten, Erwachsenensport (Fitness, Gesundheitssport) | `"Jetzt Buchen"` | Fitness, Gesundheitssport |
+| Abteilungs-Übersichten, Mannschafts-/Kindersport (Kinderturnen, Fußball, JFV, Leichtathletik, Badminton, Tischtennis) | `"Probetraining"` | Fußball, JFV |
+| Vereinsseiten (Chronik, Mitgliedschaft, Vorstand, Rechtliches) | `"Mitglied werden"` | Impressum, Vorstand |
+| Sponsoring | `"Partner werden"` | Sponsoren |
+| Shop, Fundgrube | `ctaLabel={null}` (kein CTA) | Shop, Fundgrube |
+
+**`ctaHref` ist Pflicht sobald `ctaLabel` gesetzt ist** — der Button ist ein Anchor-Link zur
+bestehenden CTA-/Kontakt-Sektion der Seite (z.B. `#kontakt`, `#cta`, `#anmeldung`), kein neues
+Zielsystem. Fehlt eine solche Sektion auf der Seite komplett, verlinkt `ctaHref` auf die
+bestehende Zielseite (z.B. `../mitgliedschaft`) statt eines toten Buttons.
+
+---
+
 ## Visuelle Prüfung mit Playwright
 
 `playwright` ist **nicht** als npm-Package installiert. Nur der CLI via `npx` funktioniert.

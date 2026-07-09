@@ -1,6 +1,6 @@
 export default function TrainerSection() {
   return (
-    <section className="bg-surface-container-low py-12">
+    <section id="kontakt" className="bg-surface-container-low py-12">
       <div className="max-w-5xl mx-auto px-8">
         <div className="flex flex-col md:flex-row items-center md:items-start gap-12 bg-white p-8 md:p-12 rounded-[2rem] shadow-sm hover:shadow-xl transition-all duration-500">
           <div className="w-48 h-48 md:w-64 md:h-64 flex-shrink-0 relative">

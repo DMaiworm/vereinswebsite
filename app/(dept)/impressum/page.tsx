@@ -27,6 +27,7 @@ export default async function ImpressumPage() {
  departmentLabel="Rechtliches"
  navItems={IMPRESSUM_NAV}
  ctaLabel="Mitglied werden"
+ ctaHref="#kontakt"
  homeHref="../"
  />
 
@@ -52,7 +53,7 @@ export default async function ImpressumPage() {
  </section>
 
  {/* Bento Layout Content */}
- <section className="max-w-7xl mx-auto px-6 py-12">
+ <section id="kontakt" className="max-w-7xl mx-auto px-6 py-12">
  <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
 
  {/* Impressum */}

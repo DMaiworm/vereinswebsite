@@ -28,7 +28,24 @@ export default async function GrundschulturnenPage() {
 
   return (
     <div className="bg-background font-body-md text-on-background">
-      <BaseNav logoUrl={logoUrl} clubName="Hünstetten" departmentLabel="Grundschulturnen" navItems={GRUNDSCHUL_NAV} ctaLabel="Jetzt Anmelden" homeHref="../" />
+      <BaseNav
+        logoUrl={logoUrl}
+        clubName="Hünstetten"
+        departmentLabel="Grundschulturnen"
+        navItems={GRUNDSCHUL_NAV}
+        ctaLabel="Jetzt Anmelden"
+        ctaHref="#kontakt"
+        homeHref="../"
+        parentDepartment={{
+          label: 'Kinderturnen',
+          href: '../kinderturnen',
+          siblings: [
+            { label: 'Früh übt sich (I)', href: '../fruehuebtsich-1' },
+            { label: 'Früh übt sich (II)', href: '../fruehuebtsich-2' },
+            { label: 'Kids in Bewegung', href: '../kids-in-bewegung' },
+          ],
+        }}
+      />
       <main className="pt-20">
         <KursHero
           imageSrc="https://lh3.googleusercontent.com/aida-public/AB6AXuBtn73rZ5diGM1vyNThrLrZ_Auu982bEmOSKvHyPu5ok42CC8Qkp5W9qQeEXYKExY6I3qbFPqDJ9D4k5tmrdNPj3W2sAACb-DJvuPD66lOLu4Tq2BJmw29nHfrHecBN3h1xUrkaJMzmiK72a8EkHtqgraD_I7_uNY9PYRX29JggWDz6ZQW6Ve_smJL1x3dh034Q1HQmT6yKpmCH3Xi_UrgwG8itG4nHN1zhjfJsYdPYzQzGwy7Nb3VjRN_wH8X17v8YyreGZsA54Bs"

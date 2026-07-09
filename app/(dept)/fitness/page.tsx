@@ -49,6 +49,7 @@ export default async function FitnessPage() {
         departmentLabel="Fitness"
         navItems={FITNESS_NAV}
         ctaLabel="Jetzt Buchen"
+        ctaHref="#cta"
       />
 
       <main className="pt-20">

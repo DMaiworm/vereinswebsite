@@ -46,6 +46,7 @@ export default async function GesundheitssportPage() {
         departmentLabel="Gesundheitssport"
         navItems={GESUNDHEITSSPORT_NAV}
         ctaLabel="Jetzt Buchen"
+        ctaHref="#cta"
       />
 
       <main className="pt-20">

@@ -8,7 +8,7 @@ type KursCtaSectionProps = {
 
 export default function KursCtaSection({ title, description, primaryLabel, secondaryLabel, footnote }: KursCtaSectionProps) {
   return (
-    <section className="py-12 bg-primary-container text-white relative overflow-hidden">
+    <section id="kontakt" className="py-12 bg-primary-container text-white relative overflow-hidden">
       <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
       <div className="max-w-[800px] mx-auto px-6 text-center relative z-10">
         <h2 className="text-headline-lg mb-6">{title}</h2>

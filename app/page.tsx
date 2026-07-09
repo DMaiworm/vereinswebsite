@@ -41,6 +41,7 @@ export default async function HomePage() {
         clubName={config.name}
         navItems={HOME_NAV}
         ctaLabel="Mitglied werden"
+        ctaHref="./mitgliedschaft"
         homeHref="."
       />
 

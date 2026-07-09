@@ -37,7 +37,8 @@ export default async function KinderturnenPage() {
         logoUrl={logoUrl}
         departmentLabel="Kinderturnen"
         navItems={KINDERTURNEN_NAV}
-        ctaLabel="Jetzt Anmelden"
+        ctaLabel="Probetraining"
+        ctaHref="#cta"
       />
 
       <main className="pt-20">
@@ -117,7 +118,7 @@ export default async function KinderturnenPage() {
                     <td className="px-8 py-6">
                       <span className="px-3 py-1 bg-secondary-fixed text-on-secondary-fixed-variant rounded-full text-[10px] font-black uppercase tracking-widest">1,5 – 3 Jahre</span>
                     </td>
-                    <td className="px-8 py-6"><span className="font-medium">Carina Faust</span></td>
+                    <td className="px-8 py-6"><span className="font-medium text-on-surface">Carina Faust</span></td>
                     <td className="px-8 py-6 rounded-r-2xl">
                       <a href="../fruehuebtsich-2" className="text-primary font-black text-xs uppercase tracking-widest border-b-2 border-secondary hover:text-secondary transition-colors">Mehr erfahren</a>
                     </td>
@@ -134,7 +135,7 @@ export default async function KinderturnenPage() {
                     <td className="px-8 py-6">
                       <span className="px-3 py-1 bg-primary-fixed text-on-primary-fixed-variant rounded-full text-[10px] font-black uppercase tracking-widest">3,5 – 5 Jahre</span>
                     </td>
-                    <td className="px-8 py-6"><span className="font-medium">Friederike Frömel</span></td>
+                    <td className="px-8 py-6"><span className="font-medium text-on-surface">Friederike Frömel</span></td>
                     <td className="px-8 py-6 rounded-r-2xl">
                       <a href="../kids-in-bewegung" className="text-primary font-black text-xs uppercase tracking-widest border-b-2 border-secondary hover:text-secondary transition-colors">Mehr erfahren</a>
                     </td>
@@ -151,7 +152,7 @@ export default async function KinderturnenPage() {
                     <td className="px-8 py-6">
                       <span className="px-3 py-1 bg-tertiary-fixed text-on-tertiary-fixed-variant rounded-full text-[10px] font-black uppercase tracking-widest">6M – 1,5 Jahre</span>
                     </td>
-                    <td className="px-8 py-6"><span className="font-medium">Carina Faust</span></td>
+                    <td className="px-8 py-6"><span className="font-medium text-on-surface">Carina Faust</span></td>
                     <td className="px-8 py-6 rounded-r-2xl">
                       <a href="../fruehuebtsich-1" className="text-primary font-black text-xs uppercase tracking-widest border-b-2 border-secondary hover:text-secondary transition-colors">Mehr erfahren</a>
                     </td>
@@ -168,7 +169,7 @@ export default async function KinderturnenPage() {
                     <td className="px-8 py-6">
                       <span className="px-3 py-1 bg-primary-fixed text-on-primary-fixed-variant rounded-full text-[10px] font-black uppercase tracking-widest">5 – 7 Jahre</span>
                     </td>
-                    <td className="px-8 py-6"><span className="font-medium">Stefanie Specht</span></td>
+                    <td className="px-8 py-6"><span className="font-medium text-on-surface">Stefanie Specht</span></td>
                     <td className="px-8 py-6 rounded-r-2xl">
                       <a href="../kids-in-bewegung" className="text-primary font-black text-xs uppercase tracking-widest border-b-2 border-secondary hover:text-secondary transition-colors">Mehr erfahren</a>
                     </td>
@@ -185,7 +186,7 @@ export default async function KinderturnenPage() {
                     <td className="px-8 py-6">
                       <span className="px-3 py-1 bg-secondary-fixed text-on-secondary-fixed-variant rounded-full text-[10px] font-black uppercase tracking-widest">6 – 10 Jahre</span>
                     </td>
-                    <td className="px-8 py-6"><span className="font-medium">Hanna Stein</span></td>
+                    <td className="px-8 py-6"><span className="font-medium text-on-surface">Hanna Stein</span></td>
                     <td className="px-8 py-6 rounded-r-2xl">
                       <a href="../grundschulturnen" className="text-primary font-black text-xs uppercase tracking-widest border-b-2 border-secondary hover:text-secondary transition-colors">Mehr erfahren</a>
                     </td>

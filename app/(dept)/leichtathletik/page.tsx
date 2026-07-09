@@ -76,7 +76,9 @@ export default async function AthleticsPage() {
           earlyBirdsSlot={earlyBirdsTeam?.trainingSlots?.[0] ? formatShortSlot(earlyBirdsTeam.trainingSlots[0]) : undefined}
         />
         <KilaSection teams={kilaTeams} />
-        <AktuellesSection news={vereinsNews} />
+        <div id="news">
+          <AktuellesSection news={vereinsNews} />
+        </div>
         <TrainerSection trainers={allTrainers} />
         <GalerieGrid
           sectionNum="04 — Galerie"
@@ -97,7 +99,9 @@ export default async function AthleticsPage() {
           lauftreffBadge={lauftreffTeam?.trainingSlots?.[0] ? formatBadgeSlot(lauftreffTeam.trainingSlots[0]) : undefined}
           earlyBirdsBadge={earlyBirdsTeam?.trainingSlots?.[0] ? formatBadgeSlot(earlyBirdsTeam.trainingSlots[0]) : undefined}
         />
-        <ShopGrid variant="md3" products={shopProducts} />
+        <div id="shop">
+          <ShopGrid variant="md3" products={shopProducts} />
+        </div>
         <SponsorBand sponsors={sponsors} />
       </main>
       <SiteFooter logoUrl={config?.logoWebUrl ?? config?.logoUrl} departmentLabel="Leichtathletik" />
